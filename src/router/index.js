@@ -7,6 +7,7 @@ import Dash from '../pages/Dash.vue'
 import Addlead from '../pages/Addlead.vue'
 import Leaddetail from '../pages/Leaddetail.vue'
 import Leadlist from '../pages/Leadlist.vue'
+import Container from '../pages/Container.vue'
 
 Vue.use(Router)
 Vue.use(VeeValidate)
@@ -42,6 +43,11 @@ export default new Router({
     path: '/leadlist',
     name: 'leadlist',
     component: Leadlist
+  },
+  {
+    path: '/container',
+    name: 'container',
+    component: Container
   }
 
   ] 

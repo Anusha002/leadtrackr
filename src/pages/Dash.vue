@@ -1,9 +1,5 @@
-<template >
-	<v-ons-splitter>
-    <v-ons-splitter-side
-      swipeable width="150px" collapse="" side="left"
-      :open.sync="openSide">
-	<v-ons-page id="dash">
+<template >	
+	<v-ons-page id="dash">	
 		
 		<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'>
 			<span slot='header-title' slot-scope='{ monthLabel, yearLabel }'>
@@ -30,39 +26,18 @@
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
     	</v-ons-fab>
-    	
-
-
+ 
 	</v-ons-page>
 
-	<v-ons-splitter-content>
-      <component :is="currentPage" :toggle-menu="() => openSide = !openSide"></component>
-    </v-ons-splitter-content>
-   </v-ons-splitter-side>
 </template>
 
-<template id="logout">
-  <v-ons-page>
-    <custom-toolbar title="Logout" :a></custom-toolbar>
-  </v-ons-page>
-</template>
-
-<template id="toolbar">
-  <v-ons-toolbar>
-    <div class="left">
-      <v-ons-toolbar-button @click="action">
-        <v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
-      </v-ons-toolbar-button>
-    </div>
- </v-ons-toolbar>
-</template>
 
 <script>
 
 import Addlead from '../pages/Addlead.vue'
 
 export default {
-
+	name: "Dash",
 	components: {
 		Addlead
 	},

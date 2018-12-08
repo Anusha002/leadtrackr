@@ -23,7 +23,7 @@
 						this.loading = false,
 						this.user = user;
 						if (Object.keys(user).length > 0) {
-							this.$router.push('/dash')
+							this.$router.push('/container')
 						}
 					})
 					.catch(error => {
