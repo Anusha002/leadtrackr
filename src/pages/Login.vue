@@ -47,7 +47,7 @@ export default {
                     axios({ method: "POST", "url": "/api/login", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
                         this.response = result.data;
                         localStorage.setItem("ki", this.response.Body.Token);
-                        this.$router.push('/dash');
+                        this.$router.push('/container');
 
                     }, error => {
                         console.error(error);
