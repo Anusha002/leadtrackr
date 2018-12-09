@@ -22,7 +22,7 @@
 				</v-ons-list>
 			</v-ons-page>
 		</v-ons-splitter-side>
-		<v-ons-splitter-content class="frame">
+		<v-ons-splitter-content  class="frame"	>
 			<component :is="currentPage" :toggle-menu="() => openSide = !openSide"></component>
 		</v-ons-splitter-content>
 
@@ -51,6 +51,9 @@
 </script>
 <style >
 	.frame {
+		padding-top: 40px;
+	}
+	.frame .page__content {
 		margin-top: 40px;
 	}
 	#menu .page__background {

@@ -135,6 +135,8 @@ export default {
 	font-size: 1.6rem !important;
 	color: white;
 }
-
+.toolbar {
+	background: transparent;
+}
 
 </style>
