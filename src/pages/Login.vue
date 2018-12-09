@@ -49,8 +49,14 @@ export default {
                 this.$validator.validate().then(valid => {
                   if (valid) {
                     LoginApi.getUser(this.input).then(user => {
+                      if(user.status == "True")
+                      {
                         localStorage.setItem("ki", user.Body.Token);
                         this.$router.push('/container');
+                      } else {
+                        this.$ons.notification.alert(user.Message)
+                      }
+                        
 
                     }, error => {
                         console.error(error);
