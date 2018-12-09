@@ -12,12 +12,28 @@
 			<v-ons-carousel-item v-for="(value, key) in items" >
 				<v-ons-card>
 					<div class="content">
-						<v-ons-list>
-							<v-ons-list-item>{{value.lead_name}}</v-ons-list-item>
-							<v-ons-list-item>{{value.status}}</v-ons-list-item>
-							<v-ons-list-item>{{value.contact_name}}</v-ons-list-item>
+						<v-ons-row>
+							<v-ons-col id="ld-comp-name">{{value.lead_name}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row>
+							<v-ons-col id="ld-status" >{{value.status}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row>	
+							<v-ons-col id="ld-name" >{{value.contact_name}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row style="margin-top: 10px;">
+							<v-ons-col width="50px">
+								<a :href="'tel:' + value.phone">
+									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+								</a>
+							</v-ons-col>
+							<v-ons-col>
+								<a :href="'mailto:' + value.email">
+									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+								</a>
+							</v-ons-col>
 
-						</v-ons-list>
+						</v-ons-row>
 					</div>
 				</v-ons-card>
 			</v-ons-carousel-item>
@@ -137,6 +153,33 @@ export default {
 }
 .toolbar {
 	background: transparent;
+}
+.fab {
+	background: #14BA88 !important;
+}
+.fab .ons-icon{
+	color: #fff;
+}
+.card {
+	border-radius: 10px;
+}
+#ld-comp-name {
+	font-size: 16px;
+	font-weight: 500;
+	color:#333;
+}
+#ld-status {
+	color: #08976C;
+	font-size: 13px;
+	height: 60px;
+}
+#ld-name {
+	font-size: 15px;
+	color: #444;
+}
+.ons-icon.fa {
+	font-size: 1.4em;
+	color: #333;
 }
 
 </style>
