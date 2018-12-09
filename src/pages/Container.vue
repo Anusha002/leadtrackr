@@ -5,7 +5,7 @@
 		<v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button @click="toggleMenu()">
-	        		<v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
+	        		<v-ons-icon class="icon-hamburger"></v-ons-icon>
 	      		</v-ons-toolbar-button>
     		</div>
  		</v-ons-toolbar>
@@ -13,7 +13,7 @@
 		:open.sync="openSide" class="frame" id="menu">	
 			<v-ons-page>
 				<v-ons-list>
-					<v-ons-list-item v-for="page in pages"
+					<v-ons-list-item v-for="page in pages" 
 					tappable modifier="chevron"
 					@click="currentPage = page; openSide = false"
 					>
@@ -54,7 +54,7 @@
 		padding-top: 40px;
 	}
 	.frame .page__content {
-		margin-top: 40px;
+		margin-top: 50px;
 	}
 	#menu .page__background {
 		background: #fff;

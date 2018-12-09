@@ -138,5 +138,11 @@ export default {
 .toolbar {
 	background: transparent;
 }
+.fab {
+	background: #14BA88 !important;
+}
+.ons-icon{
+	color: #fff;
+}
 
 </style>
