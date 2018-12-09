@@ -2,9 +2,9 @@
 	<v-ons-page id="dash">	
 		
 		<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'>
-			<span slot='header-title' slot-scope='{ monthLabel, yearLabel }'>
+			<span slot='header-title' slot-scope='{ month, yearLabel }'>
 				<span class="calendar-year">{{ yearLabel }}</span> <br/>
-				<span class="calendar-month">{{ monthLabel }} </span>
+				<span class="calendar-month">{{ myMonths[month] }} </span>
 			</span>
 		</v-calendar>
 
@@ -49,6 +49,7 @@ export default {
   },
   data() {
     return {
+		myMonths : ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],	
       myDate: null,
       formats: {
       	title: 'YYYY MMMM',
