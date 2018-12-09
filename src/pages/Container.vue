@@ -29,11 +29,13 @@
      </v-ons-splitter> 
 </template>
 <script>
-	import Dash from '../pages/Dash.vue'
+	import Dash from '../pages/Dash.vue';
+	import Logout from '../pages/Logout.vue';
 	export default{
 		name: "Container",
 		components: {
-			Dash
+			Dash,
+			Logout
 		},
 		methods: {
 			toggleMenu()  {
@@ -43,7 +45,7 @@
 		data() {
 			return {
 				currentPage: 'Dash',
-				pages: ['Dash', 'logout'],
+				pages: ['Dash', 'Logout'],
 				openSide: false
 				};
 			},

@@ -65,7 +65,7 @@ export default {
                       if(user.status == "True")
                       {
                         localStorage.setItem("ki", user.Body.Token);
-                        localStorage.setItem("usr", user.Body);
+                        localStorage.setItem("usr", JSON.stringify(user.Body));
                         this.$router.push('/container');
                       } else {
                         this.$ons.notification.alert(user.Message)

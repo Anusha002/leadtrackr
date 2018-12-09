@@ -1,4 +1,8 @@
-<template>
+
+<template id="actions">
+
+</template>
+<template id="leaddetail">
 	<v-ons-page id="leaddetailpage">
 		<h1 class="heading">{{lead_name}}</h1>
  		<v-ons-card>
@@ -11,21 +15,25 @@
  		<h1 class="heading">Follow UPS</h1>
  		<v-ons-card>
  			<div class="content">	
-				<span><b>Call {{contact_name}}<br> For Demo</b></span>
-				
-	 		</div> 	
-
-	 		<v-ons-list-item>
+				<span><b>Call {{contact_name}}<br> For Demo</b></span>				
+	 		</div> 
+	 		<div id="callaction">
+	 			<v-ons-list-item>
 	    		<v-ons-button class="btnclass" style="margin: 4px 4px">Mark Completed</v-ons-button>
 	    		<v-ons-button class="btnclass" style="margin: 4px 4px">Update</v-ons-button>
 	    		<v-ons-button class="btnclass" style="margin: 4px 4px">Reassign</v-ons-button>
-	    	</v-ons-list-item>					
+	    	</v-ons-list-item>
+	 		</div>	
+
  		</v-ons-card>
+
 	</v-ons-page>
 </template>
 
+
 <script>
 	export default {
+		name: "Leaddetail",
 		data() {
 			return {
 			"lead_name": "Global Agencies",
@@ -34,6 +42,8 @@
 			}
 		}
 	}
+
+
 </script> 
 
 <style>
