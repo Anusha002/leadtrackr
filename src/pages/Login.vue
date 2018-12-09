@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import LoginApi from '../services/api/Login.js';
 
 export default {
   data() {
@@ -48,9 +48,8 @@ export default {
                 this.submitted = true;
                 this.$validator.validate().then(valid => {
                   if (valid) {
-                    axios({ method: "POST", "url": "/api/login", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-                        this.response = result.data;
-                        localStorage.setItem("ki", this.response.Body.Token);
+                    LoginApi.getUser(this.input).then(user => {
+                        localStorage.setItem("ki", user.Body.Token);
                         this.$router.push('/container');
 
                     }, error => {
