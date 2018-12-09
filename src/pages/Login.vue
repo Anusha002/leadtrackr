@@ -1,5 +1,6 @@
 <template>
   <v-ons-page>
+    <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
     <div class="logo">
       <img :src="require('../assets/lead-logo.png')" width="90"  />
       <h4>LeadTrackr</h4>
@@ -33,6 +34,8 @@ import LoginApi from '../services/api/Login.js';
 export default {
   data() {
     return {
+      progress: 0,
+      intervalID: 0,
     	input: {
         username: '',
         password: ''
@@ -48,7 +51,17 @@ export default {
                 this.submitted = true;
                 this.$validator.validate().then(valid => {
                   if (valid) {
+                    this.intervalID = setInterval(() => {
+                      if (this.progress === 100) {
+                        clearInterval(this.intervalID);
+                        return;
+                      }
+
+                        this.progress++;
+                    }, 40);
                     LoginApi.getUser(this.input).then(user => {
+                      this.progress = 0;
+                      clearInterval(this.intervalID);
                       if(user.status == "True")
                       {
                         localStorage.setItem("ki", user.Body.Token);
