@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import LoginApi from '../services/api/Login.js';
+import LoginApi from '../services/api/User.js';
 
 export default {
   data() {
@@ -59,12 +59,13 @@ export default {
 
                         this.progress++;
                     }, 40);
-                    LoginApi.getUser(this.input).then(user => {
+                    LoginApi.login(this.input).then(user => {
                       this.progress = 0;
                       clearInterval(this.intervalID);
                       if(user.status == "True")
                       {
                         localStorage.setItem("ki", user.Body.Token);
+                        localStorage.setItem("usr", user.Body);
                         this.$router.push('/container');
                       } else {
                         this.$ons.notification.alert(user.Message)

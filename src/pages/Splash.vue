@@ -6,7 +6,7 @@
 	</v-ons-page>
 </template>
 <script>
-	import LoginApi from '@/services/api/login'
+	import LoginApi from '../services/api/User.js'
 	export default {
 		name: "Splash",
 		data () {
