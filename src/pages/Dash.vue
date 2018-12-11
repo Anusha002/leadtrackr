@@ -1,12 +1,11 @@
 <template >	
 	<v-ons-page id="dash">	
-		
-		<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'>
-			<span slot='header-title' slot-scope='{ month, yearLabel }'>
-				<span class="calendar-year">{{ yearLabel }}</span> <br/>
-				<span class="calendar-month">{{ myMonths[month] }} </span>
-			</span>
-		</v-calendar>
+			<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
+				<span slot='header-title' slot-scope='{ month, yearLabel }'>
+					<span class="calendar-year">{{ yearLabel }}</span> <br/>
+					<span class="calendar-month">{{ myMonths[month] }} </span>
+				</span>
+			</v-calendar>
 
 		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="340px">
 			<v-ons-carousel-item v-for="(value, key) in items" >
@@ -51,20 +50,59 @@
 <script>
 
 import Addlead from '../pages/Addlead.vue'
+import GetLeadsAPI from '../services/api/Leads.js';
+import LoginApi from '../services/api/User.js';
+
 
 export default {
 	name: "Dash",
 	components: {
 		Addlead
 	},
-	
-	 methods:{
+	methods:{
   		goTodetail() {
-   			 this.$router.push('/addlead')
-  	}
-  },
+   			this.$router.push('/addlead')
+  		},
+  	 	getCards(date){
+  	 		var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
+  	 		this.items = this.leads[dtStr];
+ 	 		
+ 	 	},
+ 	 	dayClicked(day) {
+      		
+      		var dtobj =new Date(day.dateTime);
+      		var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+      		this.items = this.leads[dateString];
+   		 }
+  	
+ 	},
+
+ 	mounted:function() {
+
+ 	  	GetLeadsAPI.getLeads({}).then(leads => {
+
+			var dates =  Object.keys(leads)
+			var newLeads = {};
+			var dots = []
+			for (var i=0; i<dates.length; i++) {
+				var dtobj = new Date(parseInt(dates[i])*1000)
+				dots[i] = dtobj
+				var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+				
+				newLeads[dtStr] = leads[dates[i]]
+				
+			}
+			this.leads = newLeads;
+
+			this.attributes[1].dates = dots;
+			var currentdate = new Date();
+			this.getCards(currentdate);
+		})
+ 	 },
+
   data() {
     return {
+    	leads: {},
 		myMonths : ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],	
       myDate: null,
       formats: {
@@ -81,39 +119,17 @@ export default {
             	color: 'blue'
             },
       		dates: new Date(),
+      	},
+      	{
+      		dates: [],
       		dot: {
-            backgroundColor: 'blue', 
+            	backgroundColor: 'blue', 
 
               },
-
-      		
       	}
       ],
       carouselIndex: 0,
-      items: [
-        {
-        	"lead_name": "Global Agencies",
-        	"status": "Sale order released",
-        	"contact_name": "Ajay K",
-        	"phone": '9999999999',
-        	"email": "ajayk@gmail.com"
-        },
-        {
-        	"lead_name": "Global Agencies",
-        	"status": "Sale order released",
-        	"contact_name": "Ajay K",
-        	"phone": '9999999999',
-        	"email": "ajayk@gmail.com"
-        },
-        {
-        	"lead_name": "Global Agencies",
-        	"status": "Sale order released",
-        	"contact_name": "Ajay K",
-        	"phone": '9999999999',
-        	"email": "ajayk@gmail.com"
-
-        }
-      ]
+      items: []
   }
 
  }

@@ -5,46 +5,72 @@
 				<v-ons-toolbar-button icon="ion-navicon, material: md-menu"></v-ons-toolbar-button>
 			</div>
 		</v-ons-toolbar>
-		<h1 class="heading">{{this.dates}}</h1>
- 		<v-ons-card>
- 			<div class="content">	
-				<span><b>{{contact_name}}</b></span>
-				<p class="status" >{{status}}</p>
-				<p>{{lead_name}}</p>
-	 		</div> 						
- 		</v-ons-card>
+		<v-ons-card>
+			<div class="content">
+				<v-ons-row>
+					<v-ons-col id="ld-comp-name">{{value.lead_name}}</v-ons-col>
+				</v-ons-row>
+				<v-ons-row>
+					<v-ons-col id="ld-status" >{{value.status}}</v-ons-col>
+				</v-ons-row>
+				<v-ons-row>	
+					<v-ons-col id="ld-name" >{{value.contact_name}}</v-ons-col>
+				</v-ons-row>
+				<v-ons-row style="margin-top: 10px;">
+					<v-ons-col width="50px">
+						<a :href="'tel:' + value.phone">
+							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+						</a>
+					</v-ons-col>
+					<v-ons-col>
+						<a :href="'mailto:' + value.email">
+							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+						</a>
+					</v-ons-col>
 
- 		<h1 class="heading">{{this.dates}}</h1>
- 		<v-ons-card>
- 			<div class="content">	
-				<span><b>{{contact_name}}</b></span>
-				<p class="status" >{{status}}</p>
-				<p>{{lead_name}}</p>
-	 		</div> 	 						
- 		</v-ons-card>
-
- 		<h1 class="heading">{{this.dates}}</h1>
- 		<v-ons-card>
- 			<div class="content">	
-				<span><b>{{contact_name}}</b></span>
-				<p class="status" >{{status}}</p>
-				<p>{{lead_name}}</p>
-	 		</div> 	 						
- 		</v-ons-card>
+				</v-ons-row>
+			</div>
+		</v-ons-card>
 	</v-ons-page>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-			"lead_name": "Global Agencies",
-        	 "status": "Sale order released",
-        	 "contact_name": "Ajay K"
-			}
-			dates: new Date()
-		}
-		
+import GetLeadsAPI from '../services/api/Leads.js';
+export default {
+	
+	data() {
+		return {
+			leads: {},
+			items: []
+		}				
+	},
+	methods:{
+  	 	getCards(date){
+  	 		var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
+  	 		this.items = this.leads[dtStr];	
+ 	 		}
+		},
+		mounted:function() {
 
+ 	  	GetLeadsAPI.getLeads({}).then(leads => {
+
+			var dates =  Object.keys(leads)
+			var newLeads = {};
+			var dots = []
+			for (var i=0; i<dates.length; i++) {
+				var dtobj = new Date(parseInt(dates[i])*1000)
+				dots[i] = dtobj
+				var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+				
+				newLeads[dtStr] = leads[dates[i]]
+				
+			}
+			this.leads = newLeads;
+
+			this.attributes[1].dates = dots;
+			var currentdate = new Date();
+			this.getCards(currentdate);
+			})
+ 	 	}
 	}
 </script> 
