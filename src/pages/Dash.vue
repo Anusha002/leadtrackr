@@ -71,15 +71,21 @@ export default {
  	 	dayClicked(day) {
       		
       		var dtobj =new Date(day.dateTime);
-      		var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-      		this.items = this.leads[dateString];
+	   		var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+      		this.items = this.leads[dateString];	
    		 }
   	
  	},
 
  	mounted:function() {
 
- 	  	GetLeadsAPI.getLeads({}).then(leads => {
+ 		var payload = {
+	 		fromDate: '01-01-2018',
+	 		toDate: '12-12-2018',
+	 		Tk:localStorage.ki
+	 	}
+	 	console.log(payload.Tk)
+ 	  	GetLeadsAPI.getLeads(payload).then(leads => {
 
 			var dates =  Object.keys(leads)
 			var newLeads = {};
@@ -88,9 +94,7 @@ export default {
 				var dtobj = new Date(parseInt(dates[i])*1000)
 				dots[i] = dtobj
 				var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-				
-				newLeads[dtStr] = leads[dates[i]]
-				
+				newLeads[dtStr] = leads[dates[i]];	
 			}
 			this.leads = newLeads;
 

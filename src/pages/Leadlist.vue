@@ -1,35 +1,35 @@
 <template>
 	<v-ons-page id="leadlistpage">
-		<v-ons-toolbar>
-			<div class="left">
-				<v-ons-toolbar-button icon="ion-navicon, material: md-menu"></v-ons-toolbar-button>
-			</div>
-		</v-ons-toolbar>
-		<v-ons-list v-for="(value, key) in leadlist">
-		  <v-ons-card>
-				<v-ons-row>
-					<v-ons-col id="ld-comp-name">{{value.lead_name}}</v-ons-col>
-				</v-ons-row>
-				<v-ons-row>
-					<v-ons-col id="ld-status" >{{value.status}}</v-ons-col>
-				</v-ons-row>
-				<v-ons-row>	
-					<v-ons-col id="ld-name" >{{value.contact_name}}</v-ons-col>
-				</v-ons-row>
-				<v-ons-row style="margin-top: 10px;">
-					<v-ons-col width="50px">
-						<a :href="'tel:' + value.phone">
-							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
-						</a>
-					</v-ons-col>
-					<v-ons-col>
-						<a :href="'mailto:' + value.email">
-							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
-						</a>
-					</v-ons-col>
-				</v-ons-row>
-		</v-ons-card>
-	</v-ons-list>
+		<div>
+			<v-ons-row v-for="(value, key) in leads">	
+				<v-ons-row>{{key}}</v-ons-row>	
+				<v-ons-list>
+					<v-ons-list-item  v-for="(card, index) in value">
+						<v-ons-row>
+							<v-ons-col id="ld-comp-name">{{card.lead_name}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row>
+							<v-ons-col id="ld-status" >{{card.status}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row>	
+							<v-ons-col id="ld-name" >{{card.contact_name}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row style="margin-top: 10px;">
+							<v-ons-col width="50px">
+								<a :href="'tel:' + card.phone">
+									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+								</a>
+							</v-ons-col>
+							<v-ons-col>
+								<a :href="'mailto:' + card.email">
+									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+								</a>
+							</v-ons-col>
+						</v-ons-row>
+					</v-ons-list-item>
+				</v-ons-list>
+			</v-ons-row>
+		</div>
 	</v-ons-page>
 </template>
 
@@ -41,15 +41,20 @@ export default {
 	name: 'leadlist',
 	data() {
 		return {
-			leadlist: []	
+			leads: {}
 		}				
 	 },
 	 methods:{
 	 },
 	 mounted:function() {	
- 	  	GetLeadsAPI.getLeads({}).then(leads => {
+	 	payload = {
+	 		fromDate: '01-01-2018',
+	 		toDate: '12-12-2018',
+	 		Tk:localStorage.ki
+	 	}
+ 	  	GetLeadsAPI.getLeads(payload).then(leads => {
  	  		var dates =  Object.keys(leads);
- 	  		this.leadlist = leads;	
+ 	  		this.leads = leads;
 
  	  	})
  	  }
@@ -57,3 +62,38 @@ export default {
 			
 	
 </script> 
+<style scoped>
+	
+.toolbar {
+	background: transparent;
+}
+.fab {
+	background: #14BA88 !important;
+}
+.fab .ons-icon{
+	color: #fff;
+}
+.list {
+	border-radius: 10px;
+	width: 90%;
+    margin: 20px;
+}
+#ld-comp-name {
+	font-size: 16px;
+	font-weight: 500;
+	color:#333;
+}
+#ld-status {
+	color: #08976C;
+	font-size: 13px;
+	height: 30px;
+}
+#ld-name {
+	font-size: 15px;
+	color: #444;
+}
+.ons-icon.fa {
+	font-size: 1.4em;
+	color: #333;
+}
+</style>
