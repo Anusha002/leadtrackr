@@ -12,22 +12,22 @@
 				<v-ons-card>
 					<div class="content">
 						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{value.lead_name}}</v-ons-col>
+							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{value.status}}</v-ons-col>
+							<v-ons-col id="ld-status" >{{value.Status}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{value.contact_name}}</v-ons-col>
+							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + value.phone">
+								<a :href="'tel:' + ContactMobile">
 									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
 							<v-ons-col>
-								<a :href="'mailto:' + value.email">
+								<a :href="'mailto:' + ContactEmail">
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
@@ -84,7 +84,7 @@ export default {
 	 		toDate: '12-12-2018',
 	 		Tk:localStorage.ki
 	 	}
-	 	console.log(payload.Tk)
+	 	
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
 
 			var dates =  Object.keys(leads)

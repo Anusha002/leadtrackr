@@ -6,22 +6,22 @@
 				<v-ons-list>
 					<v-ons-list-item  v-for="(card, index) in value">
 						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{card.lead_name}}</v-ons-col>
+							<v-ons-col id="ld-comp-name">{{card.ProjectName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{card.status}}</v-ons-col>
+							<v-ons-col id="ld-status" >{{card.Status}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{card.contact_name}}</v-ons-col>
+							<v-ons-col id="ld-name" >{{card.ContactName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + card.phone">
+								<a :href="'tel:' + ContactMobile">
 									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
 							<v-ons-col>
-								<a :href="'mailto:' + card.email">
+								<a :href="'mailto:' + ContactEmail">
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
