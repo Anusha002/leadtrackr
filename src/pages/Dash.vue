@@ -65,14 +65,16 @@ export default {
   		},
   	 	getCards(date){
   	 		var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
-  	 		this.items = this.leads[dtStr];
+  	 		this.items = this.leads[dtStr];	
+  	 	
  	 		
  	 	},
  	 	dayClicked(day) {
       		
       		var dtobj =new Date(day.dateTime);
 	   		var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-      		this.items = this.leads[dateString];	
+      		this.items = this.leads[dateString];
+
    		 }
   	
  	},
@@ -88,17 +90,22 @@ export default {
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
 
 			var dates =  Object.keys(leads)
+
 			var newLeads = {};
 			var dots = []
 			for (var i=0; i<dates.length; i++) {
-				var dtobj = new Date(parseInt(dates[i])*1000)
-				dots[i] = dtobj
-				var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-				newLeads[dtStr] = leads[dates[i]];	
-			}
-			this.leads = newLeads;
+				// var dtobj = new Date(parseInt(dates[i])*1000)
+				// console.log(dtobj)
+				// dots[i] = dtobj
+				dots[i] = dates[i]
 
+				// var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+				// newLeads[dtStr] = leads[dates[i]];		
+			}
+			// this.leads = newLeads;
+			this.leads = leads;
 			this.attributes[1].dates = dots;
+			console.log(this.attributes[1].dates)
 			var currentdate = new Date();
 			this.getCards(currentdate);
 		})
