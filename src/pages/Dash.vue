@@ -88,24 +88,16 @@ export default {
 	 	}
 	 	
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
-
-			var dates =  Object.keys(leads)
-
+			var dates =  Object.keys(leads);
 			var newLeads = {};
 			var dots = []
 			for (var i=0; i<dates.length; i++) {
-				// var dtobj = new Date(parseInt(dates[i])*1000)
-				// console.log(dtobj)
-				// dots[i] = dtobj
-				dots[i] = dates[i]
-
-				// var dtStr = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-				// newLeads[dtStr] = leads[dates[i]];		
+				var dtobj = new Date(parseInt(dates[i]));
+				dots[i] = dtobj;
+					
 			}
-			// this.leads = newLeads;
 			this.leads = leads;
 			this.attributes[1].dates = dots;
-			console.log(this.attributes[1].dates)
 			var currentdate = new Date();
 			this.getCards(currentdate);
 		})

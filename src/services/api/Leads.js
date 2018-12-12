@@ -14,7 +14,7 @@ export default {
 				
 					var dtobj = new Date(dt[i].FollowupDate)
 
-					var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+					var dateString = dtobj.getTime();
 					if(typeof cards[dateString] == "undefined"){
 						cards[dateString] = [];
 					}
