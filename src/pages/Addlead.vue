@@ -12,6 +12,13 @@
         			<v-ons-input placeholder="Type" v-model="type"></v-ons-input>
         		</div>	
         	</v-ons-list-item>	
+          <v-ons-list-item> 
+             <v-ons-select style="width: 100%" v-model="selectedStatus">
+                <option v-for="item in status" :value="item.value">
+                  {{ item.value }}
+                </option>
+            </v-ons-select>
+          </v-ons-list-item>  
         	<v-ons-list-item>	
         		<div class="leaddetails">	
         			<v-ons-input placeholder="Contact name" v-model="contactname"></v-ons-input>
@@ -53,11 +60,14 @@
 </template>
 
 <script>
-  export default{
+import StatusApi from '../services/api/User.js';
+
+export default{
     data() {
     return {
       leadname: "", 
       type: "",
+      status:[],
       contactname: "",
       contactnumber: "",
       landline: "", 
@@ -66,8 +76,20 @@
       handledby: ""
       
      	} 
-	 }
-  }
+	 },
+  mounted:function() {
+    var payload = {
+          Tk:localStorage.ki
+         }
+    StatusApi.status(payload).then(leads => {
+      console.log(leads);
+      this.status = leads;
+      console.log(this.status);
+      
+    })
+  } 
+
+}
 </script>
 
 <style>

@@ -71,9 +71,13 @@ export default {
  	 	},
  	 	dayClicked(day) {
       		
-      		var dtobj =new Date(day.dateTime);
-	   		var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-      		this.items = this.leads[dateString];
+      //       var dtobj =new Date(day.dateTime);
+      // 		var dtobj = new Date(parseInt(day.dateTime));
+      // 		console.log(day.dateTime);
+	   		// var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
+	   	 // console.log(dateString);
+      // 		 this.items = this.leads[dateString];
+      	 	this.items = this.leads[day.dateTime];
 
    		 }
   	
@@ -97,6 +101,7 @@ export default {
 					
 			}
 			this.leads = leads;
+			console.log(this.leads)
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
 			this.getCards(currentdate);

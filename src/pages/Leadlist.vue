@@ -47,7 +47,7 @@ export default {
 	 methods:{
 	 },
 	 mounted:function() {	
-	 	payload = {
+	 	var payload = {
 	 		fromDate: '01-01-2018',
 	 		toDate: '12-12-2018',
 	 		Tk:localStorage.ki
