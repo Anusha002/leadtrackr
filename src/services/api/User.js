@@ -19,13 +19,7 @@ export default {
 			.then(response => {
 				return response.data
 			})
-	},
-	status(payload){
-		return axios({ method: "POST", "url": "/api/status", "data": payload, "headers": { "content-type": "application/json" } })
-			.then(response => {
-				return response.data
-			})
-
 	}
+	
 
 }

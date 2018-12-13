@@ -14,8 +14,8 @@
         	</v-ons-list-item>	
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="selectedStatus">
-                <option v-for="item in status" :value="item.value">
-                  {{ item.value }}
+                <option v-for="item in status" :value="item">
+                  {{ item }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import StatusApi from '../services/api/User.js';
+import StatusApi from '../services/api/Utils.js';
 
 export default{
     data() {
@@ -81,9 +81,8 @@ export default{
     var payload = {
           Tk:localStorage.ki
          }
-    StatusApi.status(payload).then(leads => {
-      console.log(leads);
-      this.status = leads;
+    StatusApi.getStatus(payload).then(statuses => {
+      this.status = statuses;
       console.log(this.status);
       
     })
