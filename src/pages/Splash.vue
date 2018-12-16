@@ -16,22 +16,23 @@
 			}
 		},
 		created() {
+			this.$router.push('/login')
 			
-			if (localStorage.ki) {
-				LoginApi.getUser()
-					.then(user => {
-						this.loading = false,
-						this.user = user;
-						if (Object.keys(user).length > 0) {
-							this.$router.push('/container')
-						}
-					})
-					.catch(error => {
-						alert(error)
-					})
-			} else {
-				this.$router.push('/login')
-			}
+			// if (localStorage.ki) {
+			// 	LoginApi.getUser()
+			// 		.then(user => {
+			// 			this.loading = false,
+			// 			this.user = user;
+			// 			if (Object.keys(user).length > 0) {
+			// 				this.$router.push('/container')
+			// 			}
+			// 		})
+			// 		.catch(error => {
+			// 			alert(error)
+			// 		})
+			// } else {
+			// 	this.$router.push('/login')
+			// }
 		}
 
 	}
