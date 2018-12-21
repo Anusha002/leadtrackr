@@ -9,7 +9,7 @@
         	</v-ons-list-item>
         	<v-ons-list-item>	
         		<v-ons-select style="width: 100%" v-model="selectedType">
-               <option value="" selected data-default>Type</option>
+               <option value="" selected data-default></option>
                 <option v-for="type in types" :value="type">
                   {{ type }}
                 </option>
@@ -17,6 +17,7 @@
         	</v-ons-list-item>	
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="selectedStatus">
+                <option value="" selected data-default></option>
                 <option v-for="item in status" :value="item">
                   {{ item }}
                 </option>
@@ -29,21 +30,22 @@
         	</v-ons-list-item>
         	<v-ons-list-item>	
         		<div class="leaddetails">			
-        			<v-ons-input placeholder="Contact number" v-model="contactnumber"></v-ons-input>
+        			<v-ons-input placeholder="Contact number" v-model="contactnumber" type="number"></v-ons-input>
       			 </div>
     		</v-ons-list-item>
     		<v-ons-list-item>
      			 <div class="leaddetails">
-        			<v-ons-input placeholder="Land Line" v-model="landline"></v-ons-input>
+        			<v-ons-input placeholder="Land Line" v-model="landline"  type="number"></v-ons-input>
         		</div>
         	</v-ons-list-item>
         	<v-ons-list-item>	
         		<div class="leaddetails">
-        			<v-ons-input placeholder="Email" v-model="email"></v-ons-input>
+        			<v-ons-input placeholder="Email" v-model="email"  type="email"></v-ons-input>
         		</div>	
         	</v-ons-list-item>	
         	<v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="selectedOwner">
+               <option value="" selected data-default></option>
                 <option v-for="user in ownedby" :value="user">
                   {{ user }}
                 </option>
@@ -51,6 +53,7 @@
           </v-ons-list-item>  
         	<v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="selectedHandler">
+                <option value="" selected data-default></option>
                 <option v-for="user in handledby" :value="user">
                   {{ user }}
                 </option>
@@ -75,33 +78,40 @@ export default{
     data() {
     return {
       leadname: "", 
-      types:[],
-      status:[],
+      types:["Select Type"],
+      status:["Select Status"],
       contactname: "",
       contactnumber: "",
       landline: "", 
       email: "",
-      ownedby: [],
-      handledby: []
+      ownedby: ["Select Owner"],
+      handledby: ["Select Handler"],
+      selectedType: "",
+      selectedStatus: "",
+      selectedOwner: "",
+      selectedHandler: ""
+
+
       
      	} 
 	 },
   mounted:function() {
     var payload = {
-          Tk:localStorage.ki
+          Token:localStorage.ki
+
          }
+        
     StatusApi.getStatus(payload).then(statuses => {
-      this.status = statuses;
-      
+      this.status = this.status.concat(statuses.Body);
     }),
     TypeApi.getType(payload).then(types => {
-      this.types = types;
-      console.log(this.types); 
+      console.log(types.Body);
+      this.types = this.types.concat(types);
     }),
     UserApi.getUser(payload).then(users => {
-      this.ownedby = users;
-      this.handledby = users;
-      console.log(this.ownedby); 
+      this.ownedby = this.ownedby.concat(users);
+      this.handledby = this.handledby.concat(users);
+    
     })
   } 
 

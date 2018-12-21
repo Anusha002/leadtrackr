@@ -4,7 +4,7 @@
 </template>
 <template id="leaddetail">
 	<v-ons-page id="leaddetailpage">
-		<h1 class="heading">{{lead_name}}</h1>
+		<h1 class="heading">{{ProjectName}}</h1>
  		<v-ons-card>
  			<div class="content">	
 				<span><b>{{contact_name}}</b></span>
@@ -13,19 +13,23 @@
  		</v-ons-card>
 
  		<h1 class="heading">Follow UPS</h1>
- 		<v-ons-card>
- 			<div class="content">	
-				<span><b>Call {{contact_name}}<br> For Demo</b></span>			
+ 		<v-ons-list>
+ 		<v-ons-list-item v-for="(value, key) in followups">
+ 		<v-ons-card :id="'card' + key">
+ 			<div class="followupdetails" >	
+				<span><b>Call {{value.ScheduledTo}}<br>{{value.Task}}</b></span>	
+				<span><br>{{value.Date}}</b></span>	
+				<span><br>{{value.Description}}</b></span>		
 	 		</div> 
-	 		<div id="callaction" v-if="current_status=='callaction'">
+	 		<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 	 			<v-ons-list-item>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode('completedtask')">Mark Completed</v-ons-button>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px"@click="changeMode('updatefollowup')">Update</v-ons-button>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode('reassign')">Reassign</v-ons-button>
+	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button>
+	    		<v-ons-button class="btnclass" style="margin: 4px 4px"@click="changeMode(key, 'updatefollowup')">Update</v-ons-button>
+	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'reassign')">Reassign</v-ons-button>
 	    	</v-ons-list-item>
 	 		</div>	
 
-	 		<div id="completedtask" v-if="current_status=='completedtask'">
+	 		<div id="completedtask" class="subtask" :class=" (current_status=='completedtask') ? 'active' : ''">
 	 			<v-ons-row class="rowdata">
 	 				<v-ons-col>
 	 					<b>Mark Completed</b>
@@ -47,7 +51,7 @@
 	    		</v-ons-row>
 	    		<v-ons-row class="rowdata">
 	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode('callaction')">Cancel</v-ons-button>
+	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
 	    			
 	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
 	    			</v-ons-col>
@@ -55,7 +59,7 @@
 	    	
 	 		</div>
 
-	 		<div id="updatefollowup" v-if="current_status=='updatefollowup'">
+	 		<div id="updatefollowup" class="subtask" :class=" (current_status=='updatefollowup') ? 'active' : ''">
 	 			<v-ons-row class="rowdata">
 	 				<v-ons-col>
 	 					<b>Update Follow up</b>
@@ -82,7 +86,7 @@
 	    		</v-ons-row>
 	    		<v-ons-row class="rowdata">
 	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode('callaction')">Cancel</v-ons-button>
+	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
 	    			
 	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
 	    			</v-ons-col>
@@ -90,7 +94,7 @@
 	    	
 	 		</div>
 
-	 		<div id="reassign" v-if="current_status=='reassign'">
+	 		<div id="reassign" class="subtask" :class=" (current_status=='reassign') ? 'active' : ''" >
 	 			<v-ons-row class="rowdata">
 	 				<v-ons-col>
 	 					<b>Reassign</b>
@@ -117,7 +121,7 @@
 	    		</v-ons-row>
 	    		<v-ons-row class="rowdata">
 	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode('callaction')">Cancel</v-ons-button>
+	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key, 'callaction')">Cancel</v-ons-button>
 	    			
 	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
 	    			</v-ons-col>
@@ -126,19 +130,26 @@
 	 		</div>
 
  		</v-ons-card>
+ 	</v-ons-list-item>
+ </v-ons-list>
+ 		
 
 	</v-ons-page>
 </template>
 
 
 <script>
+
+import LeaddetailsAPI from '../services/api/Leads.js';
+
 	export default {
 		name: "Leaddetail",
 		data() {
 			return {
-			"lead_name": "Global Agencies",
-        	 "status": "Sale order released",
-        	 "contact_name": "Ajay K",
+			"ProjectName": "",
+        	 "status": "",
+        	 "contact_name": "",
+        	 followups: [],
         	 input: {
         	 	remarks: "",
         	 	timetaken: "",
@@ -153,10 +164,34 @@
 		},
 
 		methods: {
-			changeMode(mode) {
+			changeMode(index, mode) {
+				console.log('>>>>>>>>>>>>>>>>>>', index)
+				if(mode == 'callaction') {
+					document.getElementById('card'+index).classList.remove("active");
+				} else {
+					document.getElementById('card'+index).classList.add("active");
+				}
+				
 				this.current_status = mode;
 			}
-		}
+		},
+
+		mounted:function() {
+
+ 		var payload = {
+	 	
+	 		Tk:localStorage.ki
+	 	}
+	 	
+ 	  	LeaddetailsAPI.getLeaddetails(payload).then(leaddetails => {
+ 	  		console.log(leaddetails);
+ 	  		this.ProjectName = leaddetails.LeadName;
+ 	  		this.contact_name = leaddetails.ContactPerson;
+ 	  		this.status = leaddetails.Status;
+ 	  		this.followups = leaddetails.Followups
+
+ 	  	})
+	  }
 	}	
 
 </script> 
@@ -169,6 +204,15 @@
 .status{
 	color: green;
 	font-weight: bold;
+}
+.subtask{
+	display: none;
+}
+.card.active .active {
+	display: block;
+}
+.card.active #callaction{
+	display: none;
 }
 
 .btnclass{
@@ -183,6 +227,12 @@
 	font-size:16px;
 }
 
+.list{
+	background-color: transparent;
+}
+.button{
+	padding:6px;
+}
 
 
 </style>

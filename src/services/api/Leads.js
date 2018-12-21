@@ -28,5 +28,13 @@ export default {
 
 
 			})
-	}
+	},
+	getLeaddetails(payload){
+			return axios({ method: "GET", "url": "http://www.mocky.io/v2/5c18ca372f00005700af1197", "data": payload, "headers": { "content-type": "application/json" } })
+				.then(response => {
+					return response.data
+				})
+		}
+
+	
 }	
