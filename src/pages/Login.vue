@@ -104,6 +104,7 @@ export default {
   border: 1px;
   margin: 100px 20px;
   border-radius: 6px;
+  background-color: #fff;
 }
 
 .box-list {
