@@ -4,61 +4,81 @@
   		<v-ons-list class="leaddata">
     		<v-ons-list-item>
      			 <div class="leaddetails">
-     			 	<v-ons-input placeholder="Lead name" v-model="leadname"></v-ons-input>
+     			 	<v-ons-input placeholder="LeadName" v-model="LeadName"></v-ons-input>
         		</div>
         	</v-ons-list-item>
+          <v-ons-list-item> 
+            <div class="leaddetails"> 
+              <v-ons-input placeholder="ContactPerson" v-model="ContactPerson"></v-ons-input>
+            </div>
+          </v-ons-list-item>
         	<v-ons-list-item>	
         		<v-ons-select style="width: 100%">
                <option value="" selected data-default></option>
-                <option v-for="(value,key) in lead.types" :value="type">
+                <option v-for="(value,key) in lead.Type" :value="Type">
                   {{value.TypeID}} {{value.TypeName }}
                 </option>
             </v-ons-select>
         	</v-ons-list-item>	
+          <v-ons-list-item>
+           <div class="leaddetails">
+            <v-ons-input placeholder="Stage" v-model="Stage"></v-ons-input>
+            </div>
+          </v-ons-list-item>
+
           <v-ons-list-item> 
              <v-ons-select style="width: 100%">
                 <option value="" selected data-default></option>
-                <option v-for="item in lead.status" :value="item">
+                <option v-for="item in lead.Status" :value="item">
                   {{ item }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
-        	<v-ons-list-item>	
-        		<div class="leaddetails">	
-        			<v-ons-input placeholder="Contact name" v-model="contactname"></v-ons-input>
-        		</div>
-        	</v-ons-list-item>
+        	
         	<v-ons-list-item>	
         		<div class="leaddetails">			
-        			<v-ons-input placeholder="Contact number" v-model="contactnumber" type="number"></v-ons-input>
+        			<v-ons-input placeholder="Mobile" v-model="Mobile" type="number"></v-ons-input>
       			 </div>
     		</v-ons-list-item>
     		<v-ons-list-item>
      			 <div class="leaddetails">
-        			<v-ons-input placeholder="Land Line" v-model="landline"  type="number"></v-ons-input>
+        			<v-ons-input placeholder="Landline" v-model="landLine"  type="number"></v-ons-input>
         		</div>
         	</v-ons-list-item>
         	<v-ons-list-item>	
         		<div class="leaddetails">
-        			<v-ons-input placeholder="Email" v-model="email"  type="email"></v-ons-input>
+        			<v-ons-input placeholder="Email" v-model="Email"  type="email"></v-ons-input>
         		</div>	
         	</v-ons-list-item>	
-        	<v-ons-list-item> 
+          <v-ons-list-item>
+           <div class="leaddetails">
+            <v-ons-input placeholder="Description" v-model="Description"></v-ons-input>
+            </div>
+          </v-ons-list-item>
+          <v-ons-list-item> 
              <v-ons-select style="width: 100%">
                <option value="" selected data-default></option>
-                <option v-for="(value,key) in lead.ownedby" :value="user">
+                <option v-for="(value,key) in lead.CreatedBy" :value="user">
                   {{value.UserID}} {{ value.FullName }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
-        	<v-ons-list-item> 
+          <v-ons-list-item> 
              <v-ons-select style="width: 100%">
                 <option value="" selected data-default></option>
-                <option v-for="(value,key) in lead.handledby" :value="user">
+                <option v-for="(value,key) in lead.HandledBy" :value="user">
                    {{value.UserID}} {{ value.FullName }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
+        	<v-ons-list-item> 
+             <v-ons-select style="width: 100%">
+               <option value="" selected data-default></option>
+                <option v-for="(value,key) in lead.OwnedBy" :value="user">
+                  {{value.UserID}} {{ value.FullName }}
+                </option>
+            </v-ons-select>
+          </v-ons-list-item>  	
 
     		<v-ons-list-item>
 	    		<v-ons-button  style="margin: 6px 4px">Cancel</v-ons-button>
@@ -79,15 +99,19 @@ export default{
     data() {
     return {
       lead: {
-      leadname: "", 
-      types:[{'TypeName':'Select Type'}],
-      status:["Select Status"],
-      contactname: "",
-      contactnumber: "",
-      landline: "", 
-      email: "",
-      ownedby: [{'FullName': 'Owned By'}],
-      handledby: [{'FullName': 'Handled By'}]
+      LeadName: "", 
+      Type:[{'TypeName':'Select Type'}],
+      Stage:'',
+      Status:["Select Status"],
+      ContactPerson: "",
+      Mobile: "",
+      landLine: "", 
+      Email: "",
+      Description:'',
+      CreatedBy;[{'FullName': 'Created By'}],
+      HandledBy: [{'FullName': 'Handled By'}],
+      OwnedBy: [{'FullName': 'Owned By'}]
+      
       },
       submitted: false,
       response: {}
@@ -109,9 +133,9 @@ export default{
     }),
 
     UserApi.getUser(payload).then(users => {
-      console.log(users.Body);
-      this.lead.ownedby = this.lead.ownedby.concat(users.Body); 
-      this.lead.handledby = this.lead.handledby.concat(users.Body);
+      this.lead.CreatedBy = this.lead.CreatedBy.concat(users.Body); 
+      this.lead.OwnedBy = this.lead.OwnedBy.concat(users.Body); 
+      this.lead.HandledBy = this.lead.HandledBy.concat(users.Body);
     })
   },
 
