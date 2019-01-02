@@ -1,5 +1,6 @@
 <template >	
 	<v-ons-page id="dash">	
+
 			<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
 				<span slot='header-title' slot-scope='{ month, yearLabel }'>
 					<span class="calendar-year">{{ yearLabel }}</span> <br/>
@@ -71,14 +72,9 @@ export default {
  	 	},
  	 	dayClicked(day) {
       		
-      //       var dtobj =new Date(day.dateTime);
-      // 		var dtobj = new Date(parseInt(day.dateTime));
-      // 		console.log(day.dateTime);
-	   		// var dateString = dtobj.getDate().toString() + dtobj.getMonth().toString() + dtobj.getFullYear().toString();
-	   	 // console.log(dateString);
-      // 		 this.items = this.leads[dateString];
       	 	this.items = this.leads[day.dateTime];
-
+      	 	this.attributes[0].dates = new Date(day.dateTime);
+      	    
    		 }
   	
  	},

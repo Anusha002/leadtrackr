@@ -8,17 +8,17 @@
         		</div>
         	</v-ons-list-item>
         	<v-ons-list-item>	
-        		<v-ons-select style="width: 100%" v-model="selectedType">
+        		<v-ons-select style="width: 100%">
                <option value="" selected data-default></option>
-                <option v-for="type in types" :value="type">
-                  {{ type }}
+                <option v-for="(value,key) in lead.types" :value="type">
+                  {{value.TypeID}} {{value.TypeName }}
                 </option>
             </v-ons-select>
         	</v-ons-list-item>	
           <v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="selectedStatus">
+             <v-ons-select style="width: 100%">
                 <option value="" selected data-default></option>
-                <option v-for="item in status" :value="item">
+                <option v-for="item in lead.status" :value="item">
                   {{ item }}
                 </option>
             </v-ons-select>
@@ -44,25 +44,25 @@
         		</div>	
         	</v-ons-list-item>	
         	<v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="selectedOwner">
+             <v-ons-select style="width: 100%">
                <option value="" selected data-default></option>
-                <option v-for="user in ownedby" :value="user">
-                  {{ user }}
+                <option v-for="(value,key) in lead.ownedby" :value="user">
+                  {{value.UserID}} {{ value.FullName }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
         	<v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="selectedHandler">
+             <v-ons-select style="width: 100%">
                 <option value="" selected data-default></option>
-                <option v-for="user in handledby" :value="user">
-                  {{ user }}
+                <option v-for="(value,key) in lead.handledby" :value="user">
+                   {{value.UserID}} {{ value.FullName }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
 
     		<v-ons-list-item>
 	    		<v-ons-button  style="margin: 6px 4px">Cancel</v-ons-button>
-	    		<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+	    		<v-ons-button  style="margin: 6px 4px" @click="addLead()">Save</v-ons-button>
 	    	</v-ons-list-item>
     
   		</v-ons-list>
@@ -73,28 +73,27 @@
 import StatusApi from '../services/api/Utils.js';
 import TypeApi from '../services/api/Utils.js';
 import UserApi from '../services/api/Utils.js';
+import AddleadApi from '../services/api/Utils.js';
 
 export default{
     data() {
     return {
+      lead: {
       leadname: "", 
-      types:["Select Type"],
+      types:[{'TypeName':'Select Type'}],
       status:["Select Status"],
       contactname: "",
       contactnumber: "",
       landline: "", 
       email: "",
-      ownedby: ["Select Owner"],
-      handledby: ["Select Handler"],
-      selectedType: "",
-      selectedStatus: "",
-      selectedOwner: "",
-      selectedHandler: ""
-
-
-      
+      ownedby: [{'FullName': 'Owned By'}],
+      handledby: [{'FullName': 'Handled By'}]
+      },
+      submitted: false,
+      response: {}
      	} 
 	 },
+
   mounted:function() {
     var payload = {
           Token:localStorage.ki
@@ -102,23 +101,43 @@ export default{
          }
         
     StatusApi.getStatus(payload).then(statuses => {
-      this.status = this.status.concat(statuses.Body);
+      this.lead.status = this.lead.status.concat(statuses.Body);
     }),
-    TypeApi.getType(payload).then(types => {
-      console.log(types.Body);
-      this.types = this.types.concat(types);
-    }),
-    UserApi.getUser(payload).then(users => {
-      this.ownedby = this.ownedby.concat(users);
-      this.handledby = this.handledby.concat(users);
-    
-    })
-  } 
 
+    TypeApi.getType(payload).then(types => {
+      this.lead.types = this.lead.types.concat(types.Body);   
+    }),
+
+    UserApi.getUser(payload).then(users => {
+      console.log(users.Body);
+      this.lead.ownedby = this.lead.ownedby.concat(users.Body); 
+      this.lead.handledby = this.lead.handledby.concat(users.Body);
+    })
+  },
+
+  methods :{
+    addLead(){
+      this.submitted = true;
+      console.log(this.lead);
+      AddleadApi.addLead(this.lead).then(projects => {
+
+        console.log("Lead added successfully");
+        this.$router.push('/container');
+
+    }, error => {
+        console.error(error);
+       }); 
+    }
+  }
 }
 </script>
 
 <style>
+
+.list {
+  background-color: #fff !important;
+ 
+}
 .leaddata{
 	border: 1px;
 	margin: 20px;
@@ -130,5 +149,6 @@ h1{
 	color: #fff;
 	font-size: 8px;
 }
+
 
  </style>  
