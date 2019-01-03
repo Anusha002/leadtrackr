@@ -26,11 +26,11 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-           <div class="followupdetails">
-            <v-ons-input placeholder="CreatedDate" v-model="followup.CreatedDate">
-             <!--  <v-calendar></v-calendar>
+           <div class="createdate">
+            <!-- <v-ons-input placeholder="CreatedDate" type="date"> -->
+              <v-calendar></v-calendar>
               <v-date-picker mode='single'v-model="followup.CreatedDate">
-              </v-date-picker> -->
+              </v-date-picker>
             
             </v-ons-input>
             </div>
@@ -131,6 +131,8 @@ export default{
 <style>
 .list {
   margin: 15px;
+  background-color: #D4E6F1 !important;
  
 }
+
 </style>
