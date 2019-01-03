@@ -4,7 +4,7 @@ import Urls from '../../config/urls.js'
 
 export default {
 
-	getLeads(payload){
+	getTasks(payload){
 		
 		return axios({ method: "GET", "url": Urls.url.schedule+"?fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Tk, "data": payload, "headers": { "content-type": "application/json" } })
 			.then(response => {
@@ -28,12 +28,18 @@ export default {
 
 			})
 	},
-	getLeaddetails(payload){
-			return axios({ method: "GET", "url": "http://www.mocky.io/v2/5c18ca372f00005700af1197", "data": payload, "headers": { "content-type": "application/json" } })
+	getFollowups(payload){
+			return axios({ method: "GET", "url": Urls.url.followups+"?projectId=2000002&Token=409bd21a-c89f-4cba-8ac9-c6ebd706b7f6", "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {
 					return response.data
 				})
-		}
+		},
+	addLead(payload){
+        return axios({ method: "POST", "url": Urls.url.addlead, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
+    }
 
 	
 }	

@@ -51,7 +51,7 @@
 <script>
 
 import Addlead from '../pages/Addlead.vue'
-import GetLeadsAPI from '../services/api/Leads.js';
+import GetTasksAPI from '../services/api/Leads.js';
 import LoginApi from '../services/api/User.js';
 
 
@@ -87,7 +87,7 @@ export default {
 	 		Tk:localStorage.ki
 	 	}
 	 	
- 	  	GetLeadsAPI.getLeads(payload).then(leads => {
+ 	  	GetTasksAPI.getTasks(payload).then(leads => {
 			var dates =  Object.keys(leads);
 			var newLeads = {};
 			var dots = []

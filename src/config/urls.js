@@ -13,8 +13,10 @@ export default {
         'schedule': baseUrl + 'api/Schedule',
         'status': baseUrl + 'api/status',
         'type': baseUrl + 'api/Type',
+        'stage': baseUrl + 'api/Stage',
         'users': baseUrl + 'api/Users',
-        'addlead': baseUrl + 'api/Projects'
-
+        'addlead': baseUrl + 'api/Projects',
+        'followups': baseUrl + 'api/Projects'
+ 
     }
 }

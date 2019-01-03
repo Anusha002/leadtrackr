@@ -4,11 +4,11 @@
 </template>
 <template id="leaddetail">
 	<v-ons-page id="leaddetailpage">
-		<h1 class="heading">{{ProjectName}}</h1>
+		<h1 class="heading">{{LeadName}}</h1>
  		<v-ons-card>
  			<div class="content">	
-				<span><b>{{contact_name}}</b></span>
-				<p class="status" >{{status}}</p>
+				<span><b>{{OwnerName}}</b></span>
+				<p class="status" >{{Status}}</p>
 	 		</div> 						
  		</v-ons-card>
 
@@ -17,8 +17,8 @@
  		<v-ons-list-item v-for="(value, key) in followups">
  		<v-ons-card :id="'card' + key">
  			<div class="followupdetails" >	
-				<span><b>Call {{value.ScheduledTo}}<br>{{value.Task}}</b></span>	
-				<span><br>{{value.Date}}</b></span>	
+				<span><b>{{value.ScheduleTo}}<br>{{value.Stage}}</b></span>	
+				<span><br>{{value.FollowupDate}}</b></span>	
 				<span><br>{{value.Description}}</b></span>		
 	 		</div> 
 	 		<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
@@ -140,15 +140,15 @@
 
 <script>
 
-import LeaddetailsAPI from '../services/api/Leads.js';
+import FollowupsAPI from '../services/api/Leads.js';
 
 	export default {
 		name: "Leaddetail",
 		data() {
 			return {
-			"ProjectName": "",
-        	 "status": "",
-        	 "contact_name": "",
+			"LeadName": "",
+        	 "Status": "",
+        	 "OwnerName": "",
         	 followups: [],
         	 input: {
         	 	remarks: "",
@@ -180,15 +180,15 @@ import LeaddetailsAPI from '../services/api/Leads.js';
 
  		var payload = {
 	 	
-	 		Tk:localStorage.ki
+	 		Token:localStorage.ki
 	 	}
 	 	
- 	  	LeaddetailsAPI.getLeaddetails(payload).then(leaddetails => {
- 	  		console.log(leaddetails);
- 	  		this.ProjectName = leaddetails.LeadName;
- 	  		this.contact_name = leaddetails.ContactPerson;
- 	  		this.status = leaddetails.Status;
- 	  		this.followups = leaddetails.Followups
+ 	  	FollowupsAPI.getFollowups(payload).then(projects => {
+ 	  		console.log(projects);
+ 	  		this.LeadName = projects.Body.LeadName;
+ 	  		this.OwnerName = projects.Body.OwnerName;
+ 	  		this.Status = projects.Body.Status;
+ 	  		this.followups = projects.Body.Followups
 
  	  	})
 	  }

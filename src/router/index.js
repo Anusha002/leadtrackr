@@ -5,7 +5,8 @@ import Login from '../pages/Login.vue'
 import Splash from '../pages/Splash.vue'
 import Dash from '../pages/Dash.vue'
 import Addlead from '../pages/Addlead.vue'
-import Leaddetail from '../pages/Leaddetail.vue'
+import Followups from '../pages/Followups.vue'
+import Addfollowup from '../pages/Addfollowup.vue'
 import Leadlist from '../pages/Leadlist.vue'
 import Container from '../pages/Container.vue'
 
@@ -35,9 +36,14 @@ export default new Router({
     component: Addlead
   },
   {
-    path: '/leaddetail',
-    name: 'leaddetail',
-    component: Leaddetail
+    path: '/followups',
+    name: 'followups',
+    component: Followups
+  },
+  {
+    path: '/addfollowup',
+    name: 'addfollowup',
+    component: Addfollowup
   },
   {
     path: '/leadlist',
