@@ -84,7 +84,7 @@
           </v-ons-list-item>  	
 
     		<v-ons-list-item>
-	    		<v-ons-button  style="margin: 6px 4px">Cancel</v-ons-button>
+	    		<v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button>
 	    		<v-ons-button  style="margin: 6px 4px" @click="addLead()">Save</v-ons-button>
 	    	</v-ons-list-item>
     
@@ -154,6 +154,9 @@ export default{
   },
 
   methods :{
+    goToHome(){
+        this.$router.push('/container');
+    },
     addLead(){
       this.submitted = true;
       console.log(this.lead);

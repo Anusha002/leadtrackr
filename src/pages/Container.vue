@@ -38,13 +38,15 @@
 	import Logout from '../pages/Logout.vue';
 	import Leadlist from '../pages/Leadlist.vue';
 	import Addlead from '../pages/Addlead.vue';
+	import Followups from '../pages/Followups.vue'
 	export default{
 		name: "Container",
 		components: {
 			Dash,
 			Logout,
 			Leadlist,
-			Addlead
+			Addlead,
+			Followups
 		},
 		methods: {
 			toggleMenu()  {
@@ -68,7 +70,7 @@
 		data() {
 			return {
 				currentPage: 'Dash',
-				pages: ['Dash', 'Logout','Leadlist','Addlead'],
+				pages: ['Dash','Leadlist','Addlead','Followups','Logout'],
 				openSide: false
 				};
 			},

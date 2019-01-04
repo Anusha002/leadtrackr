@@ -133,7 +133,9 @@
  	</v-ons-list-item>
  </v-ons-list>
  		
-
+  <v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
+      <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
+   </v-ons-fab>
 	</v-ons-page>
 </template>
 
@@ -149,6 +151,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 			"LeadName": "",
         	 "Status": "",
         	 "OwnerName": "",
+        	 prop:{},
         	 followups: [],
         	 input: {
         	 	remarks: "",
@@ -159,11 +162,20 @@ import FollowupsAPI from '../services/api/Leads.js';
         	 	updatedistance: "",
         	 	updateremarks: ""
         	 },
-        	 current_status : "callaction"
+        	 current_status : "callaction",
+        	 projectID:""
 			}
 		},
 
 		methods: {
+			goTodetail() {
+   			this.$router.push({
+   				'name': 'addfollowup',
+   				'params':{
+   					'items': this.prop
+   				}
+   				});
+  			},
 			changeMode(index, mode) {
 				console.log('>>>>>>>>>>>>>>>>>>', index)
 				if(mode == 'callaction') {
@@ -188,7 +200,8 @@ import FollowupsAPI from '../services/api/Leads.js';
  	  		this.LeadName = projects.Body.LeadName;
  	  		this.OwnerName = projects.Body.OwnerName;
  	  		this.Status = projects.Body.Status;
- 	  		this.followups = projects.Body.Followups
+ 	  		this.followups = projects.Body.Followups;
+ 	  		this.prop = projects.Body;
 
  	  	})
 	  }
@@ -234,5 +247,8 @@ import FollowupsAPI from '../services/api/Leads.js';
 	padding:6px;
 }
 
-
+.ons-icon.fa {
+	font-size: 1.4em;
+	color: #333;
+}
 </style>

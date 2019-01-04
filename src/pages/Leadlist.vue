@@ -2,14 +2,14 @@
 	<v-ons-page id="leadlistpage">
 		<div>
 			<v-ons-row v-for="(value, key) in leads">	
-				<v-ons-row>{{key}}</v-ons-row>	
+				<v-ons-row>{{convertDate(key)}}</v-ons-row>	
 				<v-ons-list>
 					<v-ons-list-item  v-for="(card, index) in value">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{card.ProjectName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{card.Status}}</v-ons-col>
+							<v-ons-col id="ld-stage" >{{card.Stage}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
 							<v-ons-col id="ld-name" >{{card.ContactName}}</v-ons-col>
@@ -41,20 +41,43 @@ export default {
 	name: 'leadlist',
 	data() {
 		return {
-			leads: {}
+			leads: {},
+			dtobj:{}
 		}				
 	 },
 	 methods:{
+	 	convertDate(date){
+	 		var months =  [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+	 		var dtobj = new Date(parseInt(date));
+	 		var dt = dtobj.getDate();
+	 		if(dt == 1) {
+	 			dt += 'st'
+	 		} else if(dt == 2) {
+	 			dt += 'nd'
+	 		} else if(dt == 3) {
+	 			dt += 'rd'
+	 		} else {
+	 			dt += 'th'
+	 		}
+	 		
+	 		return dt + ' ' + months[dtobj.getMonth()] + ' ' + dtobj.getFullYear(); 
+
+
+	 		
+
+	 	}
 	 },
 	 mounted:function() {	
 	 	var payload = {
 	 		fromDate: '01-01-2018',
 	 		toDate: '12-12-2018',
-	 		Tk:localStorage.ki
+	 		Token:localStorage.ki
 	 	}
- 	  	GetLeadsAPI.getLeads(payload).then(leads => {
+ 	  	GetLeadsAPI.getTasks(payload).then(leads => {
  	  		var dates =  Object.keys(leads);
+ 	  		
  	  		this.leads = leads;
+ 	  		console.log(leads);
 
  	  	})
  	  }
@@ -83,7 +106,7 @@ export default {
 	font-weight: 500;
 	color:#333;
 }
-#ld-status {
+#ld-stage {
 	color: #08976C;
 	font-size: 13px;
 	height: 30px;

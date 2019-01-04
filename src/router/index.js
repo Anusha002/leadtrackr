@@ -43,7 +43,8 @@ export default new Router({
   {
     path: '/addfollowup',
     name: 'addfollowup',
-    component: Addfollowup
+    component: Addfollowup,
+    props: true
   },
   {
     path: '/leadlist',

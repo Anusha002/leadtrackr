@@ -6,7 +6,7 @@ export default {
 
 	getTasks(payload){
 		
-		return axios({ method: "GET", "url": Urls.url.schedule+"?fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Tk, "data": payload, "headers": { "content-type": "application/json" } })
+		return axios({ method: "GET", "url": Urls.url.schedule+"?fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Token, "data": payload, "headers": { "content-type": "application/json" } })
 			.then(response => {
 				var dt = response.data.Body;
 				var cards = {}
@@ -34,6 +34,7 @@ export default {
 					return response.data
 				})
 		},
+	
 	addLead(payload){
         return axios({ method: "POST", "url": Urls.url.addlead, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {

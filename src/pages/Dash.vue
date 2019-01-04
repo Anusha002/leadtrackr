@@ -61,6 +61,7 @@ export default {
 		Addlead
 	},
 	methods:{
+		
   		goTodetail() {
    			this.$router.push('/addlead')
   		},
@@ -84,7 +85,7 @@ export default {
  		var payload = {
 	 		fromDate: '01-01-2018',
 	 		toDate: '12-12-2018',
-	 		Tk:localStorage.ki
+	 		Token:localStorage.ki
 	 	}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
@@ -97,7 +98,6 @@ export default {
 					
 			}
 			this.leads = leads;
-			console.log(this.leads)
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
 			this.getCards(currentdate);
