@@ -75,8 +75,9 @@ import Utils from '../services/api/Utils.js';
 import AddfollowupApi from '../services/api/Followup.js';
 
 export default{
-    name: "Addfollowup",
-    props: ['items','user'],
+
+    name: 'Addfollowup',
+    props: ['items'],
     data() {
     return {
       followup: {
@@ -100,9 +101,11 @@ export default{
      }
    },
    methods: {
-    goToHome(){
-        this.$router.push('/followups');
-    },
+
+      goToHome() {
+        this.$router.push('/followups')
+      },
+
     addFollowup(){
       this.submitted = true;
       var data = this.followup;
@@ -124,8 +127,10 @@ export default{
           Token:localStorage.ki
 
          }
+
      var user =  JSON.parse(localStorage.usr);
      this.followup.UserID = user.UserID; 
+
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),

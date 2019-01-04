@@ -39,6 +39,7 @@ export default new Router({
     path: '/followups',
     name: 'followups',
     component: Followups
+
   },
   {
     path: '/addfollowup',
