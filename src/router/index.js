@@ -39,11 +39,13 @@ export default new Router({
     path: '/followups',
     name: 'followups',
     component: Followups
+
   },
   {
     path: '/addfollowup',
     name: 'addfollowup',
-    component: Addfollowup
+    component: Addfollowup,
+    props: true
   },
   {
     path: '/leadlist',

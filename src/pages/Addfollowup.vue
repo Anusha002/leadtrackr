@@ -4,7 +4,7 @@
   		<v-ons-list class="followup">
     		<v-ons-list-item>
      			 <div class="followupdetails">
-     			 	<v-ons-input placeholder="ProjectID" v-model="followup.ProjectID"></v-ons-input>
+     			 	<v-ons-input placeholder="ProjectID" v-bind:ProjectID="items.ProjectID"></v-ons-input>
         		</div>
         	</v-ons-list-item>
           <v-ons-list-item>
@@ -63,7 +63,7 @@
             </v-ons-select>
           </v-ons-list-item>  
           <v-ons-list-item>
-          <v-ons-button  style="margin: 6px 4px">Cancel</v-ons-button>
+          <v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button>
           <v-ons-button  style="margin: 6px 4px" @click="addFollowup()">Save</v-ons-button>
         </v-ons-list-item>           
        </v-ons-list>
@@ -75,6 +75,8 @@ import Utils from '../services/api/Utils.js';
 import AddfollowupApi from '../services/api/Followup.js';
 
 export default{
+    name: 'Addfollowup',
+    props: ['items'],
     data() {
     return {
       followup: {
@@ -98,6 +100,10 @@ export default{
      }
    },
    methods: {
+      goToHome() {
+        this.$router.push('/followups')
+      },
+
     addFollowup(){
       this.submitted = true;
       var data = this.followup;
@@ -120,7 +126,6 @@ export default{
           Token:localStorage.ki
 
          }
-        
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),
@@ -142,7 +147,7 @@ export default{
 <style>
 .list {
   margin: 15px;
-  background-color: #D4E6F1 !important;
+  background-color: none !important;
  
 }
 
