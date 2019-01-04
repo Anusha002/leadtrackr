@@ -16,7 +16,8 @@ export default {
         'stage': baseUrl + 'api/Stage',
         'users': baseUrl + 'api/Users',
         'addlead': baseUrl + 'api/Projects',
-        'followups': baseUrl + 'api/Projects'
+        'followups': baseUrl + 'api/Projects',
+        'addfollowup': baseUrl + 'api/Schedule'
  
     }
 }

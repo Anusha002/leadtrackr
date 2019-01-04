@@ -26,19 +26,12 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-           <div class="createdate">
-            <!-- <v-ons-input placeholder="CreatedDate" type="date"> -->
-              <v-calendar></v-calendar>
-              <v-date-picker mode='single'v-model="followup.CreatedDate">
-              </v-date-picker>
-            
-            </v-ons-input>
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
            <div class="followupdetails">
-            <v-ons-input placeholder="FollowupDate" v-model="followup.FollowupDate"></v-ons-input>
+            
+            <v-date-picker mode='single'v-model="followup.FollowupDate">
+             </v-date-picker>
             </div>
+
           </v-ons-list-item>
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy">
@@ -71,16 +64,15 @@
           </v-ons-list-item>  
           <v-ons-list-item>
           <v-ons-button  style="margin: 6px 4px">Cancel</v-ons-button>
-          <v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+          <v-ons-button  style="margin: 6px 4px" @click="addFollowup()">Save</v-ons-button>
         </v-ons-list-item>           
        </v-ons-list>
   </v-ons-page>   
 </template>
 
 <script>
-import StatusApi from '../services/api/Utils.js';
-import StageApi from '../services/api/Utils.js';
-import UserApi from '../services/api/Utils.js';
+import Utils from '../services/api/Utils.js';
+import AddfollowupApi from '../services/api/Followup.js';
 
 export default{
     data() {
@@ -90,7 +82,7 @@ export default{
       Stage: "", 
       UserID:"",
       Task:"",
-      CreatedDate:"",
+      CreatedDate: new Date(),
       FollowupDate: "",
       ScheduleBy: "", 
       ScheduleTo: "",
@@ -105,26 +97,45 @@ export default{
       scheduleTo: [{'FullName': 'Schedule To'}]
      }
    },
+   methods: {
+    addFollowup(){
+      this.submitted = true;
+      var data = this.followup;
+      data.CreatedDate = Utils.formatDate(new Date(data.CreatedDate))
+      data.FollowupDate = Utils.formatDate(new Date(data.FollowupDate))
+      console.log(data)
 
+      AddfollowupApi.addFollowup(data).then(followups => {
+
+        console.log("followup added successfully");
+        this.$router.push('/followups');
+
+    }, error => {
+        console.error(error);
+       }); 
+     }
+  },
    mounted:function() {
     var payload = {
           Token:localStorage.ki
 
          }
         
-    StatusApi.getStatus(payload).then(status => {
+    Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),
 
-    StageApi.getStage(payload).then(stage => {
+    Utils.getStage(payload).then(stage => {
       this.stages = this.stages.concat(stage.Body);
       
     }),
-    UserApi.getUser(payload).then(users => {
+    Utils.getUser(payload).then(users => {
       this.scheduleBy = this.scheduleBy.concat(users.Body); 
       this.scheduleTo = this.scheduleTo.concat(users.Body);
       
     })
+
+
   } 
 }
 </script>
