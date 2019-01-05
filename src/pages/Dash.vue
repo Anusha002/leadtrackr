@@ -94,6 +94,7 @@ export default {
 	 	}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
+			localStorage.setItem('lds', JSON.stringify(leads));
 			var dates =  Object.keys(leads);
 			var newLeads = {};
 			var dots = []
