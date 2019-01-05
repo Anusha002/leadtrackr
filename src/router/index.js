@@ -7,7 +7,7 @@ import Dash from '../pages/Dash.vue'
 import Addlead from '../pages/Addlead.vue'
 import Followups from '../pages/Followups.vue'
 import Addfollowup from '../pages/Addfollowup.vue'
-import Leadlist from '../pages/Leadlist.vue'
+import Tasklist from '../pages/Tasklist.vue'
 import Container from '../pages/Container.vue'
 
 Vue.use(Router)
@@ -48,9 +48,9 @@ export default new Router({
     props: true
   },
   {
-    path: '/leadlist',
-    name: 'leadlist',
-    component: Leadlist
+    path: '/tasklist',
+    name: 'tasklist',
+    component: Tasklist
   },
   {
     path: '/container',
