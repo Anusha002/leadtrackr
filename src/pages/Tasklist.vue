@@ -1,10 +1,10 @@
 <template>
 	<v-ons-page id="tasklistpage">
 		<div>
-			<v-ons-row v-for="(value, key) in leads">	
-				<v-ons-row>{{convertDate(key)}}</v-ons-row>	
-				<v-ons-list>
-					<v-ons-list-item  v-for="(card, index) in value">
+			<v-ons-row v-for="(value, key) in leads" v-bind:key="key">	
+				<div class="date-header">{{convertDate(key)}}</div>	
+				<v-ons-list class="list">
+					<v-ons-list-item  v-for="(card, index) in value" v-bind:key="index">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{card.ProjectName}}</v-ons-col>
 						</v-ons-row>
@@ -16,13 +16,13 @@
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + ContactMobile">
-									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+								<a :href="'tel:' + card.ContactMobile"v-show="card.ContactMobile != ''">
+									<v-ons-icon modifier="small" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
 							<v-ons-col>
-								<a :href="'mailto:' + ContactEmail">
-									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+								<a :href="'mailto:' + card.ContactEmail" v-show="card.ContactEmail != ''">
+									<v-ons-icon modifier="small" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
 						</v-ons-row>
@@ -30,6 +30,9 @@
 				</v-ons-list>
 			</v-ons-row>
 		</div>
+		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
+     		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
+    	</v-ons-fab>
 	</v-ons-page>
 </template>
 
@@ -46,6 +49,9 @@ export default {
 		}				
 	 },
 	 methods:{
+		goTodetail() {
+   			this.$router.push('/addlead')
+  		},
 	 	convertDate(date){
 	 		var months =  [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	 		var dtobj = new Date(parseInt(date));
@@ -75,7 +81,6 @@ export default {
 	 	}
  	  	GetTasksAPI.getTasks(payload).then(leads => {
  	  		var dates =  Object.keys(leads);
- 	  		
  	  		this.leads = leads;
  	  		console.log(leads);
 
@@ -118,5 +123,16 @@ export default {
 .ons-icon.fa {
 	font-size: 1.4em;
 	color: #333;
+}
+.date-header {
+	color: #fff;
+	font-size: 1em;
+	margin-left: 12px;
+	margin-top: 20px;
+	font-weight: 500;
+}
+.list{
+	margin: 10px !important;
+	width: 98%;
 }
 </style>
