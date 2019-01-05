@@ -7,7 +7,7 @@
 					<span class="calendar-month">{{ myMonths[month] }} </span>
 				</span>
 			</v-calendar>
-
+	
 		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
 				<v-ons-card>
@@ -38,8 +38,8 @@
 				</v-ons-card>
 			</v-ons-carousel-item>
 		</v-ons-carousel>
-		<div class="no-tasks">
-			No tasks for today!
+		<div class="no-tasks" v-show="items.length == 0">
+			No tasks for today! 
 		</div>
 
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
@@ -70,13 +70,15 @@ export default {
   		},
   	 	getCards(date){
   	 		var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
-  	 		this.items = this.leads[dtStr];	
-  	 	
+			this.items = this.leads[dtStr];	
+			this.items = (typeof this.items == 'undefined')? [] : this.items;
+			
  	 		
  	 	},
  	 	dayClicked(day) {
       		
 			this.items = this.leads[day.dateTime];
+			this.items = (typeof this.items == 'undefined')? [] : this.items;
       	 	this.attributes[0].dates = new Date(day.dateTime);
       	    
    		 }
@@ -136,7 +138,8 @@ export default {
       	}
       ],
       carouselIndex: 0,
-      items: []
+	  items: [],
+	  
   }
 
  }
