@@ -15,6 +15,7 @@ export default {
         'type': baseUrl + 'api/Type',
         'stage': baseUrl + 'api/Stage',
         'users': baseUrl + 'api/Users',
+        'getleads': baseUrl + 'api/Projects',
         'addlead': baseUrl + 'api/Projects',
         'followups': baseUrl + 'api/Projects',
         'addfollowup': baseUrl + 'api/Schedule'

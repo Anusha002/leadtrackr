@@ -37,6 +37,7 @@
 	import Dash from '../pages/Dash.vue';
 	import Logout from '../pages/Logout.vue';
 	import Tasklist from '../pages/Tasklist.vue';
+	import Leadlist from '../pages/Leadlist.vue';
 	import Addlead from '../pages/Addlead.vue';
 	import Followups from '../pages/Followups.vue'
 	export default{
@@ -45,6 +46,7 @@
 			Dash,
 			Logout,
 			Tasklist,
+			Leadlist,
 			Addlead,
 			Followups
 		},
@@ -56,7 +58,7 @@
 				console.log(document.getElementById('leadicon').classList.contains("icon-list"))
 				
 				if (document.getElementById('leadicon').classList.contains("icon-list")){
-					this.currentPage = 'Leadlist'
+					this.currentPage = 'Tasklist'
 					document.getElementById('leadicon').classList.remove("icon-list"); 
 					document.getElementById('leadicon').classList.add("icon-calender"); 
 				} else{
@@ -70,7 +72,7 @@
 		data() {
 			return {
 				currentPage: 'Dash',
-				pages: ['Dash','Tasklist','Addlead','Followups','Logout'],
+				pages: ['Dash','Tasklist','Leadlist','Addlead','Followups','Logout'],
 				openSide: false
 				};
 			},

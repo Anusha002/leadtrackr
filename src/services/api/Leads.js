@@ -34,6 +34,12 @@ export default {
 					return response.data
 				})
 		},
+	getLeads(payload){
+			return axios({ method: "GET", "url": Urls.url.getleads+"?Token=409bd21a-c89f-4cba-8ac9-c6ebd706b7f6&UserID=2", "data": payload, "headers": { "content-type": "application/json" } })
+				.then(response => {
+					return response.data
+				})
+		},	
 	
 	addLead(payload){
         return axios({ method: "POST", "url": Urls.url.addlead, "data": payload, "headers": { "content-type": "application/json" } })

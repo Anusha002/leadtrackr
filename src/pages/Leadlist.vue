@@ -1,34 +1,33 @@
 <template>
-	<v-ons-page id="leadlistpage">
+	<v-ons-page id="leadlistpage">	
+		<h1>Lead List</h1>	
 		<div>
-			<v-ons-row v-for="(value, key) in leads">	
-				<v-ons-row>{{key}}</v-ons-row>	
-				<v-ons-list>
-					<v-ons-list-item  v-for="(card, index) in value">
+			<v-ons-card v-for="(value, key) in leads">
+					<div class="content">
 						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{card.ProjectName}}</v-ons-col>
+							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{card.Status}}</v-ons-col>
+							<v-ons-col id="ld-status" >{{value.Stage}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{card.ContactName}}</v-ons-col>
+							<v-ons-col id="ld-name" >{{value.ContactPerson}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + ContactMobile">
+								<a :href="'tel:' + value.Mobile">
 									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
 							<v-ons-col>
-								<a :href="'mailto:' + ContactEmail">
+								<a :href="'mailto:' + value.Email">
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
+
 						</v-ons-row>
-					</v-ons-list-item>
-				</v-ons-list>
-			</v-ons-row>
+					</div>
+				</v-ons-card>
 		</div>
 	</v-ons-page>
 </template>
@@ -41,20 +40,20 @@ export default {
 	name: 'leadlist',
 	data() {
 		return {
-			leads: {}
+			leads: []
 		}				
 	 },
 	 methods:{
 	 },
 	 mounted:function() {	
 	 	var payload = {
-	 		fromDate: '01-01-2018',
-	 		toDate: '12-12-2018',
-	 		Tk:localStorage.ki
+	 		Token:localStorage.ki
 	 	}
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
- 	  		var dates =  Object.keys(leads);
- 	  		this.leads = leads;
+   		
+ 	  		this.leads = leads.Body;
+ 	  		console.log(this.leads);
+
 
  	  	})
  	  }

@@ -4,6 +4,7 @@ import VeeValidate from 'vee-validate';
 import Login from '../pages/Login.vue'
 import Splash from '../pages/Splash.vue'
 import Dash from '../pages/Dash.vue'
+import Leadlist from '../pages/Leadlist.vue'
 import Addlead from '../pages/Addlead.vue'
 import Followups from '../pages/Followups.vue'
 import Addfollowup from '../pages/Addfollowup.vue'
@@ -29,6 +30,11 @@ export default new Router({
     path: '/dash',
     name: 'dash',
     component: Dash
+  },
+  {
+    path: '/leadlist',
+    name: 'leadlist',
+    component: Leadlist
   },
   {
     path: '/addlead',
