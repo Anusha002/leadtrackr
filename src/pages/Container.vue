@@ -94,4 +94,9 @@
 	.header-icon {
 		font-size: 1.2em !important;
 	}
+	.toolbar {
+		background: transparent;
+		height: 60px;
+		padding: 10px;
+	}
 </style>

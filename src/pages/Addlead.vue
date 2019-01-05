@@ -1,6 +1,14 @@
 <template>
+<div>
+      
 	<v-ons-page id="addleadpage">
-		<h1>Add Lead</h1>
+    <div class="header">
+      
+    		<div class="left">
+	      		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;"></v-ons-icon>
+          </div>
+          <div class="center">Add Lead</div>
+    </div>
   		<v-ons-list class="leaddata">
     		<v-ons-list-item>
      			 <div class="leaddetails">
@@ -90,6 +98,7 @@
     
   		</v-ons-list>
 	</v-ons-page>   
+  </div>
 </template>
 
 <script>
@@ -174,7 +183,9 @@ export default{
 </script>
 
 <style>
-
+.page {
+  background-color: transparent;
+}
 .list {
   background-color: #fff !important;
  
@@ -182,7 +193,8 @@ export default{
 .leaddata{
 	border: 1px;
 	margin: 20px;
-	border-radius: 6px;
+  border-radius: 6px;
+  margin-top: 70px !important;
 }
 
 h1{
@@ -190,6 +202,42 @@ h1{
 	color: #fff;
 	font-size: 8px;
 }
+.header {
+  position: fixed;
+  height: 60px;
+  background: rgba(8,179,222,1) 10%;
+  width: 100%;
+  z-index: 100;
+  color: #fff;
+}
+.header .left {
+  width: 24%;
+  text-align: left;
+  -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    display: inline-block;
+    line-height: 60px;
+}
+.header .center {
+  width: 46%;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    display: inline-block;
+    line-height: 60px;
+    font-weight: bold;
+    font-size: 1.2em;
+    
+}
+.header-icon {
+  color: #fff;
+  font-size: 1.4em !important;
+}
 
+.toolbar .center {
+  color: #fff;
+}
 
  </style>  

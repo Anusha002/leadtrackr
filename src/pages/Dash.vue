@@ -189,11 +189,7 @@ export default {
 	width: 320px !important;
 }
 
-.toolbar {
-	background: transparent;
-	height: 60px;
-    padding: 10px;
-}
+
 .fab {
 	background: #14BA88 !important;
 }
