@@ -8,15 +8,15 @@
 				</span>
 			</v-calendar>
 
-		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="340px">
-			<v-ons-carousel-item v-for="(value, key) in items" >
+		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" v-if="items.length > 0">
+			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
 				<v-ons-card>
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{value.Status}}</v-ons-col>
+							<v-ons-col id="ld-status" >{{value.Task}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
 							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
@@ -38,6 +38,9 @@
 				</v-ons-card>
 			</v-ons-carousel-item>
 		</v-ons-carousel>
+		<div class="no-tasks" v-else >
+			No tasks for today!
+		</div>
 
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
@@ -140,6 +143,9 @@ export default {
 }
 </script>
 <style>
+.page__content {
+	padding: 0 6px;
+}
 .calendar-year {
 	font-size: 20px;
 	color: #fff;
@@ -148,6 +154,8 @@ export default {
 	font-size: 30px;
 	font-weight: bold;
 	color: #fff;
+	display: block;
+	line-height: 26px;
 }
 .c-header{
 	margin-bottom: 5px;
@@ -162,17 +170,25 @@ export default {
 	opacity: .6;
 	text-transform: uppercase;
 }
-.c-day {
-	min-height: 55px;
-	height: 3.5rem;
-	
-}
 .c-day-content {
 	font-size: 1.6rem !important;
 	color: white;
+	padding: .9em;
 }
+.c-day-dots {
+	margin-bottom: 6px !important;
+}
+.c-title br{
+	display: none;
+}
+.task-card {
+	width: 320px !important;
+}
+
 .toolbar {
 	background: transparent;
+	height: 60px;
+    padding: 10px;
 }
 .fab {
 	background: #14BA88 !important;
@@ -191,7 +207,7 @@ export default {
 #ld-status {
 	color: #08976C;
 	font-size: 13px;
-	height: 60px;
+	height: 35px;
 }
 #ld-name {
 	font-size: 15px;
@@ -200,6 +216,11 @@ export default {
 .ons-icon.fa {
 	font-size: 1.4em;
 	color: #333;
+}
+.no-tasks {
+	color: #fff;
+	text-align: center;
+	margin-top: 60px
 }
 
 </style>

@@ -5,12 +5,12 @@
 		<v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button @click="toggleMenu()">
-	        		<v-ons-icon class="icon-hamburger"></v-ons-icon>	
+	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
     		<div class="right">
     			<v-ons-toolbar-button @click="toggleView()">
-	        		<v-ons-icon class="icon-list" id="leadicon"></v-ons-icon>
+	        		<v-ons-icon class="icon-list header-icon" id="leadicon"></v-ons-icon>
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
@@ -88,5 +88,8 @@
 	}
 	.icon-list .icon-calender{
 		margin:20px;
+	}
+	.header-icon {
+		font-size: 1.2em !important;
 	}
 </style>
