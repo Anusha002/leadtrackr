@@ -36,7 +36,7 @@
 <script>
 	import Dash from '../pages/Dash.vue';
 	import Logout from '../pages/Logout.vue';
-	import Leadlist from '../pages/Leadlist.vue';
+	import Tasklist from '../pages/Tasklist.vue';
 	import Addlead from '../pages/Addlead.vue';
 	import Followups from '../pages/Followups.vue'
 	export default{
@@ -44,7 +44,7 @@
 		components: {
 			Dash,
 			Logout,
-			Leadlist,
+			Tasklist,
 			Addlead,
 			Followups
 		},
@@ -70,7 +70,7 @@
 		data() {
 			return {
 				currentPage: 'Dash',
-				pages: ['Dash','Leadlist','Addlead','Followups','Logout'],
+				pages: ['Dash','Tasklist','Addlead','Followups','Logout'],
 				openSide: false
 				};
 			},
