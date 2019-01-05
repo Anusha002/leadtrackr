@@ -8,7 +8,7 @@
 				</span>
 			</v-calendar>
 
-		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" v-if="items.length > 0">
+		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
 				<v-ons-card>
 					<div class="content">
@@ -23,12 +23,12 @@
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + ContactMobile">
+								<a :href="'tel:' + value.ContactMobile">
 									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
 							<v-ons-col>
-								<a :href="'mailto:' + ContactEmail">
+								<a :href="'mailto:' + value.ContactEmail">
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
@@ -38,7 +38,7 @@
 				</v-ons-card>
 			</v-ons-carousel-item>
 		</v-ons-carousel>
-		<div class="no-tasks" v-else >
+		<div class="no-tasks">
 			No tasks for today!
 		</div>
 
@@ -76,7 +76,7 @@ export default {
  	 	},
  	 	dayClicked(day) {
       		
-      	 	this.items = this.leads[day.dateTime];
+			this.items = this.leads[day.dateTime];
       	 	this.attributes[0].dates = new Date(day.dateTime);
       	    
    		 }
