@@ -1,9 +1,7 @@
 
-<template id="actions">
-
-</template>
-<template id="leaddetail">
+<template>
 	<v-ons-page id="leaddetailpage">
+		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
 		<h1 class="heading">{{LeadName}}</h1>
  		<v-ons-card>
  			<div class="content">	
@@ -33,7 +31,7 @@
  			<div class="followupdetails" >	
 				<v-ons-row>
 					<v-ons-col>{{value.ScheduleTo}}</v-ons-col>
-					
+
 				</v-ons-row>
 				<v-ons-row>
 					<v-ons-col>{{value.Stage}}</v-ons-col>	
@@ -175,6 +173,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 		name: "Followups",
 		data() {
 			return {
+
 			"LeadName": "",
         	 "Stage": "",
         	 "ContactPerson": "",
@@ -193,7 +192,8 @@ import FollowupsAPI from '../services/api/Leads.js';
         	 	updateremarks: ""
         	 },
         	 current_status : "callaction",
-        	 projectID:""
+        	 projectID:"",
+        	 progress: 0
 			}
 		},
 
@@ -227,8 +227,16 @@ import FollowupsAPI from '../services/api/Leads.js';
 	 		projectId: localStorage.pid
 
 	 	}
-	 	
+	 	this.intervalID = setInterval(() => {
+			if (this.progress === 100) {
+			clearInterval(this.intervalID);
+			return;
+			}
+			this.progress++;
+		}, 40);
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
+ 	  		this.progress = 0;
+ 	  		clearInterval(this.intervalID);  
  	  		this.isLoading = false;
  	  		this.LeadName = projects.Body.LeadName;
  	  		this.ContactPerson = projects.Body.ContactPerson;

@@ -2,18 +2,7 @@
 	
 
 	<v-ons-splitter>
-		<v-ons-toolbar>
-    		<div class="left">
-	      		<v-ons-toolbar-button @click="toggleMenu()">
-	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
-	      		</v-ons-toolbar-button>
-    		</div>
-    		<div class="right">
-    			<v-ons-toolbar-button @click="toggleView()">
-	        		<v-ons-icon class="icon-list header-icon" id="leadicon"></v-ons-icon>
-	        	</v-ons-toolbar-button>	
-	        </div>	
- 		</v-ons-toolbar>
+		
 		<v-ons-splitter-side swipeable width="150px" collapse="" side="left"
 		:open.sync="openSide" class="frame" id="menu">	
 			<v-ons-page>
@@ -50,29 +39,11 @@
 			Addlead,
 			Followups
 		},
-		methods: {
-			toggleMenu()  {
-				this.openSide = ((this.openSide) ? false : true);
-			},
-			toggleView() {
-				console.log(document.getElementById('leadicon').classList.contains("icon-list"))
-				
-				if (document.getElementById('leadicon').classList.contains("icon-list")){
-					this.currentPage = 'Tasklist'
-					document.getElementById('leadicon').classList.remove("icon-list"); 
-					document.getElementById('leadicon').classList.add("icon-calender"); 
-				} else{
-					this.currentPage = 'Dash'
-					document.getElementById('leadicon').classList.remove("icon-calender"); 
-					document.getElementById('leadicon').classList.add("icon-list"); 
-				}
-				
-			}
-		},
+		
 		data() {
 			return {
 				currentPage: 'Dash',
-				pages: ['Dash','Tasklist','Leadlist','Addlead','Followups','Logout'],
+				pages: ['Dash','Leadlist','Logout'],
 				openSide: false
 				};
 			},
@@ -107,9 +78,5 @@
 	.header-icon {
 		font-size: 1.2em !important;
 	}
-	.toolbar {
-		background: transparent;
-		height: 60px;
-		padding: 10px;
-	}
+	
 </style>

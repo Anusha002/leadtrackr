@@ -33,7 +33,7 @@ export default {
     formatDate(date) {
         var m = (1 + date.getMonth()).toString();
         m = (m.length > 1 ) ? m : '0' + m;
-        var d = date.getDay().toString();
+        var d = date.getDate().toString();
         d = (d.length > 1 ) ? d : '0' + d;
         return m + '-' + d + '-' + date.getFullYear();
     },

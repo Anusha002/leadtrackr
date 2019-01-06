@@ -1,11 +1,10 @@
 import axios from 'axios'
 import Urls from '../../config/urls.js'
+import Utils from './Utils.js'
 
 
 export default {
 
-	Token: localStorage.ki,
-	user :  JSON.parse(localStorage.usr),
 	getTasks(payload){
 		
 		return axios({ method: "GET", "url": Urls.url.schedule+"?fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Token, "data": payload, "headers": { "content-type": "application/json" } })
@@ -32,13 +31,12 @@ export default {
 	},
 	getFollowups(payload){
 			return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&Token="+payload.Token, "headers": { "content-type": "application/json" } })
-			// return axios({ method: "GET", "url": Urls.url.followups+"?projectId=2000002&Token=409bd21a-c89f-4cba-8ac9-c6ebd706b7f6", "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {
 					return response.data
 				})
 		},
 	getLeads(payload){
-			return axios({ method: "GET", "url": Urls.url.getleads+"?Token="+Token+"&UserID="+user.UserID, "data": payload, "headers": { "content-type": "application/json" } })
+			return axios({ method: "GET", "url": Urls.url.getleads+"?Token="+payload.Token+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {
 					return response.data
 				})

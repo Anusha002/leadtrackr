@@ -2,13 +2,17 @@
 <div>
       
 	<v-ons-page id="addleadpage">
-    <div class="header">
-      
+    <v-ons-toolbar>
     		<div class="left">
-	      		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>
-          </div>
-          <div class="center">Add Lead</div>
-    </div>
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="center">
+    			Add Lead
+	        </div>	
+ 		</v-ons-toolbar>
+
   		<v-ons-list class="leaddata">
     		<v-ons-list-item modifier="nodivider">
      			 	<v-ons-input placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName"></v-ons-input>
@@ -170,7 +174,6 @@ export default{
 	border: 1px;
 	margin: 20px;
   border-radius: 6px;
-  margin-top: 70px !important;
 }
 
 h1{

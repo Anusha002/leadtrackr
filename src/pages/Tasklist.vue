@@ -1,5 +1,17 @@
 <template>
 	<v-ons-page id="tasklistpage">
+		<v-ons-toolbar>
+    		<div class="left">
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="right">
+    			<v-ons-toolbar-button @click="toggleView()">
+	        		<v-ons-icon class="icon-calender header-icon" id="leadicon"></v-ons-icon>
+	        	</v-ons-toolbar-button>	
+	        </div>	
+ 		</v-ons-toolbar>
 		<div>
 			<v-ons-row v-for="(value, key) in leads" v-bind:key="key">	
 				<div class="date-header">{{convertDate(key)}}</div>	
@@ -71,7 +83,24 @@ export default {
 
 	 		
 
-	 	}
+		 },
+		 toggleMenu()  {
+
+			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+		},
+		toggleView() {
+			
+			if (document.getElementById('leadicon').classList.contains("icon-list")){
+				this.$parent.$parent.$parent.currentPage = 'Tasklist'
+				document.getElementById('leadicon').classList.remove("icon-list"); 
+				document.getElementById('leadicon').classList.add("icon-calender"); 
+			} else{
+				this.$parent.$parent.$parent.currentPage = 'Dash'
+				document.getElementById('leadicon').classList.remove("icon-calender"); 
+				document.getElementById('leadicon').classList.add("icon-list"); 
+			}
+			
+		},
 	 },
 	 mounted:function() {	
 	 	var payload = {

@@ -107,11 +107,11 @@ export default{
       },
 
     addFollowup(){
+      
       this.submitted = true;
       var data = this.followup;
-      data.CreatedDate = Utils.formatDate(new Date(data.CreatedDate))
-      data.FollowupDate = Utils.formatDate(new Date(data.FollowupDate))
-      
+      this.followup.CreatedDate = Utils.formatDate(new Date())
+      this.followup.FollowupDate = Utils.formatDate(new Date(data.FollowupDate))
       AddfollowupApi.addFollowup(data).then(followups => {
 
         console.log("followup added successfully");
