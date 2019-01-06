@@ -10,20 +10,16 @@
           <div class="center">Add Lead</div>
     </div>
   		<v-ons-list class="leaddata">
-    		<v-ons-list-item>
-     			 <div class="leaddetails">
-     			 	<v-ons-input placeholder="LeadName" v-model="lead.LeadName"></v-ons-input>
-        		</div>
+    		<v-ons-list-item modifier="nodivider">
+     			 	<v-ons-input placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName"></v-ons-input>
         	</v-ons-list-item>
-          <v-ons-list-item> 
-            <div class="leaddetails"> 
-              <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson"></v-ons-input>
-            </div>
+          <v-ons-list-item  modifier="nodivider"> 
+            <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" ></v-ons-input>
           </v-ons-list-item>
         	<v-ons-list-item>	
         		<v-ons-select style="width: 100%" v-model="lead.Type">
                <option value="" selected data-default></option>
-                <option v-for="(value,key) in types" :value="value.TypeID">
+                <option v-for="(value,key) in types" :value="value.TypeID" v-bind:key="key">
                   {{value.TypeName }} 
                 </option>
             </v-ons-select>
@@ -31,7 +27,7 @@
           <v-ons-list-item>
            <v-ons-select style="width: 100%" v-model="lead.Stage">
                 <option value="" selected data-default></option>
-                <option v-for="item in stages" :value="item">
+                <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
@@ -40,44 +36,28 @@
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="lead.Status">
                 <option value="" selected data-default></option>
-                <option v-for="item in status" :value="item">
+                <option v-for="(item,key) in status" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
           </v-ons-list-item>  
         	
-        	<v-ons-list-item>	
-        		<div class="leaddetails">			
-        			<v-ons-input placeholder="Mobile" v-model="lead.Mobile" type="number"></v-ons-input>
-      			 </div>
+        	<v-ons-list-item modifier="nodivider">			
+        			<v-ons-input placeholder="Mobile" v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input"></v-ons-input>
     		</v-ons-list-item>
-    		<v-ons-list-item>
-     			 <div class="leaddetails">
-        			<v-ons-input placeholder="Landline" v-model="lead.landLine"  type="number"></v-ons-input>
-        		</div>
+    		<v-ons-list-item modifier="nodivider">
+        			<v-ons-input placeholder="Landline" v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>
-        	<v-ons-list-item>	
-        		<div class="leaddetails">
-        			<v-ons-input placeholder="Email" v-model="lead.Email"  type="email"></v-ons-input>
-        		</div>	
+        	<v-ons-list-item modifier="nodivider">	
+        			<v-ons-input placeholder="Email" v-model="lead.Email"  type="email" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>	
-          <v-ons-list-item>
-           <div class="leaddetails">
-            <v-ons-input placeholder="Description" v-model="lead.Description"></v-ons-input>
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="lead.CreatedBy">
-               <option value="" selected data-default></option>
-                <option v-for="(value,key) in createdBy" :value="value.UserID">
-                  {{ value.FullName }}
-                </option>
-            </v-ons-select>
-          </v-ons-list-item>  
+          <v-ons-list-item modifier="nodivider">
+            <v-ons-input placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
+          </v-ons-list-item> 
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="lead.HandledBy">
                 <option value="" selected data-default></option>
-                <option v-for="(value,key) in handledBy" :value="value.UserID">
+                <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
             </v-ons-select>
@@ -85,7 +65,7 @@
         	<v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy">
                <option value="" selected data-default></option>
-                <option v-for="(value,key) in ownedBy" :value="value.UserID">
+                <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">
                   {{ value.FullName }}
                 </option>
             </v-ons-select>
@@ -99,10 +79,7 @@
 </template>
 
 <script>
-import StatusApi from '../services/api/Utils.js';
-import TypeApi from '../services/api/Utils.js';
-import StageApi from '../services/api/Utils.js';
-import UserApi from '../services/api/Utils.js';
+import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 
 export default{
@@ -118,7 +95,7 @@ export default{
       landLine: "", 
       Email: "",
       Description:"",
-      CreatedBy:"",
+      CreatedBy:Utils.getUserid(),
       HandledBy:"",
       OwnedBy: "",
       Token:localStorage.ki
@@ -140,23 +117,24 @@ export default{
           Token:localStorage.ki
 
          }
-        
-    StatusApi.getStatus(payload).then(status => {
+      console.log(this.lead)  
+    Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),
 
-    TypeApi.getType(payload).then(types => {
+    Utils.getType(payload).then(types => {
       this.types = this.types.concat(types.Body);   
     }),
-    StageApi.getStage(payload).then(stage => {
+    Utils.getStage(payload).then(stage => {
       this.stages = this.stages.concat(stage.Body);
       
     }),
-    UserApi.getUser(payload).then(users => {
+    Utils.getUser(payload).then(users => {
       this.createdBy = this.createdBy.concat(users.Body); 
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
     })
+    
   },
 
   methods :{

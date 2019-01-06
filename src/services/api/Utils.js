@@ -36,6 +36,9 @@ export default {
         var d = date.getDay().toString();
         d = (d.length > 1 ) ? d : '0' + d;
         return m + '-' + d + '-' + date.getFullYear();
+    },
+    getUserid() {  
+        return JSON.parse(localStorage.getItem('usr')).UserID.toString();
     }
    
 }
