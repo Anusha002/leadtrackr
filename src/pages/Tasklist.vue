@@ -80,7 +80,7 @@ export default {
 	 		Token:localStorage.ki
 	 	}
  	  	GetTasksAPI.getTasks(payload).then(leads => {
- 	  		var dates =  Object.keys(leads);
+ 	  		// var dates =  Object.keys(leads);
  	  		this.leads = leads;
  	  		console.log(leads);
 

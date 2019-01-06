@@ -146,7 +146,8 @@
 import FollowupsAPI from '../services/api/Leads.js';
 
 	export default {
-		name: "Leaddetail",
+		name: "Followups",
+		props: ['items'],
 		data() {
 			return {
 			"LeadName": "",
@@ -170,14 +171,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 		},
 
 		methods: {
-			goTodetail() {
-   			this.$router.push({
-   				'name': 'addfollowup',
-   				'params':{
-   					'items': this.prop
-   				}
-   				});
-  			},
+			
 			changeMode(index, mode) {
 				console.log('>>>>>>>>>>>>>>>>>>', index)
 				if(mode == 'callaction') {

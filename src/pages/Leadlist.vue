@@ -24,7 +24,9 @@
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
-
+							<v-ons-col>
+								<v-ons-icon icon="md-plus" @click="goToDetail(key)"></v-ons-icon>
+							</v-ons-col>
 						</v-ons-row>
 					</div>
 				</v-ons-card>
@@ -44,7 +46,16 @@ export default {
 		}				
 	 },
 	 methods:{
-	 },
+	 	goToDetail(key) {
+   			this.$router.push({
+   				'name': 'leaddetail',
+   				'params':{
+   					'items': this.leads[key]
+   				}
+   				});
+	    }
+
+	  },  
 	 mounted:function() {	
 	 	var payload = {
 	 		Token:localStorage.ki
@@ -52,47 +63,24 @@ export default {
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
    		
  	  		this.leads = leads.Body;
- 	  		console.log(this.leads);
-
+  	  		console.log(leads.Body);
 
  	  	})
  	  }
- 	 }	
-			
+ 	 }				
 	
 </script> 
 <style scoped>
-	
+
 .toolbar {
 	background: transparent;
 }
-.fab {
-	background: #14BA88 !important;
-}
-.fab .ons-icon{
-	color: #fff;
-}
+
 .list {
 	border-radius: 10px;
 	width: 90%;
     margin: 20px;
 }
-#ld-comp-name {
-	font-size: 16px;
-	font-weight: 500;
-	color:#333;
-}
-#ld-status {
-	color: #08976C;
-	font-size: 13px;
-	height: 30px;
-}
-#ld-name {
-	font-size: 15px;
-	color: #444;
-}
-.ons-icon.fa {
-	font-size: 1.4em;
-	color: #333;
-}
+
+
 </style>

@@ -10,7 +10,7 @@
 	
 		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
-				<v-ons-card>
+				<v-ons-card @click="goToFollowup(key)">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
@@ -64,6 +64,15 @@ export default {
 		Addlead
 	},
 	methods:{
+
+		goToFollowup(){
+			this.$router.push({
+				'name': 'followups',
+				'params':{
+   					'items': this.leads[key].ProjectID
+   				} 
+   			});
+		},
 		
   		goTodetail() {
    			this.$router.push('/addlead')
