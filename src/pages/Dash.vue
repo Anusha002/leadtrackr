@@ -1,6 +1,17 @@
 <template >	
 	<v-ons-page id="dash">	
-
+		<v-ons-toolbar>
+    		<div class="left">
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="right">
+    			<v-ons-toolbar-button @click="toggleView()">
+	        		<v-ons-icon class="icon-list header-icon" id="leadicon"></v-ons-icon>
+	        	</v-ons-toolbar-button>	
+	        </div>	
+ 		</v-ons-toolbar>
 			<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
 				<span slot='header-title' slot-scope='{ month, yearLabel }'>
 					<span class="calendar-year">{{ yearLabel }}</span> <br/>
@@ -63,7 +74,25 @@ export default {
 	components: {
 		Addlead
 	},
+
 	methods:{
+		toggleMenu()  {
+
+			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+		},
+		toggleView() {
+			
+			if (document.getElementById('leadicon').classList.contains("icon-list")){
+				this.$parent.$parent.$parent.currentPage = 'Tasklist'
+				document.getElementById('leadicon').classList.remove("icon-list"); 
+				document.getElementById('leadicon').classList.add("icon-calender"); 
+			} else{
+				this.$parent.$parent.$parent.currentPage = 'Dash'
+				document.getElementById('leadicon').classList.remove("icon-calender"); 
+				document.getElementById('leadicon').classList.add("icon-list"); 
+			}
+			
+		},
 		
   		goTodetail() {
    			this.$router.push('/addlead')
@@ -149,6 +178,7 @@ export default {
 <style>
 .page__content {
 	padding: 0 6px;
+	margin-top: 20px !important;
 }
 .calendar-year {
 	font-size: 20px;
@@ -222,5 +252,9 @@ export default {
 	text-align: center;
 	margin-top: 60px
 }
-
+.toolbar {
+		background: transparent;
+		height: 60px;
+		padding: 10px;
+	}
 </style>

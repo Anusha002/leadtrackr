@@ -1,6 +1,16 @@
 <template>
 	<v-ons-page id="leadlistpage">	
-		<h1>Lead List</h1>	
+		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
+		<v-ons-toolbar>
+    		<div class="left">
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="center">
+    			Leads List
+	        </div>	
+ 		</v-ons-toolbar>
 		<div>
 			<v-ons-card v-for="(value, key) in leads" v-bind:key="key">
 					<div class="content">
@@ -40,17 +50,31 @@ export default {
 	name: 'leadlist',
 	data() {
 		return {
-			leads: []
+			leads: [],
+			progress: 0
 		}				
 	 },
 	 methods:{
 	 },
+	 methods: {
+		 toggleMenu()  {
+			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+		}
+	 },
 	 mounted:function() {	
 	 	var payload = {
 	 		Token:localStorage.ki
-	 	}
+		 }
+		 this.intervalID = setInterval(() => {
+			if (this.progress === 100) {
+			clearInterval(this.intervalID);
+			return;
+			}
+			this.progress++;
+		}, 40);
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
-   		
+			this.progress = 0;
+			clearInterval(this.intervalID);   
  	  		this.leads = leads.Body;
  	  		console.log(this.leads);
 
