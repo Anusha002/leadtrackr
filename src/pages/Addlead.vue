@@ -5,7 +5,7 @@
     <div class="header">
       
     		<div class="left">
-	      		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;"></v-ons-icon>
+	      		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>
           </div>
           <div class="center">Add Lead</div>
     </div>
@@ -91,12 +91,9 @@
             </v-ons-select>
           </v-ons-list-item>  	
 
-    		<v-ons-list-item>
-	    		<v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button>
-	    		<v-ons-button  style="margin: 6px 4px" @click="addLead()">Save</v-ons-button>
-	    	</v-ons-list-item>
     
   		</v-ons-list>
+      <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addLead()">Save</v-ons-button></v-ons-bottom-toolbar>
 	</v-ons-page>   
   </div>
 </template>
@@ -183,6 +180,7 @@ export default{
 </script>
 
 <style>
+
 .page {
   background-color: transparent;
 }
