@@ -31,7 +31,8 @@ export default {
 			})
 	},
 	getFollowups(payload){
-			return axios({ method: "GET", "url": Urls.url.followups+"?projectId=2000002"+"&Token="+Token, "data": payload, "headers": { "content-type": "application/json" } })
+			return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&Token="+payload.Token, "headers": { "content-type": "application/json" } })
+			// return axios({ method: "GET", "url": Urls.url.followups+"?projectId=2000002&Token=409bd21a-c89f-4cba-8ac9-c6ebd706b7f6", "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {
 					return response.data
 				})

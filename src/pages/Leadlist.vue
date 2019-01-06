@@ -2,7 +2,7 @@
 	<v-ons-page id="leadlistpage">	
 		<h1>Lead List</h1>	
 		<div>
-			<v-ons-card v-for="(value, key) in leads">
+			<v-ons-card v-for="(value, key) in leads" v-bind:key="key">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>

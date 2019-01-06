@@ -10,7 +10,7 @@
 	
 		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
-				<v-ons-card @click="goToFollowup(key)">
+				<v-ons-card @click="goToFollowup(value.ProjectID)">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
@@ -55,23 +55,21 @@
 
 import Addlead from '../pages/Addlead.vue'
 import GetTasksAPI from '../services/api/Leads.js';
+import Followups from '../pages/Followups.vue'
 import LoginApi from '../services/api/User.js';
 
 
 export default {
 	name: "Dash",
 	components: {
-		Addlead
+		Addlead,
+		Followups
 	},
 	methods:{
 
-		goToFollowup(){
-			this.$router.push({
-				'name': 'followups',
-				'params':{
-   					'items': this.leads[key].ProjectID
-   				} 
-   			});
+		goToFollowup(projectid){
+			localStorage.setItem("pid", projectid);
+			this.$router.push('/followups');
 		},
 		
   		goTodetail() {
@@ -103,6 +101,8 @@ export default {
 	 	}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
+ 	  		console.log(leads);
+			localStorage.setItem('lds', JSON.stringify(leads));
 			var dates =  Object.keys(leads);
 			var newLeads = {};
 			var dots = []
@@ -197,11 +197,7 @@ export default {
 	width: 320px !important;
 }
 
-.toolbar {
-	background: transparent;
-	height: 60px;
-    padding: 10px;
-}
+
 .fab {
 	background: #14BA88 !important;
 }

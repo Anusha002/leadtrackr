@@ -51,7 +51,8 @@ export default new Router({
   {
     path: '/followups',
     name: 'followups',
-    component: Followups
+    component: Followups,
+    props: true
 
   },
   {

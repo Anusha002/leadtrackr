@@ -78,13 +78,10 @@ export default {
 	 		fromDate: '01-01-2018',
 	 		toDate: '12-12-2018',
 	 		Token:localStorage.ki
-	 	}
- 	  	GetTasksAPI.getTasks(payload).then(leads => {
- 	  		// var dates =  Object.keys(leads);
- 	  		this.leads = leads;
- 	  		console.log(leads);
 
- 	  	})
+		 }
+		 this.leads = JSON.parse(localStorage.getItem('lds'));
+
  	  }
  	 }	
 			

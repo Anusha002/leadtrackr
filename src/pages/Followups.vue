@@ -7,8 +7,22 @@
 		<h1 class="heading">{{LeadName}}</h1>
  		<v-ons-card>
  			<div class="content">	
-				<span><b>{{OwnerName}}</b></span>
-				<p class="status" >{{Status}}</p>
+				<v-ons-row>
+					<v-ons-col class="contact">{{ContactPerson}}</v-ons-col>
+					<v-ons-col width="50px">
+								<a :href="'tel:' + Mobile">
+									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+								</a>
+							</v-ons-col>
+							<v-ons-col>
+								<a :href="'mailto:' + Email">
+									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+								</a>
+							</v-ons-col>
+			 	</v-ons-row>
+			 	<v-ons-row>
+				  <v-ons-col class="stage">{{Stage}}</v-ons-col>
+			    </v-ons-row>
 	 		</div> 						
  		</v-ons-card>
 
@@ -17,9 +31,19 @@
  		<v-ons-list-item v-for="(value, key) in followups">
  		<v-ons-card :id="'card' + key">
  			<div class="followupdetails" >	
-				<span><b>{{value.ScheduleTo}}<br>{{value.Stage}}</b></span>	
-				<span><br>{{value.FollowupDate}}</b></span>	
-				<span><br>{{value.Description}}</b></span>		
+				<v-ons-row>
+					<v-ons-col>{{value.ScheduleTo}}</v-ons-col>
+					
+				</v-ons-row>
+				<v-ons-row>
+					<v-ons-col>{{value.Stage}}</v-ons-col>	
+				</v-ons-row>
+				<v-ons-row>
+					<v-ons-col>{{value.FollowupDate}}</v-ons-col>
+				</v-ons-row>
+				<v-ons-row>	
+					<v-ons-col>{{value.Description}}</v-ons-col>>	
+				</v-ons-row>	
 	 		</div> 
 	 		<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 	 			<v-ons-list-item>
@@ -133,10 +157,12 @@
  	</v-ons-list-item>
  </v-ons-list>
  		
-
- 	<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
-     		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
-    	</v-ons-fab>
+ <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
+			No followups! 
+ </div>
+       <v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
+     	   <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
+       </v-ons-fab>
 	</v-ons-page>
 </template>
 
@@ -147,13 +173,14 @@ import FollowupsAPI from '../services/api/Leads.js';
 
 	export default {
 		name: "Followups",
-		props: ['items'],
 		data() {
 			return {
 			"LeadName": "",
-        	 "Status": "",
-        	 "OwnerName": "",
-
+        	 "Stage": "",
+        	 "ContactPerson": "",
+        	 "Mobile":"",
+        	 "Email":"",
+        	 isLoading: true,
         	 prop:{},
         	 followups: [],
         	 input: {
@@ -196,15 +223,21 @@ import FollowupsAPI from '../services/api/Leads.js';
 
  		var payload = {
 	 	
-	 		Token:localStorage.ki
+	 		Token:localStorage.ki,
+	 		projectId: localStorage.pid
+
 	 	}
 	 	
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
+ 	  		this.isLoading = false;
  	  		this.LeadName = projects.Body.LeadName;
- 	  		this.OwnerName = projects.Body.OwnerName;
- 	  		this.Status = projects.Body.Status;
+ 	  		this.ContactPerson = projects.Body.ContactPerson;
+ 	  		this.Stage = projects.Body.Stage;
+ 	  		this.Mobile = projects.Body.Mobile;
+ 	  		this.Email = projects.Body.Email;
  	  		this.followups = projects.Body.Followups;
  	  		this.prop = projects.Body;
+ 	  		console.log(projects);
 
  	  	})
 	  }
@@ -216,6 +249,11 @@ import FollowupsAPI from '../services/api/Leads.js';
 
 .page__content h1 {
     font-size: 22px;
+}
+
+.contact{
+	font-size: 18px;
+	font-weight: bold;
 }
 .status{
 	color: green;

@@ -79,6 +79,19 @@
 	}
 </script>
 <style >
+.bottom-bar{
+  background: transparent;
+}
+.button--large {
+  margin: 0 !important;
+}
+.green-button {
+  background: #14BA88;
+  font-weight: bold;
+}
+.full-width {
+	border-radius: 0;
+}
 	.frame {
 		padding-top: 40px;
 	}
@@ -93,5 +106,10 @@
 	}
 	.header-icon {
 		font-size: 1.2em !important;
+	}
+	.toolbar {
+		background: transparent;
+		height: 60px;
+		padding: 10px;
 	}
 </style>
