@@ -1,159 +1,164 @@
 
 <template>
 	<v-ons-page id="leaddetailpage">
+		<v-ons-toolbar>
+    		<div class="left">
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="center">{{LeadName}}</div>	
+ 		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
-		<h1 class="heading">{{LeadName}}</h1>
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col class="contact">{{ContactPerson}}</v-ons-col>
+					<v-ons-col width="68%" class="contact">{{ContactPerson}}</v-ons-col>
 					<v-ons-col width="50px">
-								<a :href="'tel:' + Mobile">
-									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
-								</a>
-							</v-ons-col>
-							<v-ons-col>
-								<a :href="'mailto:' + Email">
-									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
-								</a>
-							</v-ons-col>
+						<a :href="'tel:' + Mobile">
+							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
+						</a>
+					</v-ons-col>
+					<v-ons-col width="50px">
+						<a :href="'mailto:' + Email">
+							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
+						</a>
+					</v-ons-col>
 			 	</v-ons-row>
 			 	<v-ons-row>
-				  <v-ons-col class="stage">{{Stage}}</v-ons-col>
+				  <v-ons-col class="stage" id="ld-status">{{Stage}}</v-ons-col>
 			    </v-ons-row>
 	 		</div> 						
  		</v-ons-card>
 
- 		<h1 class="heading">Follow UPS</h1>
- 		<v-ons-list>
- 		<v-ons-list-item v-for="(value, key) in followups">
- 		<v-ons-card :id="'card' + key">
- 			<div class="followupdetails" >	
-				<v-ons-row>
-					<v-ons-col>{{value.ScheduleTo}}</v-ons-col>
+ 		<h4 class="heading">Follow UPS</h4>
+ 		<v-ons-card >
+			<v-ons-list modifier="noborder">
+				<v-ons-list-item modifier="nodivider" v-for="(value, key) in followups" v-bind:key="key">
+				
+					<div class="followupdetails" style="width: 100%">	
+						<v-ons-row>
+							<v-ons-col width="70%" class="task-text">{{value.Task}}</v-ons-col>
+							<v-ons-col class="status-text">{{value.Status}}</v-ons-col>	
+						</v-ons-row>
+						<v-ons-row>
+							<v-ons-col class="desc-text">{{value.Description}}</v-ons-col>
+						</v-ons-row>
+						<v-ons-row>
+							<v-ons-col class="date-text">{{value.FollowupDate}}</v-ons-col>
+						</v-ons-row>
+					</div> 
+					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
+						
+						<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'updatefollowup')">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'reassign')">Reassign</v-ons-button>
 
-				</v-ons-row>
-				<v-ons-row>
-					<v-ons-col>{{value.Stage}}</v-ons-col>	
-				</v-ons-row>
-				<v-ons-row>
-					<v-ons-col>{{value.FollowupDate}}</v-ons-col>
-				</v-ons-row>
-				<v-ons-row>	
-					<v-ons-col>{{value.Description}}</v-ons-col>>	
-				</v-ons-row>	
-	 		</div> 
-	 		<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
-	 			<v-ons-list-item>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px"@click="changeMode(key, 'updatefollowup')">Update</v-ons-button>
-	    		<v-ons-button class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'reassign')">Reassign</v-ons-button>
-	    	</v-ons-list-item>
-	 		</div>	
+					</div>	
 
-	 		<div id="completedtask" class="subtask" :class=" (current_status=='completedtask') ? 'active' : ''">
-	 			<v-ons-row class="rowdata">
-	 				<v-ons-col>
-	 					<b>Mark Completed</b>
-	 				</v-ons-col>
-	 			</v-ons-row>		
-	 			<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" placeholder="Completion Remarks" v-model="input.remarks" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" placeholder="Distance Travelled" v-model="input.traveldistance" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
-	    			
-	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    	
-	 		</div>
+					<div id="completedtask" class="subtask" :class=" (current_status=='completedtask') ? 'active' : ''">
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<b>Mark Completed</b>
+							</v-ons-col>
+						</v-ons-row>		
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" placeholder="Completion Remarks" v-model="input.remarks" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" placeholder="Distance Travelled" v-model="input.traveldistance" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+							
+								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+							</v-ons-col>
+						</v-ons-row>
+					
+					</div>
 
-	 		<div id="updatefollowup" class="subtask" :class=" (current_status=='updatefollowup') ? 'active' : ''">
-	 			<v-ons-row class="rowdata">
-	 				<v-ons-col>
-	 					<b>Update Follow up</b>
-	 				</v-ons-col>
-	 			</v-ons-row>		
-	 			<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="updatetime" name="updatetime" placeholder="Time Taken" v-model="input.updatetime" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="updatedistance" name="updatedistance" placeholder="Distance Travelled" v-model="input.updatedistance" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="text" modifier="underbar" class="updateremarks" name="updateremarks" placeholder="Remarks" v-model="input.updateremarks" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
-	    			
-	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    	
-	 		</div>
+					<div id="updatefollowup" class="subtask" :class=" (current_status=='updatefollowup') ? 'active' : ''">
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<b>Update Follow up</b>
+							</v-ons-col>
+						</v-ons-row>		
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="updatetime" name="updatetime" placeholder="Time Taken" v-model="input.updatetime" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="updatedistance" name="updatedistance" placeholder="Distance Travelled" v-model="input.updatedistance" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="text" modifier="underbar" class="updateremarks" name="updateremarks" placeholder="Remarks" v-model="input.updateremarks" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+							
+								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+							</v-ons-col>
+						</v-ons-row>
+					
+					</div>
 
-	 		<div id="reassign" class="subtask" :class=" (current_status=='reassign') ? 'active' : ''" >
-	 			<v-ons-row class="rowdata">
-	 				<v-ons-col>
-	 					<b>Reassign</b>
-	 				</v-ons-col>
-	 			</v-ons-row>		
-	 			<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="input.user" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="reassigntime" name="reassigntime" placeholder="Time Taken" v-model="input.reassigntime" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		
-	    			<v-ons-col> 
-	    				<v-ons-input type="number" modifier="underbar" class="reassigndistance" name="reassigndistance" placeholder="Distance Travelled" v-model="input.reassigndistance" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col> 
-	    				<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" v-validate="required" ></v-ons-input>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    		<v-ons-row class="rowdata">
-	    			<v-ons-col>
-	    				<v-ons-button  style="margin: 6px 4px" @click="changeMode(key, 'callaction')">Cancel</v-ons-button>
-	    			
-	    				<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
-	    			</v-ons-col>
-	    		</v-ons-row>
-	    	
-	 		</div>
+					<div id="reassign" class="subtask" :class=" (current_status=='reassign') ? 'active' : ''" >
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<b>Reassign</b>
+							</v-ons-col>
+						</v-ons-row>		
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="input.user" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="reassigntime" name="reassigntime" placeholder="Time Taken" v-model="input.reassigntime" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="reassigndistance" name="reassigndistance" placeholder="Distance Travelled" v-model="input.reassigndistance" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col> 
+								<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" v-validate="required" ></v-ons-input>
+							</v-ons-col>
+						</v-ons-row>
+						<v-ons-row class="rowdata">
+							<v-ons-col>
+								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key, 'callaction')">Cancel</v-ons-button>
+							
+								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+							</v-ons-col>
+						</v-ons-row>
+					
+					</div>
 
- 		</v-ons-card>
- 	</v-ons-list-item>
- </v-ons-list>
+			</v-ons-list-item>
+	</v-ons-list>
+ </v-ons-card>
  		
  <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
 			No followups! 
@@ -200,7 +205,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 		methods: {
 			
 			changeMode(index, mode) {
-				console.log('>>>>>>>>>>>>>>>>>>', index)
+				
 				if(mode == 'callaction') {
 					document.getElementById('card'+index).classList.remove("active");
 				} else {
@@ -254,11 +259,29 @@ import FollowupsAPI from '../services/api/Leads.js';
 </script> 
 
 <style>
-
+.list {
+	margin: 0 !important;
+}
 .page__content h1 {
     font-size: 22px;
 }
-
+.task-text {
+	font-size: 18px;
+	font-weight: 600;
+}
+.desc-text {
+	font-size: 14px;
+	font-weight: 600;
+	color: #666;
+}
+.date-text {
+	font-size: 12px;
+	color: #999;
+}
+.status-text {
+	text-align: right;
+	color: #FF6D15;
+}
 .contact{
 	font-size: 18px;
 	font-weight: bold;
@@ -273,17 +296,30 @@ import FollowupsAPI from '../services/api/Leads.js';
 .card.active .active {
 	display: block;
 }
+ #callaction {
+	 margin-bottom: 20px;
+ }
 .card.active #callaction{
 	display: none;
 }
 
 .btnclass{
 	font-size: 14px;
-	color: "black";
-	background-color: grey;
-
+	border-color: #999;
+	color: #999;
 }
-
+.gbtnclass{
+	font-size: 14px;
+	border-color: #14BA88;
+	color: #14BA88;
+}
+.heading {
+	color: #fff;
+	font-size: 1em;
+	font-weight: bold;
+	margin-left: 20px !important;
+	margin-top: 40px !important;
+}
 .rowdata{
 	padding-top:15px;
 	font-size:16px;
