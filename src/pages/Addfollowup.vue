@@ -1,6 +1,16 @@
 <template>
 	<v-ons-page id="addfollowuppage">
-		<h1>Add Followup</h1>
+     <v-ons-toolbar>
+        <div class="left">
+            <v-ons-toolbar-button @click="toggleMenu()">
+              <v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>  
+            </v-ons-toolbar-button>
+        </div>
+        <div class="center">
+          Add Followup
+          </div>  
+    </v-ons-toolbar>
+		
   		<v-ons-list class="followup">
     		<v-ons-list-item>
      			 <div class="followupdetails">
@@ -66,10 +76,11 @@
             </v-ons-select>
           </v-ons-list-item>  
           <v-ons-list-item>
-          <v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button>
-          <v-ons-button  style="margin: 6px 4px" @click="addFollowup(items.ProjectID)">Save</v-ons-button>
+          <!-- <v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button> -->
+          <v-ons-button  style="margin: 20px" class="green-button" @click="addFollowup(items.ProjectID)">Save</v-ons-button>
         </v-ons-list-item>           
        </v-ons-list>
+
   </v-ons-page>   
 </template>
 
@@ -130,14 +141,14 @@ export default{
       }
     },
    mounted:function() {
+    var user =  JSON.parse(localStorage.usr);
+    this.followup.UserID = Utils.getUserid(); 
 
     var payload = {
-          Token:localStorage.ki
+          Token:localStorage.ki,
+          Department:user.Department
 
          }
-
-     var user =  JSON.parse(localStorage.usr);
-     this.followup.UserID = Utils.getUserid(); 
 
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);

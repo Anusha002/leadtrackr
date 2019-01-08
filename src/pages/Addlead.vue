@@ -117,11 +117,12 @@ export default{
 	 },
 
   mounted:function() {
+    var user = JSON.parse(localStorage.usr)
     var payload = {
-          Token:localStorage.ki
-
+          Token:localStorage.ki,
+          Department:user.Department
          }
-      console.log(this.lead)  
+ 
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),

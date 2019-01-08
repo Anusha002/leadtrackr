@@ -104,14 +104,17 @@ export default {
    			this.$router.push('/addlead')
   		},
   	 	getCards(date){
-  	 		var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
-			this.items = this.leads[dtStr];	
+  	 		var ndate  =  new Date(date.getFullYear(),date.getMonth(),date.getDate());
+
+  	 		// console.log(date);
+  	 		// var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
+			this.items = this.leads[Math.round(ndate.getTime())];	
 			this.items = (typeof this.items == 'undefined')? [] : this.items;
 			
  	 		
  	 	},
  	 	dayClicked(day) {
-      		
+      		console.log(day);
 			this.items = this.leads[day.dateTime];
 			this.items = (typeof this.items == 'undefined')? [] : this.items;
       	 	this.attributes[0].dates = new Date(day.dateTime);

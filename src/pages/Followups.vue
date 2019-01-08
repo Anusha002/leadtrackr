@@ -203,7 +203,9 @@ import FollowupsAPI from '../services/api/Leads.js';
 		},
 
 		methods: {
-			
+			goToHome() {
+        		this.$router.push('/container')
+      		},
 			changeMode(index, mode) {
 				
 				if(mode == 'callaction') {
