@@ -56,7 +56,7 @@
 
 					</div>	
 
-					<div id="completedtask" class="subtask" :class=" (current_status=='completedtask') ? 'active' : ''">
+					<div :id="'completedtask' + key" class="subtask">
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Mark Completed</b>
@@ -86,7 +86,7 @@
 					
 					</div>
 
-					<div id="updatefollowup" class="subtask" :class=" (current_status=='updatefollowup') ? 'active' : ''">
+					<div :id="'updatefollowup' + key" class="subtask" >
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Update Follow up</b>
@@ -121,7 +121,7 @@
 					
 					</div>
 
-					<div id="reassign" class="subtask" :class=" (current_status=='reassign') ? 'active' : ''" >
+					<div  :id="'reassign' + key" class="subtask" >
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Reassign</b>
@@ -207,11 +207,13 @@ import FollowupsAPI from '../services/api/Leads.js';
         		this.$router.push('/container')
       		},
 			changeMode(index, mode) {
-				
+				console.log(mode, index,document.getElementById(mode+index) )
 				if(mode == 'callaction') {
-					document.getElementById('card'+index).classList.remove("active");
+					document.getElementById('completedtask'+index).classList.remove("active");
+					document.getElementById('updatefollowup'+index).classList.remove("active");
+					document.getElementById('reassign'+index).classList.remove("active");
 				} else {
-					document.getElementById('card'+index).classList.add("active");
+					document.getElementById(mode+index).classList.add("active");
 				}
 				
 				this.current_status = mode;
@@ -295,7 +297,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 .subtask{
 	display: none;
 }
-.card.active .active {
+.active {
 	display: block;
 }
  #callaction {

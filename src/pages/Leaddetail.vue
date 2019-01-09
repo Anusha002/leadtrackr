@@ -1,6 +1,15 @@
 <template>
 	<v-ons-page id="leaddetailpage">	
-		<h1>Lead Details</h1>	
+		<v-ons-toolbar>
+    		<div class="left">
+	      		<v-ons-toolbar-button @click="toggleMenu()">
+	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
+	      		</v-ons-toolbar-button>
+    		</div>
+    		<div class="center">
+    		  Lead Details
+	        </div>	
+ 		</v-ons-toolbar>	
 		<div>
 			<v-ons-card>
 					<div class="content">
@@ -76,6 +85,9 @@ export default {
 		}				
 	 },
 	 methods:{
+	 	goToHome(){
+        this.$router.push('/leadlist');
+    }
 
 	 }
 }
