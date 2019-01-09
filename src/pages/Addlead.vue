@@ -15,64 +15,73 @@
 
   		<v-ons-list class="leaddata">
     		<v-ons-list-item modifier="nodivider">
-     			 	<v-ons-input placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName"></v-ons-input>
+     			 	<v-ons-input placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName" v-validate="'required'" name="leadname" type="text"></v-ons-input>
+            <p class="text-danger" >{{ errors.first('leadname')}}</p> 
         	</v-ons-list-item>
           <v-ons-list-item  modifier="nodivider"> 
-            <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" ></v-ons-input>
+            <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" name="contactperson" v-validate="'required'"></v-ons-input>
+            <p class="text-danger" >{{ errors.first('contactperson')}}</p> 
           </v-ons-list-item>
         	<v-ons-list-item>	
-        		<v-ons-select style="width: 100%" v-model="lead.Type">
+        		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in types" :value="value.TypeID" v-bind:key="key">
                   {{value.TypeName }} 
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('leadtype')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item>
-           <v-ons-select style="width: 100%" v-model="lead.Stage">
+           <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('stage')}}</p>
           </v-ons-list-item>
 
           <v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="lead.Status">
+             <v-ons-select style="width: 100%" v-model="lead.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('status')}}</p>
           </v-ons-list-item>  
         	
         	<v-ons-list-item modifier="nodivider">			
-        			<v-ons-input placeholder="Mobile" v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input"></v-ons-input>
+        			<v-ons-input placeholder="Mobile" v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input" v-validate="'required|digits:10'" name="mobile" ></v-ons-input>
+              <p class="text-danger" >{{ errors.first('mobile')}}</p>
     		</v-ons-list-item>
     		<v-ons-list-item modifier="nodivider">
         			<v-ons-input placeholder="Landline" v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>
         	<v-ons-list-item modifier="nodivider">	
-        			<v-ons-input placeholder="Email" v-model="lead.Email"  type="email" modifier="underbar" class="lead-input"></v-ons-input>
+        			<v-ons-input placeholder="Email" v-model="lead.Email"  type="email" modifier="underbar" class="lead-input" v-validate="'required|email'" name="email"></v-ons-input>
+              <p class="text-danger" >{{ errors.first('email')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item modifier="nodivider">
             <v-ons-input placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
           </v-ons-list-item> 
           <v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="lead.HandledBy">
+             <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('handledby')}}</p>
           </v-ons-list-item>  
         	<v-ons-list-item> 
-             <v-ons-select style="width: 100%" v-model="lead.OwnedBy">
+             <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">
                   {{ value.FullName }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('ownedby')}}</p>
           </v-ons-list-item>  	
 
     
@@ -149,14 +158,18 @@ export default{
     addLead(){
       this.submitted = true;
       console.log(this.lead);
-      AddleadApi.addLead(this.lead).then(projects => {
+      this.$validator.validate().then(valid => {
+      if (valid) {
+          AddleadApi.addLead(this.lead).then(projects => {
 
-        console.log("Lead added successfully");
-        this.$router.push('/container');
+            console.log("Lead added successfully");
+            this.$router.push('/container');
 
-    }, error => {
-        console.error(error);
-       }); 
+        }, error => {
+            console.error(error);
+           });
+        }
+       })     
     }
   }
 }
