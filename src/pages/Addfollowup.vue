@@ -12,75 +12,65 @@
     </v-ons-toolbar>
 		
   		<v-ons-list class="followup">
-    		<v-ons-list-item>
-     			 <div class="followupdetails">
-     			 	<v-ons-input placeholder="ProjectID" v-model="items.ProjectID"></v-ons-input>
-        		</div>
-        	</v-ons-list-item>
           <v-ons-list-item>
            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
-                  <option value="" selected ></option>
-                <option v-for="item in stages" :value="item">
+                <option value="" selected ></option>
+                <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
-             <p class="text-danger" v-if="errors.has('stage')">{{ errors.first('stage')}}</p> 
-          </v-ons-list-item>
-          <v-ons-list-item>
-           <div class="followupdetails">
-            <v-ons-input placeholder="UserID" v-model="followup.UserID"></v-ons-input>
-            </div>
+             <p class="text-danger">{{ errors.first('stage')}}</p> 
           </v-ons-list-item>
           <v-ons-list-item>
            <div class="followupdetails">
             <v-ons-input placeholder="Task" v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
-            <p class="text-danger" v-if="errors.has('task')">{{ errors.first('task')}}</p> 
+            <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
            <div class="followupdetails">
             
-            <v-date-picker mode='single'v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
-              <p class="text-danger" v-if="errors.has('followupdate')">{{ errors.first('followupdate')}}</p> 
+            <v-date-picker mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
              </v-date-picker>
+             <p class="text-danger">{{ errors.first('followupdate')}}</p> 
             </div>
 
           </v-ons-list-item>
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
                <option value="" selected data-default></option>
-                <option v-for="(value,key) in scheduleBy" :value="value.FullName">
+                <option v-for="(value,key) in scheduleBy" :value="value.FullName" v-bind:key="key">
                   {{ value.FullName }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('scheduleby')}}</p> 
           </v-ons-list-item>  
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
-                <option v-for="(value,key) in scheduleTo" :value="value.FullName">
+                <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
             </v-ons-select>
+            <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
           </v-ons-list-item>  
           <v-ons-list-item>
            <div class="leaddetails">
             <v-ons-input placeholder="Description" v-model="followup.Description"></v-ons-input>
+
             </div>
           </v-ons-list-item>
           <v-ons-list-item> 
              <v-ons-select style="width: 100%" v-model="followup.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
-                <option v-for="item in status" :value="item">
+                <option v-for="(item,key) in status" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
-          </v-ons-list-item>  
-          <v-ons-list-item>
-          <!-- <v-ons-button  style="margin: 6px 4px" @click="goToHome()">Cancel</v-ons-button> -->
-          <v-ons-button  style="margin: 20px" class="green-button" @click="addFollowup(items.ProjectID)">Save</v-ons-button>
-        </v-ons-list-item>           
+            <p class="text-danger" >{{ errors.first('status')}}</p>
+          </v-ons-list-item>             
        </v-ons-list>
-
+      <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup(items.ProjectID)">Save</v-ons-button></v-ons-bottom-toolbar>
   </v-ons-page>   
 </template>
 
@@ -125,7 +115,7 @@ export default{
       var data = this.followup;
       this.followup.CreatedDate = Utils.formatDate(new Date())
       this.followup.FollowupDate = Utils.formatDate(new Date(data.FollowupDate))
-      
+
       this.$validator.validate().then(valid => {
 
         if (valid) {
@@ -143,7 +133,7 @@ export default{
    mounted:function() {
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
-
+    this.followup.ProjectID = this.$route.params.items.ProjectID.toString();
     var payload = {
           Token:localStorage.ki,
           Department:user.Department
@@ -171,6 +161,10 @@ export default{
 }
 </script>
 <style>
+.followup {
+  border-radius: 6px;
+  margin: 0 15px;
+}
 .list {
   margin: 15px;
   background-color: none !important;
