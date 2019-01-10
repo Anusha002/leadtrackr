@@ -262,7 +262,7 @@ import FollowupsAPI from '../services/api/Leads.js';
 
 </script> 
 
-<style>
+<style scoped>
 .list {
 	margin: 0 !important;
 }
