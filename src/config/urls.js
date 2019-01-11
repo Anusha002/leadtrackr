@@ -17,7 +17,7 @@ export default {
         'users': baseUrl + 'api/Users',
         'getleads': baseUrl + 'api/Projects',
         'addlead': baseUrl + 'api/Projects',
-        'followups': baseUrl + 'api/Projects',
+        'followups': baseUrl + 'api/Schedule',
         'addfollowup': baseUrl + 'api/Schedule'
  
     }

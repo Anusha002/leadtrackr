@@ -21,7 +21,7 @@
 	
 		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
-				<v-ons-card @click="goToFollowup(value.ProjectID)">
+				<v-ons-card @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
@@ -79,12 +79,16 @@ export default {
 
 	methods:{
 
-		goToFollowup(projectid){
-			localStorage.setItem("pid", projectid);
-			this.$router.push('/followups');
+		goToFollowup(project){
+			localStorage.setItem("pid", project.ProjectID);
+			this.$router.push({
+				'name': 'followups',
+				'params':{
+   					'items': project
+   				}
+			});
 		},
 		toggleMenu()  {
-
 			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
 		},
 		toggleView() {
@@ -190,39 +194,39 @@ export default {
 	padding: 0 6px;
 	margin-top: 20px !important;
 }
-.calendar-year {
+#dash .calendar-year {
 	font-size: 20px;
 	color: #fff;
 }
-.calendar-month {
+#dash .calendar-month {
 	font-size: 30px;
 	font-weight: bold;
 	color: #fff;
 	display: block;
 	line-height: 26px;
 }
-.c-header{
+#dash .c-header{
 	margin-bottom: 5px;
 }
-.c-pane-container {
+#dash .c-pane-container {
 	width: 100%;
 	background-color: transparent !important;
 	border: none !important;
 }
-.c-weekday {
+#dash .c-weekday {
 	color: #fff;
 	opacity: .6;
 	text-transform: uppercase;
 }
-.c-day-content {
+#dash .c-day-content {
 	font-size: 1.6rem !important;
 	color: white;
 	padding: .9em;
 }
-.c-day-dots {
+#dash .c-day-dots {
 	margin-bottom: 6px !important;
 }
-.c-title br{
+#dash .c-title br{
 	display: none;
 }
 .task-card {

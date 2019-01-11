@@ -86,9 +86,9 @@ export default {
 	 },
 	 methods:{
 	 	goToHome(){
-        this.$router.push('/leadlist');
-    }
-
+        	this.$router.go(-1);
+        	
+   		}
 	 }
 }
 			

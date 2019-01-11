@@ -7,26 +7,26 @@
 	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
-    		<div class="center">{{LeadName}}</div>	
+    		<div class="center">{{items.ProjectName}}</div>	
  		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col width="68%" class="contact">{{ContactPerson}}</v-ons-col>
+					<v-ons-col width="68%" class="contact">{{items.ContactName}}</v-ons-col>
 					<v-ons-col width="50px">
-						<a :href="'tel:' + Mobile">
+						<a :href="'tel:' + items.ContactMobile">
 							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 						</a>
 					</v-ons-col>
 					<v-ons-col width="50px">
-						<a :href="'mailto:' + Email">
+						<a :href="'mailto:' + items.ContactEmail">
 							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 						</a>
 					</v-ons-col>
 			 	</v-ons-row>
 			 	<v-ons-row>
-				  <v-ons-col class="stage" id="ld-status">{{Stage}}</v-ons-col>
+				  <v-ons-col class="stage" id="ld-status">{{items.Stage}}</v-ons-col>
 			    </v-ons-row>
 	 		</div> 						
  		</v-ons-card>
@@ -34,7 +34,7 @@
  		<h4 class="heading">Follow UPS</h4>
  		<v-ons-card >
 			<v-ons-list modifier="noborder">
-				<v-ons-list-item modifier="nodivider" v-for="(value, key) in followups" v-bind:key="key">
+				<v-ons-list-item v-for="(value, key) in followups" v-bind:key="key">
 				
 					<div class="followupdetails" style="width: 100%">	
 						<v-ons-row>
@@ -45,7 +45,7 @@
 							<v-ons-col class="desc-text">{{value.Description}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
-							<v-ons-col class="date-text">{{value.FollowupDate}}</v-ons-col>
+							<v-ons-col class="date-text">{{readableDate(new Date(value.FollowupDate))}}</v-ons-col>
 						</v-ons-row>
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
@@ -78,9 +78,9 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
 							
-								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
 					
@@ -113,9 +113,9 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+								<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
 							
-								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
 					
@@ -173,9 +173,11 @@
 <script>
 
 import FollowupsAPI from '../services/api/Leads.js';
+import Utils from '../services/api/Utils.js';
 
 	export default {
 		name: "Followups",
+		props: ['items'],
 		data() {
 			return {
 
@@ -209,14 +211,18 @@ import FollowupsAPI from '../services/api/Leads.js';
 			changeMode(index, mode) {
 				console.log(mode, index,document.getElementById(mode+index) )
 				if(mode == 'callaction') {
-					document.getElementById('completedtask'+index).classList.remove("active");
-					document.getElementById('updatefollowup'+index).classList.remove("active");
-					document.getElementById('reassign'+index).classList.remove("active");
+					this.resetModes(index);
 				} else {
+					this.resetModes(index);
 					document.getElementById(mode+index).classList.add("active");
 				}
 				
 				this.current_status = mode;
+			},
+			resetModes(index) {
+				document.getElementById('completedtask'+index).classList.remove("active");
+				document.getElementById('updatefollowup'+index).classList.remove("active");
+				document.getElementById('reassign'+index).classList.remove("active");
 			},
 			goTodetail() {
    			this.$router.push({
@@ -225,6 +231,9 @@ import FollowupsAPI from '../services/api/Leads.js';
         			'items': this.prop
     				}
    				});
+  			},
+  			readableDate(date) {
+  				return Utils.readableDate(date);
   			}
 		},
 
@@ -252,9 +261,9 @@ import FollowupsAPI from '../services/api/Leads.js';
  	  		this.Stage = projects.Body.Stage;
  	  		this.Mobile = projects.Body.Mobile;
  	  		this.Email = projects.Body.Email;
- 	  		this.followups = projects.Body.Followups;
+ 	  		this.followups = projects.Body;
  	  		this.prop = projects.Body;
- 	  		console.log(projects);
+ 	  		console.log(this.followups);
 
  	  	})
 	  }

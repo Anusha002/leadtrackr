@@ -68,7 +68,8 @@
                 </option>
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('status')}}</p>
-          </v-ons-list-item>             
+          </v-ons-list-item>  
+          <br /><br /><br /><br />           
        </v-ons-list>
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup(items.ProjectID)">Save</v-ons-button></v-ons-bottom-toolbar>
   </v-ons-page>   
@@ -133,7 +134,7 @@ export default{
    mounted:function() {
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
-    this.followup.ProjectID = this.$route.params.items.ProjectID.toString();
+    this.followup.ProjectID = localStorage.pid;
     var payload = {
           Token:localStorage.ki,
           Department:user.Department
