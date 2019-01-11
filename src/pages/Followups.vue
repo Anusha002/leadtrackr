@@ -7,20 +7,20 @@
 	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
-    		<div class="center">{{items.ProjectName}}</div>	
+    		<div class="center">{{items.LeadName}}</div>	
  		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col width="68%" class="contact">{{items.ContactName}}</v-ons-col>
+					<v-ons-col width="68%" class="contact">{{items.ContactPerson}}</v-ons-col>
 					<v-ons-col width="50px">
-						<a :href="'tel:' + items.ContactMobile">
+						<a :href="'tel:' + items.Mobile">
 							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 						</a>
 					</v-ons-col>
 					<v-ons-col width="50px">
-						<a :href="'mailto:' + items.ContactEmail">
+						<a :href="'mailto:' + items.Email">
 							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 						</a>
 					</v-ons-col>
@@ -181,11 +181,10 @@ import Utils from '../services/api/Utils.js';
 		data() {
 			return {
 
-			"LeadName": "",
+			 "pjctid" : this.items.ProjectID,
+			 "ProjectName":"",
         	 "Stage": "",
-        	 "ContactPerson": "",
-        	 "Mobile":"",
-        	 "Email":"",
+        	 "ContactName": "",
         	 isLoading: true,
         	 prop:{},
         	 followups: [],
@@ -208,6 +207,8 @@ import Utils from '../services/api/Utils.js';
 			goToHome() {
         		this.$router.push('/container')
       		},
+
+
 			changeMode(index, mode) {
 				console.log(mode, index,document.getElementById(mode+index) )
 				if(mode == 'callaction') {
@@ -225,6 +226,7 @@ import Utils from '../services/api/Utils.js';
 				document.getElementById('reassign'+index).classList.remove("active");
 			},
 			goTodetail() {
+
    			this.$router.push({
    				'name': 'addfollowup',
     			'params': {
@@ -239,12 +241,15 @@ import Utils from '../services/api/Utils.js';
 
 		mounted:function() {
 
+
  		var payload = {
 	 	
 	 		Token:localStorage.ki,
-	 		projectId: localStorage.pid
+	 		projectId: (this.pjctid).toString()
 
 	 	}
+	 	console.log(this.pjctid);
+
 	 	this.intervalID = setInterval(() => {
 			if (this.progress === 100) {
 			clearInterval(this.intervalID);
@@ -256,14 +261,14 @@ import Utils from '../services/api/Utils.js';
  	  		this.progress = 0;
  	  		clearInterval(this.intervalID);  
  	  		this.isLoading = false;
- 	  		this.LeadName = projects.Body.LeadName;
- 	  		this.ContactPerson = projects.Body.ContactPerson;
- 	  		this.Stage = projects.Body.Stage;
- 	  		this.Mobile = projects.Body.Mobile;
- 	  		this.Email = projects.Body.Email;
+ 	  		// this.ProjectName = projects.Body.ProjectName;
+ 	  		// this.ContactName = projects.Body.ContactName;
+ 	  		// this.Stage = projects.Body.Stage;
+ 	  		// this.Mobile = projects.Body.Mobile;
+ 	  		// this.Email = projects.Body.Email;
  	  		this.followups = projects.Body;
  	  		this.prop = projects.Body;
- 	  		console.log(this.followups);
+ 	  		console.log(projects);
 
  	  	})
 	  }

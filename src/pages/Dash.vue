@@ -80,7 +80,7 @@ export default {
 	methods:{
 
 		goToFollowup(project){
-			localStorage.setItem("pid", project.ProjectID);
+			localStorage.setItem("project", JSON.stringify(project));
 			this.$router.push({
 				'name': 'followups',
 				'params':{
@@ -109,12 +109,8 @@ export default {
   		},
   	 	getCards(date){
   	 		var ndate  =  new Date(date.getFullYear(),date.getMonth(),date.getDate());
-
-  	 		// console.log(date);
-  	 		// var dtStr = date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString();
 			this.items = this.leads[Math.round(ndate.getTime())];	
-			this.items = (typeof this.items == 'undefined')? [] : this.items;
-			
+			this.items = (typeof this.items == 'undefined')? [] : this.items;	
  	 		
  	 	},
  	 	dayClicked(day) {
@@ -136,7 +132,6 @@ export default {
 	 	}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
- 	  		console.log(leads);
 			localStorage.setItem('lds', JSON.stringify(leads));
 			var dates =  Object.keys(leads);
 			var newLeads = {};

@@ -29,7 +29,7 @@
           </v-ons-list-item>
           <v-ons-list-item>
            <div class="followupdetails">
-            
+            <div>Followup Date</div>
             <v-date-picker mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
              </v-date-picker>
              <p class="text-danger">{{ errors.first('followupdate')}}</p> 
@@ -71,7 +71,7 @@
           </v-ons-list-item>  
           <br /><br /><br /><br />           
        </v-ons-list>
-      <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup(items.ProjectID)">Save</v-ons-button></v-ons-bottom-toolbar>
+      <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
   </v-ons-page>   
 </template>
 
@@ -107,11 +107,14 @@ export default{
    methods: {
 
       goToHome() {
-        this.$router.push('/followups')
+
+        this.$router.push('/container')
       },
 
-    addFollowup(pid){
-      this.followup.ProjectID = pid.toString();
+    addFollowup(){
+      
+      // this.followup.ProjectID = pid;
+      // console.log(this.followup.ProjectID);
       this.submitted = true;
       var data = this.followup;
       this.followup.CreatedDate = Utils.formatDate(new Date())
@@ -121,7 +124,7 @@ export default{
 
         if (valid) {
             AddfollowupApi.addFollowup(data).then(followups => {
-
+              console.log('followup added');
             this.$router.push('/followups');
 
             }, error => {

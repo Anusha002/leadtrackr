@@ -12,7 +12,7 @@
 	        </div>	
  		</v-ons-toolbar>
 		<div>
-			<v-ons-card v-for="(value, key) in leads" v-bind:key="key">
+			<v-ons-card v-for="(value, key) in leads" v-bind:key="key" @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
@@ -34,13 +34,16 @@
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
-							<v-ons-col>
+							<!-- <v-ons-col>
 								<v-ons-icon icon="md-plus" @click="goToDetail(key)"></v-ons-icon>
-							</v-ons-col>
+							</v-ons-col> -->
 						</v-ons-row>
 					</div>
 				</v-ons-card>
 		</div>
+		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goToaddlead()">
+     		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
+    	</v-ons-fab>
 	</v-ons-page>
 </template>
 
@@ -57,14 +60,19 @@ export default {
 		}				
 	 },
 	 methods:{
-	 	goToDetail(key) {
-   			this.$router.push({
-   				'name': 'leaddetail',
-   				'params':{
-   					'items': this.leads[key]
-   				}
-   				});
-	    },
+
+	 	goToaddlead() {
+   			this.$router.push('/addlead')
+  		},
+	 	goToFollowup(project){
+			localStorage.setItem("pid", project.ProjectID);
+			this.$router.push({
+				'name': 'followups',
+				'params':{
+						'items': project
+					}
+			});
+		},
 		toggleMenu()  {
 			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
 		}
