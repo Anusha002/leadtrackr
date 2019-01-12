@@ -50,13 +50,21 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'updatefollowup')">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="changeMode(key, 'reassign')">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="completeVisible = true">Mark Completed</v-ons-button>
+					<!-- 	<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button> -->
+						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="updateVisible = true">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="reassignVisible = true">Reassign</v-ons-button>
 
 					</div>	
 
-					<div :id="'completedtask' + key" class="subtask">
+			</v-ons-list-item>
+	</v-ons-list>
+ </v-ons-card>
+ 		
+ <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
+			No followups! 
+ </div>
+        <v-ons-dialog cancelable :visible.sync="completeVisible">	
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Mark Completed</b>
@@ -78,16 +86,15 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
 							
 								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
-					
-					</div>
+		</v-ons-dialog>
 
-					<div :id="'updatefollowup' + key" class="subtask" >
-						<v-ons-row class="rowdata">
+		<v-ons-dialog cancelable :visible.sync="updateVisible">
+			<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Update Follow up</b>
 							</v-ons-col>
@@ -113,16 +120,15 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="changeMode(key,'callaction')">Cancel</v-ons-button>
+								<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="updateVisible = false">Cancel</v-ons-button>
 							
 								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
 					
-					</div>
-
-					<div  :id="'reassign' + key" class="subtask" >
-						<v-ons-row class="rowdata">
+		</v-ons-dialog>
+		<v-ons-dialog cancelable :visible.sync="reassignVisible">
+			<v-ons-row class="rowdata">
 							<v-ons-col>
 								<b>Reassign</b>
 							</v-ons-col>
@@ -148,21 +154,14 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button  style="margin: 6px 4px" @click="changeMode(key, 'callaction')">Cancel</v-ons-button>
+								<v-ons-button  style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
 							
 								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
-					
-					</div>
 
-			</v-ons-list-item>
-	</v-ons-list>
- </v-ons-card>
- 		
- <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
-			No followups! 
- </div>
+		</v-ons-dialog>
+    
        <v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
      	   <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
        </v-ons-fab>
@@ -181,6 +180,9 @@ import Utils from '../services/api/Utils.js';
 		data() {
 			return {
 
+			completeVisible: false,
+			updateVisible: false,
+			reassignVisible: false,
 			 "pjctid" : this.items.ProjectID,
 			 "ProjectName":"",
         	 "Stage": "",
@@ -277,6 +279,7 @@ import Utils from '../services/api/Utils.js';
 </script> 
 
 <style scoped>
+
 .list {
 	margin: 0 !important;
 }
@@ -349,6 +352,8 @@ import Utils from '../services/api/Utils.js';
 .button{
 	padding:6px;
 }
+
+
 
 .ons-icon.fa {
 	font-size: 1.4em;
