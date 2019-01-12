@@ -55,4 +55,8 @@
 .dialog-container{
   padding: 20px;
 }
+
+.search-input{
+  border-radius: 8px;
+}
 </style>

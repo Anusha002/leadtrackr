@@ -30,7 +30,7 @@
           <v-ons-list-item modifier="nodivider">
            <div class="followupdetails">
             <div>Followup Date</div>
-            <v-date-picker mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
+            <v-date-picker :min-date='new Date()' mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
              </v-date-picker>
              <p class="text-danger">{{ errors.first('followupdate')}}</p> 
             </div>

@@ -10,7 +10,10 @@
     		<div class="center">
     			Leads List
 	        </div>	
+	       
  		</v-ons-toolbar>
+    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" v-model="query" v-on:keyup="searchLead()">		
+    		</v-ons-search-input>
 		<div>
 			<v-ons-card v-for="(value, key) in leads" v-bind:key="key" @click="goToFollowup(value)">
 					<div class="content">
@@ -34,9 +37,7 @@
 									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 								</a>
 							</v-ons-col>
-							<!-- <v-ons-col>
-								<v-ons-icon icon="md-plus" @click="goToDetail(key)"></v-ons-icon>
-							</v-ons-col> -->
+							
 						</v-ons-row>
 					</div>
 				</v-ons-card>
@@ -56,10 +57,26 @@ export default {
 	data() {
 		return {
 			leads: [],
-			progress: 0
+			progress: 0,
+			query:"",
+			searchlist:[]
 		}				
 	 },
 	 methods:{
+
+	 	searchLead(){
+	 			
+	 		this.leads = [];
+	 		for(var i=0;i<(this.completelist).length;i++)
+	 		{
+	 			if((this.completelist[i].LeadName.toLowerCase().indexOf(this.query.toLowerCase()) > -1) || 
+	 					(this.completelist[i].ProjectID.toString().indexOf(this.query.toString	()) > -1) 
+	 				)
+	 			{
+	 				this.leads.push(this.completelist[i])
+	 			}
+	 		}
+	 	},
 
 	 	goToaddlead() {
    			this.$router.push('/addlead')
@@ -87,7 +104,7 @@ export default {
 			this.progress = 0;
 			clearInterval(this.intervalID);   
  	  		this.leads = leads.Body;
-  	  		console.log(leads.Body);
+  	  		this.completelist = leads.Body;
 
  	  	})
  	  }
@@ -105,6 +122,12 @@ export default {
 	width: 90%;
     margin: 20px;
 }
+
+.searchlead{
+	width:94%;
+	margin-left:10px;
+}
+
 
 
 </style>
