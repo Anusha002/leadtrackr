@@ -31,5 +31,12 @@
   margin: 0 2px;
 }
 
+.dialog{
+  min-width: 400px;
+    min-height: 220px;
+}
 
+.dialog-container{
+  padding: 20px;
+}
 </style>
