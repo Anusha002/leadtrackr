@@ -13,13 +13,13 @@
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col width="68%" class="contact">{{items.ContactPerson}}</v-ons-col>
-					<v-ons-col width="50px">
+					<v-ons-col width="75%" class="contact">{{items.ContactPerson}}</v-ons-col>
+					<v-ons-col width="35px">
 						<a :href="'tel:' + items.Mobile">
 							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 						</a>
 					</v-ons-col>
-					<v-ons-col width="50px">
+					<v-ons-col width="30px">
 						<a :href="'mailto:' + items.Email">
 							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 						</a>
@@ -31,7 +31,7 @@
 	 		</div> 						
  		</v-ons-card>
 
- 		<h4 class="heading">Follow UPS</h4>
+ 		<h4 class="heading">Follow-ups</h4>
  		<v-ons-card >
 			<v-ons-list modifier="noborder">
 				<v-ons-list-item v-for="(value, key) in followups" v-bind:key="key">

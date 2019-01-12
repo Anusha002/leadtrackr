@@ -27,6 +27,10 @@
 }
 .outline-btn {
   border: 1px solid #999;
+  font-size: 11px !important;
+  padding: 0 10px;
+  height: 30px;
+  line-height: 24px; 
 }
 .list-item--material {
   border: none;
