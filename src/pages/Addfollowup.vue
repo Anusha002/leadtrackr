@@ -23,7 +23,7 @@
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider">
            <div class="followupdetails">
-            <v-ons-input placeholder="Task" v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
+            <v-ons-input float placeholder="Task" v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
@@ -56,7 +56,7 @@
           </v-ons-list-item>  
           <v-ons-list-item modifier="nodivider">
            <div class="leaddetails">
-            <v-ons-input placeholder="Description" v-model="followup.Description"></v-ons-input>
+            <v-ons-input float placeholder="Description" v-model="followup.Description"></v-ons-input>
 
             </div>
           </v-ons-list-item>
