@@ -153,7 +153,7 @@ export default{
 
   methods :{
     goToHome(){
-        this.$router.push('/container');
+        this.$router.back(-1);
     },
     addLead(){
       this.submitted = true;

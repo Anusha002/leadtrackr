@@ -65,13 +65,8 @@ export default {
    			this.$router.push('/addlead')
   		},
 	 	goToFollowup(project){
-			localStorage.setItem("pid", project.ProjectID);
-			this.$router.push({
-				'name': 'followups',
-				'params':{
-						'items': project
-					}
-			});
+			localStorage.setItem("project", JSON.stringify(project));
+			this.$router.push('/followups');
 		},
 		toggleMenu()  {
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);

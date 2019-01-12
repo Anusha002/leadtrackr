@@ -65,32 +65,34 @@
 			No followups! 
  </div>
         <v-ons-dialog cancelable :visible.sync="completeVisible">	
-						<v-ons-row class="rowdata">
-							<v-ons-col>
-								<b>Mark Completed</b>
-							</v-ons-col>
-						</v-ons-row>		
-						<v-ons-row class="rowdata">
-							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" placeholder="Completion Remarks" v-model="input.remarks" v-validate="required" ></v-ons-input>
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" v-validate="required" ></v-ons-input>
-							</v-ons-col>
-						
-							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" placeholder="Distance Travelled" v-model="input.traveldistance" v-validate="required" ></v-ons-input>
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<v-ons-col>
-								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
-							
-								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
-							</v-ons-col>
-						</v-ons-row>
+			<v-ons-row class="rowdata">
+				<v-ons-col>
+					<b>Mark Completed</b>
+				</v-ons-col>
+			</v-ons-row>		
+			<v-ons-row class="rowdata">
+				<v-ons-col> 
+					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" placeholder="Completion Remarks" v-model="input.remarks" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" ></v-ons-input>
+					
+				</v-ons-col>
+			
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" placeholder="Distance Travelled" v-model="input.traveldistance"></v-ons-input>
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<v-ons-col>
+					<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
+				
+					<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
+				</v-ons-col>
+			</v-ons-row>
 		</v-ons-dialog>
 
 		<v-ons-dialog cancelable :visible.sync="updateVisible">
@@ -102,20 +104,21 @@
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
 								<v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('updatestatus')}}</p> 
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="updatetime" name="updatetime" placeholder="Time Taken" v-model="input.updatetime" v-validate="required" ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="updatetime" name="updatetime" placeholder="Time Taken" v-model="input.updatetime" ></v-ons-input>
 							</v-ons-col>
 						
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="updatedistance" name="updatedistance" placeholder="Distance Travelled" v-model="input.updatedistance" v-validate="required" ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="updatedistance" name="updatedistance" placeholder="Distance Travelled" v-model="input.updatedistance"></v-ons-input>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="updateremarks" name="updateremarks" placeholder="Remarks" v-model="input.updateremarks" v-validate="required" ></v-ons-input>
+								<v-ons-input type="text" modifier="underbar" class="updateremarks" name="updateremarks" placeholder="Remarks" v-model="input.updateremarks"  ></v-ons-input>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
@@ -136,20 +139,21 @@
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
 								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="input.user" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('user')}}</p> 
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="reassigntime" name="reassigntime" placeholder="Time Taken" v-model="input.reassigntime" v-validate="required" ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="reassigntime" name="reassigntime" placeholder="Time Taken" v-model="input.reassigntime"  ></v-ons-input>
 							</v-ons-col>
 						
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="reassigndistance" name="reassigndistance" placeholder="Distance Travelled" v-model="input.reassigndistance" v-validate="required" ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="reassigndistance" name="reassigndistance" placeholder="Distance Travelled" v-model="input.reassigndistance" ></v-ons-input>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" v-validate="required" ></v-ons-input>
+								<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" ></v-ons-input>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
@@ -176,14 +180,22 @@ import Utils from '../services/api/Utils.js';
 
 	export default {
 		name: "Followups",
-		props: ['items'],
 		data() {
+			var prj = JSON.parse(localStorage.project);
 			return {
 
 			completeVisible: false,
 			updateVisible: false,
 			reassignVisible: false,
-			 "pjctid" : this.items.ProjectID,
+			items: {
+				LeadName: prj.LeadName,
+				Mobile: prj.Mobile,
+				Email: prj.Email,
+				ContactPerson: prj.ContactPerson,
+				Stage: prj.Stage
+
+			},
+			 "pjctid" : prj.ProjectID,
 			 "ProjectName":"",
         	 "Stage": "",
         	 "ContactName": "",

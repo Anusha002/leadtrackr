@@ -108,7 +108,7 @@ export default{
 
       goToHome() {
 
-        this.$router.push('/container')
+        this.$router.back(-1);
       },
 
     addFollowup(){
