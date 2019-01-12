@@ -50,10 +50,10 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="completeVisible = true">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true">Mark Completed</v-ons-button>
 					<!-- 	<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button> -->
-						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="updateVisible = true">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass" style="margin: 4px 4px" @click="reassignVisible = true">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="updateVisible = true">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="reassignVisible = true">Reassign</v-ons-button>
 
 					</div>	
 

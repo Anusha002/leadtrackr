@@ -12,7 +12,7 @@
     </v-ons-toolbar>
 		
   		<v-ons-list class="followup">
-          <v-ons-list-item>
+          <v-ons-list-item  modifier="nodivider">
            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
                 <option value="" selected ></option>
                 <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
@@ -21,13 +21,13 @@
             </v-ons-select>
              <p class="text-danger">{{ errors.first('stage')}}</p> 
           </v-ons-list-item>
-          <v-ons-list-item>
+          <v-ons-list-item modifier="nodivider">
            <div class="followupdetails">
             <v-ons-input placeholder="Task" v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
-          <v-ons-list-item>
+          <v-ons-list-item modifier="nodivider">
            <div class="followupdetails">
             <div>Followup Date</div>
             <v-date-picker mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
@@ -36,7 +36,7 @@
             </div>
 
           </v-ons-list-item>
-          <v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleBy" :value="value.FullName" v-bind:key="key">
@@ -45,7 +45,7 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('scheduleby')}}</p> 
           </v-ons-list-item>  
-          <v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
@@ -54,13 +54,13 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
           </v-ons-list-item>  
-          <v-ons-list-item>
+          <v-ons-list-item modifier="nodivider">
            <div class="leaddetails">
             <v-ons-input placeholder="Description" v-model="followup.Description"></v-ons-input>
 
             </div>
           </v-ons-list-item>
-          <v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="followup.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">

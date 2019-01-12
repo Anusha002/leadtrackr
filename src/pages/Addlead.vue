@@ -22,7 +22,7 @@
             <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" name="contactperson" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('contactperson')}}</p> 
           </v-ons-list-item>
-        	<v-ons-list-item>	
+        	<v-ons-list-item modifier="nodivider">	
         		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in types" :value="value.TypeID" v-bind:key="key">
@@ -31,7 +31,7 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('leadtype')}}</p>
         	</v-ons-list-item>	
-          <v-ons-list-item>
+          <v-ons-list-item modifier="nodivider">
            <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
@@ -41,7 +41,7 @@
             <p class="text-danger" >{{ errors.first('stage')}}</p>
           </v-ons-list-item>
 
-          <v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="lead.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">
@@ -65,7 +65,7 @@
           <v-ons-list-item modifier="nodivider">
             <v-ons-input placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
           </v-ons-list-item> 
-          <v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
@@ -74,7 +74,7 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('handledby')}}</p>
           </v-ons-list-item>  
-        	<v-ons-list-item> 
+        	<v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">

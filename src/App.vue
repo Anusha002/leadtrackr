@@ -25,6 +25,18 @@
 .lead-input{
   width: 100%;
 }
+.outline-btn {
+  border: 1px solid #999;
+}
+.list-item--material {
+  border: none;
+}
+.text-input--material {
+  width: 330px !important;
+}
+.toolbar--material {
+  box-shadow: none;
+}
 .text-danger{
   font-size: .5em;
   color: #D91045;

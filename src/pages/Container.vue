@@ -68,6 +68,7 @@
 <style >
 .bottom-bar{
   background: transparent;
+  height: 60px;
 }
 .button--large {
   margin: 0 !important;
@@ -75,6 +76,8 @@
 .green-button {
   background: #14BA88;
   font-weight: bold;
+  height: 60px;
+  line-height: 60px;
 }
 .full-width {
 	border-radius: 0;
@@ -92,7 +95,7 @@
 		margin:20px;
 	}
 	.header-icon {
-		font-size: 1.2em !important;
+		font-size: 1em !important;
 	}
 	
 </style>

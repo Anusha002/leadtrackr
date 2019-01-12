@@ -64,9 +64,10 @@
 
 <script>
 
-import Addlead from '../pages/Addlead.vue'
+import Addlead from '../pages/Addlead.vue';
 import GetTasksAPI from '../services/api/Leads.js';
-import Followups from '../pages/Followups.vue'
+import Followups from '../pages/Followups.vue';
+import TaskList from '../pages/Tasklist.vue';
 import LoginApi from '../services/api/User.js';
 
 
@@ -74,7 +75,8 @@ export default {
 	name: "Dash",
 	components: {
 		Addlead,
-		Followups
+		Followups,
+		TaskList
 	},
 
 	methods:{
@@ -95,11 +97,12 @@ export default {
 		toggleView() {
 			
 			if (document.getElementById('leadicon').classList.contains("icon-list")){
-				this.$parent.$parent.$parent.currentPage = 'Tasklist'
+				this.$parent.$parent.$parent.$parent.pageStack.push(TaskList);
+
 				document.getElementById('leadicon').classList.remove("icon-list"); 
 				document.getElementById('leadicon').classList.add("icon-calender"); 
 			} else{
-				this.$parent.$parent.$parent.currentPage = 'Dash'
+				this.$parent.$parent.$parent.$parent.pageStack.push();
 				document.getElementById('leadicon').classList.remove("icon-calender"); 
 				document.getElementById('leadicon').classList.add("icon-list"); 
 			}

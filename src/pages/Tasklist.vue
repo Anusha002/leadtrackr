@@ -51,6 +51,7 @@
 <script>
 
 import GetTasksAPI from '../services/api/Leads.js';
+import Dash from '../pages/Dash.vue';
 
 export default {
 	name: 'tasklist',
@@ -60,6 +61,10 @@ export default {
 			dtobj:{}
 		}				
 	 },
+	 components: {
+		
+		Dash
+	},
 	 methods:{
 		goTodetail() {
    			this.$router.push('/addlead')
@@ -86,7 +91,7 @@ export default {
 		 },
 		 toggleMenu()  {
 
-			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
 		toggleView() {
 			
@@ -95,7 +100,7 @@ export default {
 				document.getElementById('leadicon').classList.remove("icon-list"); 
 				document.getElementById('leadicon').classList.add("icon-calender"); 
 			} else{
-				this.$parent.$parent.$parent.currentPage = 'Dash'
+				this.$parent.$parent.$parent.$parent.pageStack.push(Dash);
 				document.getElementById('leadicon').classList.remove("icon-calender"); 
 				document.getElementById('leadicon').classList.add("icon-list"); 
 			}
