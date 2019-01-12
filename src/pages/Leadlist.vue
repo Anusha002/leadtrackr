@@ -74,7 +74,7 @@ export default {
 			});
 		},
 		toggleMenu()  {
-			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		}
 	 },
 	 mounted:function() {	

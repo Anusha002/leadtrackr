@@ -2,7 +2,7 @@
   <v-ons-page>
     <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
     <div class="logo">
-      <img :src="require('../assets/lead-logo.png')" width="90"  />
+      <img src="../assets/lead-logo.png" width="90"  />
       <h4>LeadTrackr</h4>
     </div>
    <div class="logindetails">

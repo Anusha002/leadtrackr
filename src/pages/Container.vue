@@ -7,17 +7,17 @@
 		:open.sync="openSide" class="frame" id="menu">	
 			<v-ons-page>
 				<v-ons-list>
-					<v-ons-list-item v-for="page in pages" 
+					<v-ons-list-item v-for="(item,key) in menu"  v-bind:key=key
 					tappable modifier="chevron"
-					@click="currentPage = page; openSide = false"
+					@click="openPage(item.link)"
 					>
-						<div class="center">{{ page }}</div>
+						<div class="center">{{ item.name }}</div>
 					</v-ons-list-item>
 				</v-ons-list>
 			</v-ons-page>
 		</v-ons-splitter-side>
 		<v-ons-splitter-content  class="frame"	>
-			<component :is="currentPage" :toggle-menu="() => openSide = !openSide"></component>
+			<v-ons-navigator :page-stack="pageStack"></v-ons-navigator>
 		</v-ons-splitter-content>
 
      </v-ons-splitter> 
@@ -39,11 +39,27 @@
 			Addlead,
 			Followups
 		},
+		methods: {
+			openPage(link){
+				this.openSide = false;
+				this.pageStack.push(link); 
+				
+			}
+		},
 		
 		data() {
 			return {
-				currentPage: 'Dash',
-				pages: ['Dash','Leadlist','Logout'],
+				pageStack: [Dash],
+				menu:[{
+					name: "Home",
+					link: Dash
+				}, {
+					name: "Leads",
+					link: Leadlist
+				}, {
+					name: "Logout",
+					link: Logout
+				}],
 				openSide: false
 				};
 			},

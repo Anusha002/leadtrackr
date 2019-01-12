@@ -89,7 +89,8 @@ export default {
 			});
 		},
 		toggleMenu()  {
-			this.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.openSide) ? false : true);
+			console.log(this.$parent.$parent.$parent)
+			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
 		toggleView() {
 			
