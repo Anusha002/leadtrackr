@@ -122,8 +122,6 @@ export default{
 
     addFollowup(){
       
-      // this.followup.ProjectID = pid;
-      // console.log(this.followup.ProjectID);
       this.submitted = true;
       var data = this.followup;
       this.followup.CreatedDate = Utils.formatDate(new Date())
@@ -146,7 +144,7 @@ export default{
    mounted:function() {
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
-    this.followup.ProjectID = localStorage.pid;
+    this.followup.ProjectID = Utils.getProjectid();
     var payload = {
           Token:localStorage.ki,
           Department:user.Department
