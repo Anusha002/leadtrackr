@@ -25,6 +25,7 @@
 .lead-input{
   width: 100%;
 }
+
 .outline-btn {
   border: 1px solid #999;
   font-size: 11px !important;

@@ -27,16 +27,8 @@
             <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
-          <v-ons-list-item modifier="nodivider">
-           <div class="followupdetails">
-            <div>Followup Date</div>
-            <v-date-picker :min-date='new Date()' mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
-             </v-date-picker>
-             <p class="text-danger">{{ errors.first('followupdate')}}</p> 
-            </div>
-
-          </v-ons-list-item>
-          <v-ons-list-item modifier="nodivider"> 
+          
+          <v-ons-list-item modifier="nodivider">  
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleBy" :value="value.FullName" v-bind:key="key">
@@ -68,9 +60,20 @@
                 </option>
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('status')}}</p>
-          </v-ons-list-item>  
-          <br /><br /><br /><br />           
+          </v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"  @click="openCalender()">
+           <div class="followupdetails">
+            <div >Followup Date</div>
+            <v-date-picker v-show="showcalender" :min-date='new Date()' is-inline="true"  mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
+             </v-date-picker>
+            
+             <p class="text-danger">{{ errors.first('followupdate')}}</p> 
+            </div>
+
+          </v-ons-list-item> 
+                  
        </v-ons-list>
+       
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
   </v-ons-page>   
 </template>
@@ -98,6 +101,7 @@ export default{
         Status:"",
         Token:localStorage.ki 
       },
+      showcalender: false,
       stages:["Select Stage"],
       status:["Select Status"],
       scheduleBy:[{'FullName': 'Schedule By'}],
@@ -105,7 +109,12 @@ export default{
      }
    },
    methods: {
-
+     openCalender() {
+       if(!this.showcalender){
+         this.showcalender = true;
+       }
+        
+     },
       goToHome() {
 
         this.$router.back(-1);
@@ -173,6 +182,9 @@ export default{
   margin: 15px;
   background-color: none !important;
  
+}
+.followupdetails {
+  width: 100%;
 }
 
 </style>
