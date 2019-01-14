@@ -78,8 +78,8 @@
 			</v-ons-row>
 			<v-ons-row class="rowdata">
 				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" ></v-ons-input>
-					
+					<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('timetaken')}}</p> 
 				</v-ons-col>
 			
 				<v-ons-col> 
@@ -158,9 +158,9 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<v-ons-col>
-								<v-ons-button  style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
+								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
 							
-								<v-ons-button  style="margin: 6px 4px">Save</v-ons-button>
+								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
 							</v-ons-col>
 						</v-ons-row>
 
