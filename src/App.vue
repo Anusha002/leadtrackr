@@ -49,14 +49,20 @@
 }
 
 .dialog{
-  min-width: 400px;
-    min-height: 220px;
+  width: 358px;
+  height: 285px;
+  margin-top:70px;
 }
 
 .dialog-container{
   padding: 20px;
 }
 
+.button[data-v-426b3b1a] {
+    line-height: none;
+    width: 80px;
+    height: 41px;
+}
 .search-input{
   border-radius: 8px;
 }

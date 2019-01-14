@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VeeValidate from 'vee-validate';
 import Login from '../pages/Login.vue'
-import Splash from '../pages/Splash.vue'
+// import Splash from '../pages/Splash.vue'
 import Dash from '../pages/Dash.vue'
 import Leadlist from '../pages/Leadlist.vue'
 import Leaddetail from '../pages/Leaddetail.vue'
@@ -20,8 +20,8 @@ export default new Router({
   routes: [
   {
     path: '/',
-    name: 'splash',
-    component: Splash
+    name: 'login',
+    component: Login
   },
   {
     path: '/login',

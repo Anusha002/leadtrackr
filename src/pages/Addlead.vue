@@ -15,11 +15,11 @@
 
   		<v-ons-list class="leaddata">
     		<v-ons-list-item modifier="nodivider">
-     			 	<v-ons-input placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName" v-validate="'required'" name="leadname" type="text"></v-ons-input>
+     			 	<v-ons-input float placeholder="LeadName" modifier="underbar" class="lead-input"  v-model="lead.LeadName" v-validate="'required'" name="leadname" type="text"></v-ons-input>
             <p class="text-danger" >{{ errors.first('leadname')}}</p> 
         	</v-ons-list-item>
           <v-ons-list-item  modifier="nodivider"> 
-            <v-ons-input placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" name="contactperson" v-validate="'required'"></v-ons-input>
+            <v-ons-input float placeholder="ContactPerson" v-model="lead.ContactPerson" modifier="underbar" class="lead-input" name="contactperson" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('contactperson')}}</p> 
           </v-ons-list-item>
         	<v-ons-list-item modifier="nodivider">	
@@ -52,18 +52,18 @@
           </v-ons-list-item>  
         	
         	<v-ons-list-item modifier="nodivider">			
-        			<v-ons-input placeholder="Mobile" v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input" v-validate="'required|digits:10'" name="mobile" ></v-ons-input>
+        			<v-ons-input float placeholder="Mobile" v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input" v-validate="'required|digits:10'" name="mobile" ></v-ons-input>
               <p class="text-danger" >{{ errors.first('mobile')}}</p>
     		</v-ons-list-item>
     		<v-ons-list-item modifier="nodivider">
-        			<v-ons-input placeholder="Landline" v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
+        			<v-ons-input float placeholder="Landline" v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>
         	<v-ons-list-item modifier="nodivider">	
-        			<v-ons-input placeholder="Email" v-model="lead.Email"  type="email" modifier="underbar" class="lead-input" v-validate="'required|email'" name="email"></v-ons-input>
+        			<v-ons-input float placeholder="Email" v-model="lead.Email"  type="email" modifier="underbar" class="lead-input" v-validate="'required|email'" name="email"></v-ons-input>
               <p class="text-danger" >{{ errors.first('email')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item modifier="nodivider">
-            <v-ons-input placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
+            <v-ons-input float placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
           </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">

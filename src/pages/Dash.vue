@@ -118,7 +118,7 @@ export default {
  	 		
  	 	},
  	 	dayClicked(day) {
-      		console.log(day);
+      		
 			this.items = this.leads[day.dateTime];
 			this.items = (typeof this.items == 'undefined')? [] : this.items;
       	 	this.attributes[0].dates = new Date(day.dateTime);
@@ -129,9 +129,16 @@ export default {
 
  	mounted:function() {
 
- 		var payload = {
-	 		fromDate: '01-01-2018',
-	 		toDate: '01-31-2019',
+ 		var date = new Date();
+ 		var m = (1 + date.getMonth()).toString();
+ 		m = (m.length > 1 ) ? m : '0' + m;
+ 		date.setMonth(1+ date.getMonth() + 3 );
+ 		var n = date.getMonth().toString();
+ 		n = (n.length > 1 ) ? n : '0' + n;
+ 		
+ 		var payload = {	 	
+	 		fromDate: m + '-' + '01' + '-' + date.getFullYear(),
+	 		toDate: n+ '-' + '01' + '-' + date.getFullYear(),
 	 		Token:localStorage.ki
 	 	}
 	 	
@@ -145,6 +152,7 @@ export default {
 				dots[i] = dtobj;
 					
 			}
+
 			this.leads = leads;
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
