@@ -27,7 +27,12 @@
             <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
-          
+          <v-ons-list-item modifier="nodivider">
+           <div class="leaddetails">
+            <v-ons-input float placeholder="Description" v-model="followup.Description"></v-ons-input>
+
+            </div>
+          </v-ons-list-item>          
           <v-ons-list-item modifier="nodivider">  
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
                <option value="" selected data-default></option>
@@ -46,12 +51,7 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
           </v-ons-list-item>  
-          <v-ons-list-item modifier="nodivider">
-           <div class="leaddetails">
-            <v-ons-input float placeholder="Description" v-model="followup.Description"></v-ons-input>
 
-            </div>
-          </v-ons-list-item>
           <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="followup.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>

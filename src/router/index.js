@@ -9,6 +9,7 @@ import Leaddetail from '../pages/Leaddetail.vue'
 import Addlead from '../pages/Addlead.vue'
 import Followups from '../pages/Followups.vue'
 import Addfollowup from '../pages/Addfollowup.vue'
+import Addlocation from '../pages/Addlocation.vue'
 import Tasklist from '../pages/Tasklist.vue'
 import Container from '../pages/Container.vue'
 
@@ -59,6 +60,12 @@ export default new Router({
     path: '/addfollowup',
     name: 'addfollowup',
     component: Addfollowup,
+    props: true
+  },
+  {
+    path: '/addlocation',
+    name: 'addlocation',
+    component: Addlocation,
     props: true
   },
   {

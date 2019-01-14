@@ -14,8 +14,10 @@
     "v-calendar": "^0.9.7",
     "vee-validate": "^2.1.4",
     "vue": "^2.5.17",
+    "vue-location-picker": "^1.0.1",
     "vue-onsenui": "^2.6.1",
-    "vue-router": "^3.0.2"
+    "vue-router": "^3.0.2",
+    "vue2-google-maps": "^0.10.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",

@@ -82,7 +82,14 @@
                 </option>
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('ownedby')}}</p>
-          </v-ons-list-item>  	
+          </v-ons-list-item>  
+           <v-ons-list-item modifier="nodivider"  @click="addLocation()">
+           <div class="followupdetails">
+            <div >Add Location</div>
+            
+            </div>
+
+          </v-ons-list-item> 	
 
     
   		</v-ons-list>
@@ -92,6 +99,7 @@
 </template>
 
 <script>
+
 import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 
@@ -126,12 +134,14 @@ export default{
 	 },
 
   mounted:function() {
+    
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
           Department:user.Department
          }
- 
+
+    
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),
@@ -152,6 +162,9 @@ export default{
   },
 
   methods :{
+    addLocation() {
+      this.$router.push('/addlocation');
+    },
     goToHome(){
         this.$router.back(-1);
     },
