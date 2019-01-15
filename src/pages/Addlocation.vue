@@ -10,6 +10,10 @@
           Add Location
           </div>  
     </v-ons-toolbar>
+    <gmap-autocomplete
+          @place_changed="setPlace">
+        </gmap-autocomplete>
+        <button @click="addMarker">Add</button>
 		<gmap-map
       :center="center"
       :zoom="16"
@@ -42,15 +46,32 @@ export default{
         lat: 0,
         lng: 0
       },
+      currentPlace: null,
       markers: []
      }
    },
    components: { LocationPicker },
    methods: {
+     setPlace(place) {
+      this.currentPlace = place;
+    },
      getCoordinates: function(e) {
       this.center.lat = e.latLng.lat();
       this.center.lng = e.latLng.lng();
-    }
+    },
+    addMarker() {
+      if (this.currentPlace) {
+        const marker = {
+          lat: this.currentPlace.geometry.location.lat(),
+          lng: this.currentPlace.geometry.location.lng()
+        };
+        this.center = { position: marker };
+        this.markers = [{ position: marker }]
+        this.places = [this.currentPlace];
+        this.center = marker;
+        this.currentPlace = null;
+      }
+    },
      
     },
    mounted:function() {
