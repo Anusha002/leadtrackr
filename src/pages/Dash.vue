@@ -18,9 +18,11 @@
 					<span class="calendar-month">{{ myMonths[month] }} </span>
 				</span>
 			</v-calendar>
-	
-		<v-ons-carousel overscrollable swipeable auto-scroll overscrollable:index.sync="carouselIndex" item-width="321px" >
+		
+		<v-ons-carousel swipeable auto-scroll overscrollable :index.sync="carouselIndex"  >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
+				
+				<div class="tasknumbers">{{carouselIndex+1}} of {{items.length}} Tasks</div>
 				<v-ons-card @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
@@ -47,7 +49,9 @@
 						</v-ons-row>
 					</div>
 				</v-ons-card>
+				
 			</v-ons-carousel-item>
+
 		</v-ons-carousel>
 		<div class="no-tasks" v-show="items.length == 0">
 			No tasks for today! 
@@ -118,7 +122,7 @@ export default {
  	 		
  	 	},
  	 	dayClicked(day) {
-      		
+      		this.carouselIndex = 0;
 			this.items = this.leads[day.dateTime];
 			this.items = (typeof this.items == 'undefined')? [] : this.items;
       	 	this.attributes[0].dates = new Date(day.dateTime);
@@ -162,6 +166,8 @@ export default {
 
   data() {
     return {
+    	carouselIndex: 0,
+    	i :0,
     	leads: {},
 		myMonths : ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],	
       myDate: null,
@@ -237,9 +243,17 @@ export default {
 	display: none;
 }
 .task-card {
-	width: 320px !important;
+	width: 310px !important;
+	margin-left: 5px;
+	margin-right:19px;
+	
 }
-
+.tasknumbers{
+	font-size:16px;
+	font-weight: bold;
+	color:white;
+	margin-left:30px;
+}
 
 .fab {
 	background: #14BA88 !important;

@@ -28,8 +28,7 @@
 </template>
 
 <script>
-import LocationPickerInit from 'vue-location-picker/src/init'
-import LocationPicker from 'vue-location-picker'
+
 
 export default{
 
@@ -45,7 +44,7 @@ export default{
       markers: []
      }
    },
-   components: { LocationPicker },
+   
    methods: {
      getCoordinates: function(e) {
       this.center.lat = e.latLng.lat();
