@@ -2,7 +2,7 @@
 	<v-ons-page id="addlocationpage">
      <v-ons-toolbar>
         <div class="left">
-            <v-ons-toolbar-button @click="toggleMenu()">
+            <v-ons-toolbar-button>
               <v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>  
             </v-ons-toolbar-button>
         </div>
@@ -11,9 +11,9 @@
           </div>  
     </v-ons-toolbar>
     <gmap-autocomplete
-          @place_changed="setPlace">
+          @place_changed="setPlace" class="autocomp">
         </gmap-autocomplete>
-        <button @click="addMarker">Add</button>
+        <button @click="addMarker" class="gbtnclass outline-btn">Add</button>
 		<gmap-map
       :center="center"
       :zoom="16"
@@ -28,6 +28,7 @@
         @click="center=m.position"
       ></gmap-marker>
       </gmap-map>
+      <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="setLocation()">Set Location</v-ons-button></v-ons-bottom-toolbar>
   </v-ons-page>   
 </template>
 
@@ -71,6 +72,9 @@ export default{
         this.currentPlace = null;
       }
     },
+    setLocation() {
+      
+    }
      
     },
    mounted:function() {
@@ -106,5 +110,17 @@ export default{
 }
 .vue-map-container {
   height: 480px !important;
+}
+.autocomp {
+  width: 280px;
+  height: 40px;
+}
+.gbtnclass{
+	font-size: 14px;
+	border-color: #14BA88;
+  color: #14BA88;
+  height: 48px;
+  background: #fff;
+  width: 60px;
 }
 </style>
