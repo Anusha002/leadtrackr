@@ -30,7 +30,7 @@
           <v-ons-list-item modifier="nodivider"  @click="openCalender()">
            <div class="followupdetails">
             <div >Followup Date {{dateformat(FllwDate)}}</div>
-            <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'">
+            <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
             
              <p class="text-danger">{{ errors.first('followupdate')}}</p> 
@@ -121,6 +121,9 @@ export default{
      openCalender() {
        this.showcalender = this.showcalender == 'hidden' ? 'visible' : 'hidden';
         
+     },
+     dayClicked(day) {
+        this.showcalender = 'hidden';
      },
       goToHome() {
 
