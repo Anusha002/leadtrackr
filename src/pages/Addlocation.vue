@@ -46,6 +46,7 @@ export default{
         lat: 0,
         lng: 0
       },
+      items:{},
       currentPlace: null,
       markers: []
      }
@@ -73,7 +74,12 @@ export default{
       }
     },
     setLocation() {
-      
+      this.$router.push({
+        'name': 'addlead',
+        'params': {
+            'items': this.center
+          }
+        });
     }
      
     },
@@ -81,16 +87,16 @@ export default{
      
      var that = this;
      this.$ons.ready(function(){
-      console.log(that)
       navigator.geolocation.getCurrentPosition(function(position){
         that.center.lat = position.coords.latitude;
         that.center.lng = position.coords.longitude;
         that.markers.push({position: that.center});
-        console.log(that.center)
         // alert('Latitude: '          + position.coords.latitude          + '\n' +
         //   'Longitude: '         + position.coords.longitude         + '\n' );
       });
     })
+
+
 
   } 
 }

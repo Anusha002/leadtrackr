@@ -73,7 +73,7 @@ export default {
 	 		var months =  [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	 		var dtobj = new Date(parseInt(date));
 	 		var dt = dtobj.getDate();
-	 		if(dt == 1) {
+	 		if(dt == 1||dt == 21||dt == 31) {
 	 			dt += 'st'
 	 		} else if(dt == 2) {
 	 			dt += 'nd'

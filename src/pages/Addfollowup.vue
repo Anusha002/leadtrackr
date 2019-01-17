@@ -33,7 +33,7 @@
 
             </div>
           </v-ons-list-item>          
-          <v-ons-list-item modifier="nodivider">  
+          <!-- <v-ons-list-item modifier="nodivider">  
              <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleBy" :value="value.FullName" v-bind:key="key">
@@ -41,7 +41,7 @@
                 </option>
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('scheduleby')}}</p> 
-          </v-ons-list-item>  
+          </v-ons-list-item>   -->
           <v-ons-list-item modifier="nodivider"> 
              <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
@@ -64,7 +64,7 @@
           <v-ons-list-item modifier="nodivider"  @click="openCalender()">
            <div class="followupdetails">
             <div >Followup Date</div>
-            <v-date-picker v-show="showcalender" :min-date='new Date()' is-inline="true"  mode='single' v-model="followup.FollowupDate" name="followupdate" v-validate="'required'">
+            <v-date-picker v-show="showcalender" :min-date='new Date()' is-inline mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'">
              </v-date-picker>
             
              <p class="text-danger">{{ errors.first('followupdate')}}</p> 
@@ -101,10 +101,11 @@ export default{
         Status:"",
         Token:localStorage.ki 
       },
+      FllwDate: "",
       showcalender: false,
       stages:["Select Stage"],
       status:["Select Status"],
-      scheduleBy:[{'FullName': 'Schedule By'}],
+      // scheduleBy:[{'FullName': 'Schedule By'}],
       scheduleTo: [{'FullName': 'Schedule To'}]
      }
    },
@@ -125,7 +126,8 @@ export default{
       this.submitted = true;
       var data = this.followup;
       this.followup.CreatedDate = Utils.formatDate(new Date())
-      this.followup.FollowupDate = Utils.formatDate(new Date(data.FollowupDate))
+      this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate))
+      this.followup.ScheduleBy = Utils.getUsername()
 
       this.$validator.validate().then(valid => {
 
@@ -162,7 +164,7 @@ export default{
       
     }),
     Utils.getUser(payload).then(users => {
-      this.scheduleBy = this.scheduleBy.concat(users.Body); 
+      // this.scheduleBy = this.scheduleBy.concat(users.Body); 
       this.scheduleTo = this.scheduleTo.concat(users.Body);
       
     })

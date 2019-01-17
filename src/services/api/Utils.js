@@ -47,6 +47,9 @@ export default {
     getUserid() {  
         return JSON.parse(localStorage.getItem('usr')).UserID.toString();
     },
+    getUsername() {  
+        return JSON.parse(localStorage.getItem('usr')).FullName.toString();
+    },
     getProjectid() {  
         return JSON.parse(localStorage.getItem('project')).ProjectID;
     }

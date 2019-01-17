@@ -22,7 +22,7 @@
 		<v-ons-carousel swipeable auto-scroll overscrollable :index.sync="carouselIndex"  >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
 				
-				<div class="tasknumbers">{{carouselIndex+1}} of {{items.length}} Tasks</div>
+				<div class="tasknumbers">{{carouselIndex+1}} of {{items.length}} Task<span v-show="(items.length > 1)">s</span></div>
 				<v-ons-card @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
