@@ -53,6 +53,11 @@ export default{
    },
    
    methods: {
+
+    goToHome() {
+
+        this.$router.back(-1);
+      },
      setPlace(place) {
       this.currentPlace = place;
     },
