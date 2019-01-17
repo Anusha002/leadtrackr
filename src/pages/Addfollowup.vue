@@ -186,6 +186,10 @@ export default{
 .popover-container input {
   display: none !important;
 }
+
+.popover-origin{
+  transform-style: preserve-3d;
+}
 .followup {
   border-radius: 6px;
   margin: 0 15px;
