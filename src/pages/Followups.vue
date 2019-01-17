@@ -345,6 +345,7 @@ import Utils from '../services/api/Utils.js';
 	font-size: 14px;
 	border-color: #14BA88;
 	color: #14BA88;
+	width: 120px;
 }
 .heading {
 	color: #fff;

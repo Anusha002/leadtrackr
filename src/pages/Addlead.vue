@@ -4,7 +4,7 @@
 	<v-ons-page id="addleadpage">
     <v-ons-toolbar>
     		<div class="left">
-	      		<v-ons-toolbar-button @click="toggleMenu()">
+	      		<v-ons-toolbar-button>
 	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
@@ -104,7 +104,9 @@ import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 
 export default{
+    props: ['items'],
     data() {
+      
     return {
       lead: {
       LeadName: "",
@@ -166,7 +168,13 @@ export default{
       this.$router.push('/addlocation');
     },
     goToHome(){
+      if(typeof this.$props.items == "undefined"){
         this.$router.back(-1);
+      } else {
+        console.log(22222222)
+        this.$router.go(-3);
+      }
+      
     },
     addLead(){
       this.submitted = true;

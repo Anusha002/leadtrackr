@@ -47,7 +47,8 @@ export default new Router({
   {
     path: '/addlead',
     name: 'addlead',
-    component: Addlead
+    component: Addlead,
+    props: true
   },
   {
     path: '/followups',

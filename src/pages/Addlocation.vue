@@ -13,7 +13,7 @@
     <gmap-autocomplete
           @place_changed="setPlace" class="autocomp">
         </gmap-autocomplete>
-        <button @click="addMarker" class="gbtnclass outline-btn">Add</button>
+        <button @click="addMarker" class="gbtnclass outline-btn">Add Marker</button>
 		<gmap-map
       :center="center"
       :zoom="16"
@@ -106,7 +106,7 @@ export default{
   } 
 }
 </script>
-<style>
+<style scoped>
 .followup {
   border-radius: 6px;
   margin: 0 15px;
@@ -132,6 +132,5 @@ export default{
   color: #14BA88;
   height: 48px;
   background: #fff;
-  width: 60px;
 }
 </style>
