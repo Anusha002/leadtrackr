@@ -27,6 +27,16 @@
             <p class="text-danger" >{{ errors.first('task')}}</p> 
             </div>
           </v-ons-list-item>
+          <v-ons-list-item modifier="nodivider"  @click="openCalender()">
+           <div class="followupdetails">
+            <div >Followup Date {{dateformat(FllwDate)}}</div>
+            <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'">
+             </v-date-picker>
+            
+             <p class="text-danger">{{ errors.first('followupdate')}}</p> 
+            </div>
+
+          </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider">
            <div class="leaddetails">
             <v-ons-input float placeholder="Description" v-model="followup.Description"></v-ons-input>
@@ -61,17 +71,8 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('status')}}</p>
           </v-ons-list-item> 
-          <v-ons-list-item modifier="nodivider"  @click="openCalender()">
-           <div class="followupdetails">
-            <div >Followup Date</div>
-            <v-date-picker v-show="showcalender" :min-date='new Date()' is-inline mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'">
-             </v-date-picker>
-            
-             <p class="text-danger">{{ errors.first('followupdate')}}</p> 
-            </div>
 
-          </v-ons-list-item> 
-                  
+                  <br/><br/><br/><br/><br/><br/>
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
@@ -102,7 +103,7 @@ export default{
         Token:localStorage.ki 
       },
       FllwDate: "",
-      showcalender: false,
+      showcalender: 'hidden',
       stages:["Select Stage"],
       status:["Select Status"],
       // scheduleBy:[{'FullName': 'Schedule By'}],
@@ -110,10 +111,15 @@ export default{
      }
    },
    methods: {
-     openCalender() {
-       if(!this.showcalender){
-         this.showcalender = true;
+     
+     dateformat(date) {
+       if(date != "") {
+         return Utils.formatDate(new Date(date))
        }
+       
+     },
+     openCalender() {
+       this.showcalender = this.showcalender == 'hidden' ? 'visible' : 'hidden';
         
      },
       goToHome() {
@@ -174,6 +180,9 @@ export default{
 }
 </script>
 <style>
+.popover-container input {
+  display: none !important;
+}
 .followup {
   border-radius: 6px;
   margin: 0 15px;

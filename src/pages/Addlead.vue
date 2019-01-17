@@ -171,7 +171,6 @@ export default{
       if(typeof this.$props.items == "undefined"){
         this.$router.back(-1);
       } else {
-        console.log(22222222)
         this.$router.go(-3);
       }
       
