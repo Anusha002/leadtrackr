@@ -30,7 +30,8 @@
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider"  @click="openCalender()">
            <div class="followupdetails">
-            <div class="labels">Followup Date {{dateformat(FllwDate)}}</div>
+            <div class="labels">Followup Date</div>
+            <div class="followdate">{{dateformat(FllwDate)}}</div>
             <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
             
@@ -82,7 +83,7 @@
 
           </v-ons-list-item>  
 
-                  <br/><br/><br/><br/><br/><br/>
+                  <br/><br/>
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
