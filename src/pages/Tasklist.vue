@@ -12,6 +12,27 @@
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
+ 		<v-ons-button modifier="material--flat" class="filterclass" style="margin: 4px 4px" @click="toggleFilter()">Filter</v-ons-button>
+ 		<v-ons-row v-show="flagfilter == 'true'">
+ 			<v-ons-col width="100px" @click="openCalender('from')">
+ 				<div>From Date</div>
+ 				<div class="fromdate">{{dateformat(FromDate)}}</div>
+            <v-date-picker :popover-visibility="showfromcalender" mode='single' v-model="FromDate" name="fromdate" v-validate="'required'" @dayclick='dayClicked'>
+             </v-date-picker>
+
+ 			</v-ons-col>
+ 			<v-ons-col width="100px" @click="openCalender('to')">
+ 				<div>To Date</div>
+ 				<div class="fromdate">{{dateformat(ToDate)}}</div>
+            <v-date-picker :popover-visibility="showtocalender" :min-date='FromDate' mode='single' v-model="ToDate" name="todate" v-validate="'required'" @dayclick='dayClicked'>
+             </v-date-picker>
+
+ 			</v-ons-col>
+ 			<v-ons-col>
+ 				<v-ons-button @click="listTasks()">Go</v-ons-button>
+ 			</v-ons-col>		
+ 			
+ 		</v-ons-row>
 		<div>
 			<v-ons-row v-for="(value, key) in leads" v-bind:key="key">	
 				<div class="date-header">{{convertDate(key)}}</div>	
@@ -41,6 +62,7 @@
 					</v-ons-list-item>
 				</v-ons-list>
 			</v-ons-row>
+
 		</div>
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
@@ -51,6 +73,7 @@
 <script>
 
 import GetTasksAPI from '../services/api/Leads.js';
+import Utils from '../services/api/Utils.js';	
 import Dash from '../pages/Dash.vue';
 
 export default {
@@ -58,7 +81,12 @@ export default {
 	data() {
 		return {
 			leads: {},
-			dtobj:{}
+			dtobj:{},
+			flagfilter:"false",
+			FromDate: "",
+			ToDate:"",
+      		showfromcalender: 'hidden',
+      		showtocalender: 'hidden',
 		}				
 	 },
 	 components: {
@@ -69,7 +97,45 @@ export default {
 		goTodetail() {
    			this.$router.push('/addlead')
   		},
-	 	convertDate(date){
+  		dateformat(date) {
+       if(date != "") {
+         return Utils.formatDate(new Date(date))
+       }
+       
+     },
+     openCalender(mode) {
+
+      if (mode == 'from') {
+       		this.showfromcalender = this.showfromcalender == 'hidden' ? 'visible' : 'hidden';
+        }
+       if (mode == 'to') {
+       	
+       		this.showtocalender = this.showtocalender == 'hidden' ? 'visible' : 'hidden';
+        }
+     },
+     dayClicked(day) {
+     	
+        this.showfromcalender = 'hidden';
+        this.showtocalender = 'hidden';
+
+     },
+
+     listTasks(){
+     	if(this.FromDate !="" && this.ToDate != "") {
+
+     	var payload = {
+	 		fromDate: Utils.formatDate(this.FromDate),
+	 		toDate: Utils.formatDate(this.ToDate),
+	 		Token:localStorage.ki
+		 }
+		 GetTasksAPI.getTasks(payload).then(leads => {
+				
+			this.leads = leads;
+			
+		})
+       }
+     },
+	 convertDate(date){
 	 		var months =  [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	 		var dtobj = new Date(parseInt(date));
 	 		var dt = dtobj.getDate();
@@ -87,6 +153,11 @@ export default {
 
 
 	 		
+
+		 },
+		 toggleFilter(){
+
+		 	this.flagfilter = this.flagfilter == 'false' ? 'true' : 'false';
 
 		 },
 		 toggleMenu()  {
@@ -108,12 +179,7 @@ export default {
 		},
 	 },
 	 mounted:function() {	
-	 	var payload = {
-	 		fromDate: '01-01-2018',
-	 		toDate: '12-12-2018',
-	 		Token:localStorage.ki
-
-		 }
+	 
 		 this.leads = JSON.parse(localStorage.getItem('lds'));
 
  	  }
@@ -165,5 +231,13 @@ export default {
 .list{
 	margin: 10px !important;
 	width: 98%;
+}
+
+.filterclass{
+	font-size: 14px;
+	border-color: #999;
+	color: black;
+	background-color: white	;
+	border-radius: 10px;
 }
 </style>
