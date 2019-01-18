@@ -176,6 +176,7 @@
 <script>
 
 import FollowupsAPI from '../services/api/Leads.js';
+// import FollowupsAPI from '../services/api/Followup.js';
 import Utils from '../services/api/Utils.js';
 
 	export default {
@@ -254,10 +255,11 @@ import Utils from '../services/api/Utils.js';
 		},
 
 		mounted:function() {
-
+		var date = new Date();
 
  		var payload = {
-	 	
+	 		// fromDate: '01-01-2019',
+	 		// toDate: '01-29-2019',
 	 		Token:localStorage.ki,
 	 		projectId: (this.pjctid).toString()
 

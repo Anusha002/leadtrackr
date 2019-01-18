@@ -10,4 +10,11 @@ addFollowup(payload){
                 return response.data
             })
     }
+
+  //   getFollowups(payload){
+		// 	return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Token, "headers": { "content-type": "application/json" } })
+		// 		.then(response => {
+		// 			return response.data
+		// 		})
+		// },
 }

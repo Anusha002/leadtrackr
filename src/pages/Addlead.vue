@@ -23,7 +23,8 @@
             <p class="text-danger" >{{ errors.first('contactperson')}}</p> 
           </v-ons-list-item>
         	<v-ons-list-item modifier="nodivider">	
-        		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >
+            <div class="labels">Type</div>
+        		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >   
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in types" :value="value.TypeID" v-bind:key="key">
                   {{value.TypeName }} 
@@ -32,6 +33,7 @@
             <p class="text-danger" >{{ errors.first('leadtype')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item modifier="nodivider">
+            <div class="labels">Stage</div>
            <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
@@ -42,6 +44,7 @@
           </v-ons-list-item>
 
           <v-ons-list-item modifier="nodivider"> 
+            <div class="labels">Status</div>
              <v-ons-select style="width: 100%" v-model="lead.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">
@@ -66,6 +69,7 @@
             <v-ons-input float placeholder="Description" v-model="lead.Description" modifier="underbar" class="lead-input"></v-ons-input>
           </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider"> 
+            <div class="labels">HandledBy</div>
              <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
@@ -75,6 +79,7 @@
             <p class="text-danger" >{{ errors.first('handledby')}}</p>
           </v-ons-list-item>  
         	<v-ons-list-item modifier="nodivider"> 
+            <div class="labels">OwnedBy</div>
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
                <option value="" selected data-default></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">
@@ -124,19 +129,31 @@ export default{
       Token:localStorage.ki
       
       },
-      types: [{'TypeName':'Select Type'}],
-      stages:["Select Stage"],
-      status:["Select Status"],
-      createdBy:[{'FullName': 'Created By'}],
-      handledBy: [{'FullName': 'Handled By'}],
-      ownedBy: [{'FullName': 'Owned By'}],
+      // types: [{'TypeName':'Select Type'}],
+      // stages:["Select Stage"],
+      // status:["Select Status"],
+      // createdBy:[{'FullName': 'Created By'}],
+      // handledBy: [{'FullName': 'Handled By'}],
+      // ownedBy: [{'FullName': 'Owned By'}],
+      types: [""], 
+      stages:[""],
+      status:[""],
+      createdBy:[""],
+      handledBy: [""],
+      ownedBy: [""],
       submitted: false,
       response: {}
      	} 
 	 },
 
   mounted:function() {
-    
+    // localStorage.removeItem('leaddata');
+
+    if(localStorage.getItem('leaddata') != null ){
+         this.lead = JSON.parse(localStorage.getItem('leaddata'))
+         console.log(this.lead.Type);
+      }
+
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
@@ -165,6 +182,8 @@ export default{
 
   methods :{
     addLocation() {
+      localStorage.setItem('leaddata', JSON.stringify(this.lead));
+      console.log(localStorage.leaddata);
       this.$router.push('/addlocation');
     },
     goToHome(){
@@ -183,6 +202,7 @@ export default{
           AddleadApi.addLead(this.lead).then(projects => {
 
             console.log("Lead added successfully");
+            localStorage.removeItem('leaddata');
             this.$router.push('/container');
 
         }, error => {
@@ -192,6 +212,8 @@ export default{
        })     
     }
   }
+
+    
 }
 </script>
 
@@ -251,6 +273,13 @@ h1{
 
 .toolbar .center {
   color: #fff;
+}
+
+.labels{
+  color:#3d5afe;    
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Roboto', 'Noto', sans-serif;
 }
 
  </style>  

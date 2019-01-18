@@ -13,6 +13,7 @@
 		
   		<v-ons-list class="followup">
           <v-ons-list-item  modifier="nodivider">
+            <div class="labels">Stage</div>
            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
                 <option value="" selected ></option>
                 <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
@@ -29,7 +30,7 @@
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider"  @click="openCalender()">
            <div class="followupdetails">
-            <div >Followup Date {{dateformat(FllwDate)}}</div>
+            <div class="labels">Followup Date {{dateformat(FllwDate)}}</div>
             <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
             
@@ -53,6 +54,7 @@
             <p class="text-danger" >{{ errors.first('scheduleby')}}</p> 
           </v-ons-list-item>   -->
           <v-ons-list-item modifier="nodivider"> 
+            <div class="labels">ScheduleTo</div>
              <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
@@ -63,6 +65,7 @@
           </v-ons-list-item>  
 
           <v-ons-list-item modifier="nodivider"> 
+            <div class="labels">Status</div>
              <v-ons-select style="width: 100%" v-model="followup.Status" name="status" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">
@@ -71,6 +74,13 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('status')}}</p>
           </v-ons-list-item> 
+          <v-ons-list-item modifier="nodivider"  @click="addFile()">
+           <div class="followupdetails">
+            Add File Attachment
+            
+            </div>
+
+          </v-ons-list-item>  
 
                   <br/><br/><br/><br/><br/><br/>
        </v-ons-list>
@@ -104,13 +114,36 @@ export default{
       },
       FllwDate: "",
       showcalender: 'hidden',
-      stages:["Select Stage"],
-      status:["Select Status"],
-      // scheduleBy:[{'FullName': 'Schedule By'}],
-      scheduleTo: [{'FullName': 'Schedule To'}]
+      // stages:["Select Stage"],
+      // status:["Select Status"],
+      // // scheduleBy:[{'FullName': 'Schedule By'}],
+      // scheduleTo: [{'FullName': 'Schedule To'}]
+      stages:[""],
+      status:[""],
+      scheduleBy:[""],
+      scheduleTo:[""]
      }
    },
    methods: {
+     addFile() {
+        window.OurCodeWorld.Filebrowser.filePicker.single({
+          success: function(data){
+              if(!data.length){
+              // No file selected
+              return;
+          }
+
+          console.log(data);
+          // Array with the file path
+          // ["file:///storage/emulated/0/360/security/file.txt"]
+          },
+          // Start in a custom directory
+          //startupPath:"/emulated/0/",
+          error: function(err){
+              console.log(err);
+          }
+      });
+     },
      
      dateformat(date) {
        if(date != "") {
@@ -153,6 +186,9 @@ export default{
       }
     },
    mounted:function() {
+
+
+
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
     this.followup.ProjectID = Utils.getProjectid();
@@ -201,6 +237,12 @@ export default{
 }
 .followupdetails {
   width: 100%;
+}
+.labels{
+  color:#3d5afe;    
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Roboto', 'Noto', sans-serif;
 }
 
 </style>

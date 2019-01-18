@@ -153,10 +153,8 @@ export default {
 			var dots = []
 			for (var i=0; i<dates.length; i++) {
 				var dtobj = new Date(parseInt(dates[i]));
-				dots[i] = dtobj;
-					
+				dots[i] = dtobj;			
 			}
-
 			this.leads = leads;
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
