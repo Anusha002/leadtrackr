@@ -9,19 +9,22 @@ import router from './router';
 import VCalendar from 'v-calendar';
 import 'v-calendar/lib/v-calendar.min.css';
 import * as VueGoogleMaps from "vue2-google-maps";
+import VueCordova from 'vue-cordova'
+
 
 Vue.config.productionTip = false
 Vue.use(VueOnsen);
+Vue.use(VueCordova);
 Vue.use(VCalendar, {
   firstDayOfWeek: 1
   })
 
-  Vue.use(VueGoogleMaps, {
-    load: {
-      key: "AIzaSyBhLNeO_e-zwK3qWM8_1GEKzLXQ2k7oeA0",
-      libraries: "places"
-    }
-  });  
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyBhLNeO_e-zwK3qWM8_1GEKzLXQ2k7oeA0",
+    libraries: "places"
+  }
+});  
 
 new Vue({
   router,	
