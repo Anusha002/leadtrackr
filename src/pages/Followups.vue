@@ -13,7 +13,7 @@
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col width="75%" class="contact">{{items.ContactPerson}}</v-ons-col>
+					<v-ons-col width="75%" class="contact">{{items.ContactName}}</v-ons-col>
 					<v-ons-col width="35px">
 						<a :href="'tel:' + items.Mobile">
 							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
@@ -50,7 +50,7 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true; StageHistoryID = value.StageHistoryID;">Mark Completed</v-ons-button>
 					<!-- 	<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button> -->
 						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="updateVisible = true">Update</v-ons-button>
 						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="reassignVisible = true">Reassign</v-ons-button>
@@ -71,26 +71,34 @@
 				</v-ons-col>
 			</v-ons-row>		
 			<v-ons-row class="rowdata">
+				 <div class="labels">Completion Remarks</div>
 				<v-ons-col> 
-					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" placeholder="Completion Remarks" v-model="input.remarks" v-validate="required" ></v-ons-input>
+					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
+				<div class="labels">Time Taken</div>
 				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="timetaken" name="timetaken" placeholder="Time Taken" v-model="input.timetaken" v-validate="required" ></v-ons-input>
-					<p class="text-danger" >{{ errors.first('timetaken')}}</p> 
+					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 				</v-ons-col>
-			
 				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" placeholder="Distance Travelled" v-model="input.traveldistance"></v-ons-input>
+					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<div class="labels">Distance Travelled</div>
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
 				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
 				<v-ons-col>
 					<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
 				
-					<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
+					<v-ons-button class="green-button"  style="margin: 6px 4px"@click="completeFollowup()">Save</v-ons-button>
 				</v-ons-col>
 			</v-ons-row>
 		</v-ons-dialog>
@@ -102,23 +110,41 @@
 							</v-ons-col>
 						</v-ons-row>		
 						<v-ons-row class="rowdata">
+							<div class="labels">Substatus</div>
 							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('updatestatus')}}</p> 
+								<!-- <v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('updatestatus')}}</p>  -->
+								<v-ons-select style="width: 100%" v-model="updatefollowup.Substatus" name="substatus" v-validate="'required'">
+                                   <option value="" selected data-default></option>
+                                 <option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
+                                   {{ value}}
+                                </option>
+                                </v-ons-select>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
+							<div class="labels">Time Taken</div>
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="updatetime" name="updatetime" placeholder="Time Taken" v-model="input.updatetime" ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 							</v-ons-col>
+							<v-ons-col> 
+								<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
+							</v-ons-col>
+						</v-ons-row>
 						
+						<v-ons-row class="rowdata">
+							 <div class="labels">Update Remarks</div>
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="updatedistance" name="updatedistance" placeholder="Distance Travelled" v-model="input.updatedistance"></v-ons-input>
+								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
+							<div class="labels">Distance Travelled</div>
 							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="updateremarks" name="updateremarks" placeholder="Remarks" v-model="input.updateremarks"  ></v-ons-input>
+								<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
@@ -136,7 +162,7 @@
 								<b>Reassign</b>
 							</v-ons-col>
 						</v-ons-row>		
-						<v-ons-row class="rowdata">
+						<!-- <v-ons-row class="rowdata">
 							<v-ons-col> 
 								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="input.user" v-validate="required" ></v-ons-input>
 								<p class="text-danger" >{{ errors.first('user')}}</p> 
@@ -155,7 +181,7 @@
 							<v-ons-col> 
 								<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" ></v-ons-input>
 							</v-ons-col>
-						</v-ons-row>
+						</v-ons-row> -->
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
@@ -175,8 +201,8 @@
 
 <script>
 
-import FollowupsAPI from '../services/api/Leads.js';
-// import FollowupsAPI from '../services/api/Followup.js';
+// import FollowupsAPI from '../services/api/Leads.js';
+import FollowupsAPI from '../services/api/Followup.js';
 import Utils from '../services/api/Utils.js';
 
 	export default {
@@ -188,11 +214,12 @@ import Utils from '../services/api/Utils.js';
 			completeVisible: false,
 			updateVisible: false,
 			reassignVisible: false,
+			StageHistoryID: "",
 			items: {
 				LeadName: prj.LeadName,
 				Mobile: prj.Mobile,
 				Email: prj.Email,
-				ContactPerson: prj.ContactPerson,
+				ContactName: prj.ContactName,
 				Stage: prj.Stage
 
 			},
@@ -203,14 +230,26 @@ import Utils from '../services/api/Utils.js';
         	 isLoading: true,
         	 prop:{},
         	 followups: [],
-        	 input: {
-        	 	remarks: "",
-        	 	timetaken: "",
-        	 	traveldistance: "",
-        	 	updatestatus: "",
-        	 	updatetime: "",
-        	 	updatedistance: "",
-        	 	updateremarks: ""
+        	 substatus:[],
+        	 completefollowup:{
+        	 	CompletionRemark:"",
+        	 	Hr:"",
+        	 	Min:"",
+        	 	Distance:"",
+        	 	LeadName:prj.LeadName,
+        	 	ContactName:prj.ContactName,
+        	 	ContactEmail:prj.ContactEmail,
+        	 	ContactMobile:prj.ContactMobile,
+        	 	ContactLandline:prj.ContactLandline,
+        	 	ScheduleBy:prj.ScheduleBy,
+        	 	ScheduleTo:prj.ScheduleTo,
+        	 	Task:prj.Task,
+        	 	ClaimAmount:"",
+        	 	Substatus:"",
+        	 	projectId:prj.ProjectID
+        	 },
+        	 updatefollowup:{
+        	 	Substatus:""
         	 },
         	 current_status : "callaction",
         	 projectID:"",
@@ -251,6 +290,27 @@ import Utils from '../services/api/Utils.js';
   			},
   			readableDate(date) {
   				return Utils.readableDate(date);
+  			},
+  			completeFollowup(){
+  				console.log(this.StageHistoryID)
+  				this.completefollowup.Token = localStorage.ki;
+  				// this.completefollowup.projectId = Utils.getProjectid();
+  				this.completefollowup.StageHistoryID = this.StageHistoryID.toString();
+ 
+			    var data = this.completefollowup;
+			     this.$validator.validate().then(valid => {
+			     console.log(data);
+        			if (valid) {
+            		FollowupsAPI.completeFollowup(data).then(followups => {
+             		 console.log('followup completed');
+           			 this.$router.push('/followups');
+
+           				 }, error => {
+               				console.error(error);
+            			}); 
+          			}
+       			 })
+
   			}
 		},
 
@@ -258,13 +318,10 @@ import Utils from '../services/api/Utils.js';
 		var date = new Date();
 
  		var payload = {
-	 		// fromDate: '01-01-2019',
-	 		// toDate: '01-29-2019',
 	 		Token:localStorage.ki,
-	 		projectId: (this.pjctid).toString()
-
+	 		projectId: (this.pjctid).toString(),
+	 		UserID:Utils.getUserid() 
 	 	}
-	 	console.log(this.pjctid);
 
 	 	this.intervalID = setInterval(() => {
 			if (this.progress === 100) {
@@ -277,16 +334,15 @@ import Utils from '../services/api/Utils.js';
  	  		this.progress = 0;
  	  		clearInterval(this.intervalID);  
  	  		this.isLoading = false;
- 	  		// this.ProjectName = projects.Body.ProjectName;
- 	  		// this.ContactName = projects.Body.ContactName;
- 	  		// this.Stage = projects.Body.Stage;
- 	  		// this.Mobile = projects.Body.Mobile;
- 	  		// this.Email = projects.Body.Email;
  	  		this.followups = projects.Body;
  	  		this.prop = projects.Body;
- 	  		console.log(projects);
+ 	  		console.log(projects.Body);
 
- 	  	})
+ 	  	}),
+ 	  	Utils.getStatus(payload).then(substatus => {
+          this.substatus = this.substatus.concat(substatus.Body);
+          console.log(substatus.Body);
+    		})
 	  }
 	}	
 
@@ -368,7 +424,9 @@ import Utils from '../services/api/Utils.js';
 	padding:6px;
 }
 
-
+.hourtime .minutetime{
+	width:50%;
+}
 
 .ons-icon.fa {
 	font-size: 1.4em;

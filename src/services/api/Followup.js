@@ -9,12 +9,18 @@ addFollowup(payload){
             .then(response => {
                 return response.data
             })
-    }
+    },
 
-  //   getFollowups(payload){
-		// 	return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&fromDate="+ payload.fromDate+"&toDate="+payload.toDate+"&Token="+payload.Token, "headers": { "content-type": "application/json" } })
-		// 		.then(response => {
-		// 			return response.data
-		// 		})
-		// },
+  getFollowups(payload){
+         return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&Token="+payload.Token+"&UserID="+payload.UserID, "headers": { "content-type": "application/json" } })
+             .then(response => {
+                 return response.data
+             })
+     },
+   completeFollowup(payload){
+        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.projectId, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
+    },
 }

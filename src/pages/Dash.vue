@@ -26,7 +26,7 @@
 				<v-ons-card @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{value.ProjectName}}</v-ons-col>
+							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
 							<v-ons-col id="ld-status" >{{value.Task}}</v-ons-col>
@@ -73,6 +73,7 @@ import GetTasksAPI from '../services/api/Leads.js';
 import Followups from '../pages/Followups.vue';
 import TaskList from '../pages/Tasklist.vue';
 import LoginApi from '../services/api/User.js';
+import Utils from '../services/api/Utils.js';
 
 
 export default {
@@ -141,9 +142,12 @@ export default {
  		n = (n.length > 1 ) ? n : '0' + n;
  		
  		var payload = {	 	
-	 		fromDate: m + '-' + '01' + '-' + date.getFullYear(),
-	 		toDate: n+ '-' + '01' + '-' + date.getFullYear(),
-	 		Token:localStorage.ki
+	 		// fromDate: m + '-' + '01' + '-' + date.getFullYear(),
+	 		// toDate: n+ '-' + '01' + '-' + date.getFullYear(),
+	 		fromDate: date.getFullYear() + '-' + m + '-' + '01',
+	 		toDate: date.getFullYear() + '-' + n + '-' + '01',
+	 		Token:localStorage.ki,
+	 		UserID:Utils.getUserid() 
 	 	}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
@@ -155,6 +159,7 @@ export default {
 				var dtobj = new Date(parseInt(dates[i]));
 				dots[i] = dtobj;			
 			}
+			console.log(leads);
 			this.leads = leads;
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
