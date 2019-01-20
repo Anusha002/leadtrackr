@@ -38,7 +38,7 @@
           <v-ons-list-item modifier="nodivider" >
            <div class="followupdetails">
             <div class="labels" @click="openCalender()">Followup Date</div>
-            <!-- <div class="followdate">{{dateformat(FllwDate)}}</div> -->
+            <div class="followdate">{{dateformat(FllwDate)}}</div>
             <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
             
@@ -233,13 +233,7 @@ export default{
 }
 </script>
 <style scoped>
-.popover-container input {
-  display: none !important;
-}
 
-.popover-origin{
-  transform-style: preserve-3d;
-}
 .followup {
   border-radius: 6px;
   margin: 0 15px;

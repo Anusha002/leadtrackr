@@ -14,22 +14,22 @@
  		</v-ons-toolbar>
  		<v-ons-button modifier="material--flat" class="filterclass" style="margin: 4px 4px" @click="toggleFilter()">Filter</v-ons-button>
  		<v-ons-row v-show="flagfilter == 'true'">
- 			<v-ons-col width="100px" @click="openCalender('from')">
- 				<div>From Date</div>
- 				<div class="fromdate">{{dateformat(FromDate)}}</div>
+ 			<v-ons-col width="100px" >
+ 				<div @click="openCalender('from')">From Date</div>
+ 				<!-- <div class="fromdate">{{dateformat(FromDate)}}</div> -->
             <v-date-picker :popover-visibility="showfromcalender" mode='single' v-model="FromDate" name="fromdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
 
  			</v-ons-col>
- 			<v-ons-col width="100px" @click="openCalender('to')">
- 				<div>To Date</div>
- 				<div class="fromdate">{{dateformat(ToDate)}}</div>
+ 			<v-ons-col width="100px" >
+ 				<div @click="openCalender('to')">To Date</div>
+ 				<!-- <div class="fromdate">{{dateformat(ToDate)}}</div> -->
             <v-date-picker :popover-visibility="showtocalender" :min-date='FromDate' mode='single' v-model="ToDate" name="todate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
 
  			</v-ons-col>
  			<v-ons-col>
- 				<v-ons-button @click="listTasks()">Go</v-ons-button>
+ 				<v-ons-button class="gobutton" @click="listTasks()">Go</v-ons-button>
  			</v-ons-col>		
  			
  		</v-ons-row>
@@ -241,4 +241,8 @@ export default {
 	background-color: white	;
 	border-radius: 10px;
 }
+.gobutton{
+	margin-left: 45px;
+    margin-top: 10px;
+   } 
 </style>

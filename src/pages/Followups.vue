@@ -77,13 +77,16 @@
 					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 				</v-ons-col>
 			</v-ons-row>
+			
 			<v-ons-row class="rowdata">
-				<div class="labels">Time Taken</div>
-				<v-ons-col> 
+				<div class="labels">Time Taken</div><br>
+			</v-ons-row>
+			<v-ons-row>	
+				<v-ons-col width="150px" class="hour"> 
 					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 				</v-ons-col>
-				<v-ons-col> 
+				<v-ons-col width="150px" class="minute"> 
 					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 				</v-ons-col>
@@ -111,6 +114,8 @@
 						</v-ons-row>		
 						<v-ons-row class="rowdata">
 							<div class="labels">Substatus</div>
+						</v-ons-row>
+						<v-ons-row>	
 							<v-ons-col> 
 								<!-- <v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
 								<p class="text-danger" >{{ errors.first('updatestatus')}}</p>  -->
@@ -124,11 +129,13 @@
 						</v-ons-row>
 						<v-ons-row class="rowdata">
 							<div class="labels">Time Taken</div>
-							<v-ons-col> 
+						</v-ons-row>
+						<v-ons-row>	
+							<v-ons-col width="150px" class="hour"> 
 								<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
 								<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 							</v-ons-col>
-							<v-ons-col> 
+							<v-ons-col width="150px" class="minute"> 
 								<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
 								<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 							</v-ons-col>
@@ -161,27 +168,42 @@
 							<v-ons-col>
 								<b>Reassign</b>
 							</v-ons-col>
-						</v-ons-row>		
-						<!-- <v-ons-row class="rowdata">
+						</v-ons-row>	
+							<v-ons-row class="rowdata">
+								<div class="labels">Reassign To</div><br>
+							</v-ons-row>	
+						<v-ons-row class="rowdata">
 							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="input.user" v-validate="required" ></v-ons-input>
+								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="completefollowup.ScheduleTo" v-validate="required" ></v-ons-input>
 								<p class="text-danger" >{{ errors.first('user')}}</p> 
 							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row class="rowdata">
+				<div class="labels">Time Taken</div><br>
+			</v-ons-row>
+			<v-ons-row>	
+				<v-ons-col width="150px" class="hour"> 
+					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
+				</v-ons-col>
+				<v-ons-col width="150px" class="minute"> 
+					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<div class="labels">Distance Travelled</div>
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
+				</v-ons-col>
+			</v-ons-row>
+						<v-ons-row class="rowdata">
+							 <div class="labels">Reassign Remarks</div>
 							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="reassigntime" name="reassigntime" placeholder="Time Taken" v-model="input.reassigntime"  ></v-ons-input>
-							</v-ons-col>
-						
-							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="reassigndistance" name="reassigndistance" placeholder="Distance Travelled" v-model="input.reassigndistance" ></v-ons-input>
+								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
+								<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 							</v-ons-col>
 						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="reassignremarks" name="reassignremarks" placeholder="Remarks" v-model="input.reassignremarks" ></v-ons-input>
-							</v-ons-col>
-						</v-ons-row> -->
 						<v-ons-row class="rowdata">
 							<v-ons-col>
 								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
@@ -432,5 +454,13 @@ import Utils from '../services/api/Utils.js';
 	font-size: 1.4em;
 	color: #333;
 }
-
+.labels{
+  color:#3d5afe;    
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Roboto', 'Noto', sans-serif;
+}
+.hour .minute{
+	margin-right:10px;
+}
 </style>

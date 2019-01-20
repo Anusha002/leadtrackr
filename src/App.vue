@@ -25,7 +25,13 @@
 .lead-input{
   width: 100%;
 }
+.popover-container input {
+  display: none !important;
+}
 
+.popover-origin{
+  transform-style: preserve-3d;
+}
 .outline-btn {
   border: 1px solid #999;
   font-size: 11px !important;
@@ -50,7 +56,7 @@
 
 .dialog{
   width: 358px;
-  height: 350px;
+  height: 440px;
   margin-top:70px;
 }
 

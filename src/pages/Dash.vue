@@ -142,10 +142,10 @@ export default {
  		n = (n.length > 1 ) ? n : '0' + n;
  		
  		var payload = {	 	
-	 		// fromDate: m + '-' + '01' + '-' + date.getFullYear(),
-	 		// toDate: n+ '-' + '01' + '-' + date.getFullYear(),
-	 		fromDate: date.getFullYear() + '-' + m + '-' + '01',
-	 		toDate: date.getFullYear() + '-' + n + '-' + '01',
+	 		fromDate: m + '-' + '01' + '-' + date.getFullYear(),
+	 		toDate: n+ '-' + '01' + '-' + date.getFullYear(),
+	 		// fromDate: date.getFullYear() + '-' + m + '-' + '01',
+	 		// toDate: date.getFullYear() + '-' + n + '-' + '01',
 	 		Token:localStorage.ki,
 	 		UserID:Utils.getUserid() 
 	 	}
