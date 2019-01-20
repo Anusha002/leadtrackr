@@ -92,6 +92,7 @@
 <script>
 import Utils from '../services/api/Utils.js';
 import AddfollowupApi from '../services/api/Followup.js';
+import Vue from 'vue';
 
 export default{
 
@@ -128,23 +129,17 @@ export default{
    },
    methods: {
      addFile() {
-        window.OurCodeWorld.Filebrowser.filePicker.single({
-          success: function(data){
-              if(!data.length){
-              // No file selected
-              return;
-          }
-
-          console.log(data);
-          // Array with the file path
-          // ["file:///storage/emulated/0/360/security/file.txt"]
-          },
-          // Start in a custom directory
-          //startupPath:"/emulated/0/",
-          error: function(err){
-              console.log(err);
-          }
-      });
+        if(Vue.cordova.camera) {
+          Vue.cordova.camera.getPicture((imageURI) => {
+              window.alert('Photo URI : ' + imageURI)
+            }, (message) => {
+              window.alert('FAILED : ' + message)
+            }, {
+              quality: 50,
+              destinationType: Vue.cordova.camera.DestinationType.FILE_URI,
+              sourceType: Vue.cordova.camera.Camera.PictureSourceType.PHOTOLIBRARY
+            })
+        }
      },
      
      dateformat(date) {
