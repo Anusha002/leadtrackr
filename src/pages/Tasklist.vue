@@ -16,14 +16,14 @@
  		<v-ons-row v-show="flagfilter == 'true'">
  			<v-ons-col width="100px" >
  				<div @click="openCalender('from')">From Date</div>
- 				<!-- <div class="fromdate">{{dateformat(FromDate)}}</div> -->
+ 				<div class="fromdate">{{dateformat(FromDate)}}</div>
             <v-date-picker :popover-visibility="showfromcalender" mode='single' v-model="FromDate" name="fromdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
 
  			</v-ons-col>
  			<v-ons-col width="100px" >
  				<div @click="openCalender('to')">To Date</div>
- 				<!-- <div class="fromdate">{{dateformat(ToDate)}}</div> -->
+ 				<div class="fromdate">{{dateformat(ToDate)}}</div>
             <v-date-picker :popover-visibility="showtocalender" :min-date='FromDate' mode='single' v-model="ToDate" name="todate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
 
