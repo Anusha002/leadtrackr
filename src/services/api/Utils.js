@@ -9,6 +9,13 @@ export default {
             })
 
     },
+    getSubstatus(payload){
+        return axios({ method: "GET", "url": Urls.url.substatus+"?Token="+payload.Token, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
+
+    },
     getType(payload){
         return axios({ method: "GET", "url": Urls.url.type+"?Token="+payload.Token, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
@@ -23,8 +30,22 @@ export default {
             })
 
     },
+    getTask(payload){
+        return axios({ method: "GET", "url": Urls.url.task+"?Token="+payload.Token+"&UserID="+payload.UserID, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
+
+    },
     getUser(payload){
         return axios({ method: "GET", "url": Urls.url.users+"?Token="+payload.Token, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
+
+    },
+    getScheduleto(payload){
+        return axios({ method: "GET", "url": Urls.url.scheduleto+"?ProjectID="+payload.ProjectID, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })
@@ -51,7 +72,7 @@ export default {
         return JSON.parse(localStorage.getItem('usr')).FullName.toString();
     },
     getProjectid() {  
-        return JSON.parse(localStorage.getItem('project')).ProjectID;
+        return JSON.parse(localStorage.getItem('project')).ProjectID.toString();
     }
    
 }

@@ -12,26 +12,33 @@
     </v-ons-toolbar>
 		
   		<v-ons-list class="followup">
-          <v-ons-list-item  modifier="nodivider">
+          <!-- <v-ons-list-item  modifier="nodivider">
             <div class="labels">Stage</div>
-           <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
+            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
                 <option value="" selected ></option>
                 <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
             </v-ons-select>
              <p class="text-danger">{{ errors.first('stage')}}</p> 
-          </v-ons-list-item>
+          </v-ons-list-item> -->
           <v-ons-list-item modifier="nodivider">
-           <div class="followupdetails">
-            <v-ons-input float placeholder="Task" v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
+            <div class="labels">Task</div>
+            <v-ons-select style="width: 100%" v-model="followup.Task" name="stage" v-validate="'required'">
+                <option value="" selected ></option>
+                <option v-for="(item, key) in tasks" :value="item" v-bind:key="key">
+                  {{ item }}
+                </option>
+            </v-ons-select>
+           <!-- <div class="followupdetails">
+            <v-ons-input v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('task')}}</p> 
-            </div>
+            </div> -->
           </v-ons-list-item>
-          <v-ons-list-item modifier="nodivider"  @click="openCalender()">
+          <v-ons-list-item modifier="nodivider" >
            <div class="followupdetails">
-            <div class="labels">Followup Date</div>
-            <div class="followdate">{{dateformat(FllwDate)}}</div>
+            <div class="labels" @click="openCalender()">Followup Date</div>
+            <!-- <div class="followdate">{{dateformat(FllwDate)}}</div> -->
             <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked'>
              </v-date-picker>
             
@@ -40,20 +47,13 @@
 
           </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider">
+            <div class="labels">Description</div>
            <div class="leaddetails">
-            <v-ons-input float placeholder="Description" v-model="followup.Description"></v-ons-input>
+            <v-ons-input v-model="followup.Description"></v-ons-input>
 
             </div>
           </v-ons-list-item>          
-          <!-- <v-ons-list-item modifier="nodivider">  
-             <v-ons-select style="width: 100%" v-model="followup.ScheduleBy" name="scheduleby" v-validate="'required'">
-               <option value="" selected data-default></option>
-                <option v-for="(value,key) in scheduleBy" :value="value.FullName" v-bind:key="key">
-                  {{ value.FullName }}
-                </option>
-            </v-ons-select>
-            <p class="text-danger" >{{ errors.first('scheduleby')}}</p> 
-          </v-ons-list-item>   -->
+          
           <v-ons-list-item modifier="nodivider"> 
             <div class="labels">ScheduleTo</div>
              <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
@@ -77,8 +77,7 @@
           </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider"  @click="addFile()">
            <div class="followupdetails">
-            Add File Attachment
-            
+             <div class="labels"> Add File Attachment </div> 
             </div>
 
           </v-ons-list-item>  
@@ -103,7 +102,7 @@ export default{
     return {
       followup: {
         ProjectID: "",
-        Stage: "", 
+        Stage: "Enquiry", 
         UserID:"",
         Task:"",
         CreatedDate: new Date(),
@@ -120,10 +119,12 @@ export default{
       // status:["Select Status"],
       // // scheduleBy:[{'FullName': 'Schedule By'}],
       // scheduleTo: [{'FullName': 'Schedule To'}]
-      stages:[""],
+      // stages:[""],
+      tasks:[""],
       status:[""],
       scheduleBy:[""],
-      scheduleTo:[""]
+      scheduleTo:[""],
+      tasklist:[],
      }
    },
    methods: {
@@ -163,6 +164,7 @@ export default{
       
       this.submitted = true;
       var data = this.followup;
+      this.followup.ProjectID = Utils.getProjectid();
       this.followup.CreatedDate = Utils.formatDate(new Date())
       this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate))
       this.followup.ScheduleBy = Utils.getUsername()
@@ -190,7 +192,9 @@ export default{
     this.followup.ProjectID = Utils.getProjectid();
     var payload = {
           Token:localStorage.ki,
-          Department:user.Department
+          Department:user.Department,
+          UserID:this.followup.UserID,
+          ProjectID:Utils.getProjectid()
 
          }
 
@@ -198,15 +202,24 @@ export default{
       this.status = this.status.concat(status.Body);
     }),
 
-    Utils.getStage(payload).then(stage => {
-      this.stages = this.stages.concat(stage.Body);
-      // this.stages = stage.Body;
+    Utils.getTask(payload).then(task => {  
       
-      
+      for (var i=0; i<task.Body.length; i++) {
+        this.tasklist[i] = task.Body[i].Task;         
+      }
+      console.log(this.tasklist);
+      this.tasks = this.tasks.concat(this.tasklist);
     }),
-    Utils.getUser(payload).then(users => {
+    // Utils.getStage(payload).then(stage => {
+    //   this.stages = this.stages.concat(stage.Body);
+    //   // this.stages = stage.Body;
+      
+      
+    // }),
+    // Utils.getUser(payload).then(users => {
       // this.scheduleBy = this.scheduleBy.concat(users.Body); 
-      this.scheduleTo = this.scheduleTo.concat(users.Body);
+      Utils.getScheduleto(payload).then(users => {
+        this.scheduleTo = this.scheduleTo.concat(users.Body);
       
     })
 
@@ -214,7 +227,7 @@ export default{
   } 
 }
 </script>
-<style>
+<style scoped>
 .popover-container input {
   display: none !important;
 }
@@ -236,7 +249,7 @@ export default{
 }
 .labels{
   color:#3d5afe;    
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   font-family: 'Roboto', 'Noto', sans-serif;
 }

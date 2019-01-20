@@ -12,13 +12,17 @@ export default {
         'logout': baseUrl + 'api/logout',
         'schedule': baseUrl + 'api/Schedule',
         'status': baseUrl + 'api/status',
+        'substatus': baseUrl + 'api/Substatus',
+        'task': baseUrl + 'api/Task',
         'type': baseUrl + 'api/Type',
         'stage': baseUrl + 'api/Stage',
         'users': baseUrl + 'api/Users',
+        'scheduleto': baseUrl + 'api/Scheduleto',
         'getleads': baseUrl + 'api/Projects',
         'addlead': baseUrl + 'api/Projects',
         'followups': baseUrl + 'api/Schedule',
-        'addfollowup': baseUrl + 'api/Schedule'
+        'addfollowup': baseUrl + 'api/Schedule',
+        'completefollowup': baseUrl + 'api/Schedule'
  
     }
 }

@@ -24,7 +24,7 @@
 							<v-ons-col id="ld-status" >{{value.Stage}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{value.ContactPerson}}</v-ons-col>
+							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
