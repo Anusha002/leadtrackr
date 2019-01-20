@@ -154,6 +154,7 @@ export default{
 
   mounted:function() {
     // localStorage.removeItem('leaddata');
+    navigator.geolocation.getCurrentPosition(function(position){})
 
     if(localStorage.getItem('leaddata') != null ){
          this.lead = JSON.parse(localStorage.getItem('leaddata'))
@@ -184,12 +185,12 @@ export default{
       this.handledBy = this.handledBy.concat(users.Body);
     })
     
+    
   },
 
   methods :{
     addLocation() {
       localStorage.setItem('leaddata', JSON.stringify(this.lead));
-      console.log(localStorage.leaddata);
       this.$router.push('/addlocation');
     },
     goToHome(){

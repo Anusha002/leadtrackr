@@ -60,9 +60,34 @@ export default{
      setPlace(place) {
       this.currentPlace = place;
     },
-     getCoordinates: function(e) {
+    getCoordinates: function(e) {
       this.center.lat = e.latLng.lat();
       this.center.lng = e.latLng.lng();
+    },
+    getPosition() {
+      console.log('Getting Position..........')
+      var that = this;
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          that.center.lat = position.coords.latitude;
+          that.center.lng = position.coords.longitude;
+          that.markers.push({position: that.center});
+          // alert('Latitude: '          + position.coords.latitude          + '\n' +
+          //   'Longitude: '         + position.coords.longitude         + '\n' );
+        }, function(error){
+          switch(error.code) {
+            case 3:
+              that.center.lat = 12.95396;
+              that.center.lng = 77.4908521;
+              that.markers.push({position: that.center});
+              break;
+            case 1:
+              window.alert("Need location permission to add location. Please Provide...");
+            break;
+
+          }
+        }, { maximumAge: 1500000, timeout: 30000 });
+      }
     },
     addMarker() {
       if (this.currentPlace) {
@@ -88,17 +113,12 @@ export default{
      
     },
    mounted:function() {
-     
-     var that = this;
-     this.$ons.ready(function(){
-      navigator.geolocation.getCurrentPosition(function(position){
-        that.center.lat = position.coords.latitude;
-        that.center.lng = position.coords.longitude;
-        that.markers.push({position: that.center});
-        // alert('Latitude: '          + position.coords.latitude          + '\n' +
-        //   'Longitude: '         + position.coords.longitude         + '\n' );
-      });
-    })
+     this.getPosition();
+    //  var that = this;
+    //  this.$ons.ready(function(){
+      
+      
+    // })
 
 
 

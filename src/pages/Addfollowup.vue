@@ -79,6 +79,7 @@
            <div class="followupdetails">
              <div class="labels"> Add File Attachment </div> 
             </div>
+            <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
           </v-ons-list-item>  
 
@@ -111,6 +112,7 @@ export default{
         ScheduleTo: "",
         Description:"",
         Status:"",
+        Attachment: "",
         Token:localStorage.ki 
       },
       FllwDate: "",
@@ -129,15 +131,25 @@ export default{
    },
    methods: {
      addFile() {
+       //console.log(JSON.stringify(window))
+       var that = this;
         if(Vue.cordova.camera) {
           Vue.cordova.camera.getPicture((imageURI) => {
-              window.alert('Photo URI : ' + imageURI)
+            
+              window.FilePath.resolveNativePath(imageURI, function success(fileEntry) {
+                  that.followup.Attachment = fileEntry;
+                  
+                  console.log(that.followup.Attachment)
+              }, function () {
+                
+              });
             }, (message) => {
               window.alert('FAILED : ' + message)
             }, {
               quality: 50,
               destinationType: Vue.cordova.camera.DestinationType.FILE_URI,
-              sourceType: Vue.cordova.camera.Camera.PictureSourceType.PHOTOLIBRARY
+              encodingType: Vue.cordova.camera.EncodingType.JPEG,
+              sourceType: Vue.cordova.camera.PictureSourceType.PHOTOLIBRARY
             })
         }
      },
