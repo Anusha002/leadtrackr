@@ -12,7 +12,7 @@ addFollowup(payload){
     },
 
   getFollowups(payload){
-         return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&Token="+payload.Token+"&UserID="+payload.UserID, "headers": { "content-type": "application/json" } })
+         return axios({ method: "GET", "url": Urls.url.followups+"?ProjectId="+payload.projectId+"&Token="+payload.Token+"&UserID="+payload.UserID, "headers": { "content-type": "application/json" } })
              .then(response => {
                  return response.data
              })

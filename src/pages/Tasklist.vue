@@ -159,6 +159,8 @@ export default {
 		 toggleFilter(){
 
 		 	this.flagfilter = this.flagfilter == 'false' ? 'true' : 'false';
+		 	this.FromDate = "";
+		 	this.ToDate = "";
 
 		 },
 		 toggleMenu()  {
@@ -242,7 +244,7 @@ export default {
 	border-radius: 10px;
 }
 .gobutton{
-	margin-left: 45px;
-    margin-top: 10px;
+	margin-left: 20px;
+    margin-top: 0;
    } 
 </style>

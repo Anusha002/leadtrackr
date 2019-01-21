@@ -13,13 +13,13 @@
 		<div>
 			<v-ons-card>
 					<div class="content">
-						<label class="label">Lead Name</label>
+						<label class="label">LeadName</label>
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{items.LeadName}}</v-ons-col>
 						</v-ons-row>
-						<label class="label">Contact Person</label>
+						<label class="label">ContactName</label>
 						<v-ons-row>
-							<v-ons-col id="ld-status" >{{items.ContactPerson}}</v-ons-col>
+							<v-ons-col id="ld-status" >{{items.ContactName}}</v-ons-col>
 						</v-ons-row>
 						<label class="label">CreatedByName</label>
 						<v-ons-row>	

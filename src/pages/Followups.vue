@@ -69,11 +69,17 @@
 				<v-ons-col>
 					<b>Mark Completed</b>
 				</v-ons-col>
-			</v-ons-row>		
+			</v-ons-row>	
+			<v-ons-row class="rowdata">
+				 <div class="labels">Current Followup Remarks</div>
+			</v-ons-row>	 
+				<v-ons-row> 
+					{{input.Description}}
+			</v-ons-row>	
 			<v-ons-row class="rowdata">
 				 <div class="labels">Completion Remarks</div>
 				<v-ons-col> 
-					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
+					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required"></v-ons-input>
 					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 				</v-ons-col>
 			</v-ons-row>
@@ -82,11 +88,11 @@
 				<div class="labels">Time Taken</div><br>
 			</v-ons-row>
 			<v-ons-row>	
-				<v-ons-col width="150px" class="hour"> 
+				<v-ons-col width="130px" class="hour"> 
 					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 				</v-ons-col>
-				<v-ons-col width="150px" class="minute"> 
+				<v-ons-col width="130px" class="minute"> 
 					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 				</v-ons-col>
@@ -95,6 +101,12 @@
 				<div class="labels">Distance Travelled</div>
 				<v-ons-col> 
 					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<div class="labels">ClaimAmount</div>
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="completefollowup.ClaimAmount"></v-ons-input>
 				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
@@ -258,6 +270,10 @@ import Utils from '../services/api/Utils.js';
         	 	Hr:"",
         	 	Min:"",
         	 	Distance:"",
+        	 	ClaimAmount:"",
+        	 	Substatus:""
+        	 },
+        	 input:{
         	 	LeadName:prj.LeadName,
         	 	ContactName:prj.ContactName,
         	 	ContactEmail:prj.ContactEmail,
@@ -265,9 +281,8 @@ import Utils from '../services/api/Utils.js';
         	 	ContactLandline:prj.ContactLandline,
         	 	ScheduleBy:prj.ScheduleBy,
         	 	ScheduleTo:prj.ScheduleTo,
+        	 	Description:prj.Description,
         	 	Task:prj.Task,
-        	 	ClaimAmount:"",
-        	 	Substatus:"",
         	 	projectId:prj.ProjectID
         	 },
         	 updatefollowup:{
@@ -314,26 +329,26 @@ import Utils from '../services/api/Utils.js';
   				return Utils.readableDate(date);
   			},
   			completeFollowup(){
-  				console.log(this.StageHistoryID)
+  				
   				this.completefollowup.Token = localStorage.ki;
-  				// this.completefollowup.projectId = Utils.getProjectid();
   				this.completefollowup.StageHistoryID = this.StageHistoryID.toString();
- 
+  				this.completefollowup.input = this.input;
 			    var data = this.completefollowup;
-			     this.$validator.validate().then(valid => {
-			     console.log(data);
-        			if (valid) {
+			     // this.$validator.validate().then(valid => {
+			     	console.log(data);
+        			// if (valid) {
+        				
             		FollowupsAPI.completeFollowup(data).then(followups => {
              		 console.log('followup completed');
            			 this.$router.push('/followups');
 
-           				 }, error => {
-               				console.error(error);
+           			// 	 // }, error => {
+              //  	// 			console.error(error);
             			}); 
           			}
-       			 })
+       			 // })
 
-  			}
+  			// }
 		},
 
 		mounted:function() {
@@ -352,6 +367,7 @@ import Utils from '../services/api/Utils.js';
 			}
 			this.progress++;
 		}, 40);
+		
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
  	  		this.progress = 0;
  	  		clearInterval(this.intervalID);  
@@ -363,7 +379,6 @@ import Utils from '../services/api/Utils.js';
  	  	}),
  	  	Utils.getStatus(payload).then(substatus => {
           this.substatus = this.substatus.concat(substatus.Body);
-          console.log(substatus.Body);
     		})
 	  }
 	}	
@@ -462,5 +477,10 @@ import Utils from '../services/api/Utils.js';
 }
 .hour .minute{
 	margin-right:10px;
+}
+.green-button{
+	line-height: 25px;
+	width: 83px;
+    height: 37px;
 }
 </style>

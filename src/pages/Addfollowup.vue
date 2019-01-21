@@ -219,7 +219,7 @@ export default{
       for (var i=0; i<task.Body.length; i++) {
         this.tasklist[i] = task.Body[i].Task;         
       }
-      console.log(this.tasklist);
+
       this.tasks = this.tasks.concat(this.tasklist);
     }),
     // Utils.getStage(payload).then(stage => {
