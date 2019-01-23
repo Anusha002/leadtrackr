@@ -27,7 +27,7 @@
         	<v-ons-list-item modifier="nodivider">	
             <div class="labels">Type</div>
         		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >   
-               <option value="" selected data-default></option>
+               <option value="" selected ></option>
                 <option v-for="(value,key) in types" :value="value.TypeID" v-bind:key="key">
                   {{value.TypeName }} 
                 </option>
@@ -37,7 +37,7 @@
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Stage</div>
            <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
-                <option value="" selected data-default></option>
+                <option value="" selected></option>
                 <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
@@ -48,7 +48,7 @@
           <v-ons-list-item modifier="nodivider"> 
             <div class="labels">Status</div>
              <v-ons-select style="width: 100%" v-model="lead.Status" name="status" v-validate="'required'">
-                <option value="" selected data-default></option>
+                <option value="" selected></option>
                 <option v-for="(item,key) in status" :value="item" v-bind:key="key">
                   {{ item }}
                 </option>
@@ -77,7 +77,7 @@
           <v-ons-list-item modifier="nodivider"> 
             <div class="labels">HandledBy</div>
              <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">
-                <option value="" selected data-default></option>
+                <option value="" selected></option>
                 <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
@@ -87,7 +87,7 @@
         	<v-ons-list-item modifier="nodivider"> 
             <div class="labels">OwnedBy</div>
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
-               <option value="" selected data-default></option>
+               <option value="" selected></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">
                   {{ value.FullName }}
                 </option>
@@ -115,13 +115,13 @@ import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 
 export default{
-    props: ['items'],
+    props: ['items','editlead'],
     data() {
       
     return {
       lead: {
       LeadName: "",
-      ContactPerson: "", 
+      ContactName: "", 
       Type:"",
       Stage:"",
       Status:"",
@@ -130,8 +130,11 @@ export default{
       Email: "",
       Description:"",
       CreatedBy:Utils.getUserid(),
+      CreatedByName:"",
       HandledBy:"",
+      HandledByName:"",
       OwnedBy: "",
+      OwnerName:"",
       Token:localStorage.ki
       
       },
@@ -142,8 +145,8 @@ export default{
       // handledBy: [{'FullName': 'Handled By'}],
       // ownedBy: [{'FullName': 'Owned By'}],
       types: [""], 
-      stages:[""],
-      status:[""],
+      stages: [""],
+      status: [""],
       createdBy:[""],
       handledBy: [""],
       ownedBy: [""],
@@ -153,14 +156,6 @@ export default{
 	 },
 
   mounted:function() {
-    // localStorage.removeItem('leaddata');
-    navigator.geolocation.getCurrentPosition(function(position){})
-
-    if(localStorage.getItem('leaddata') != null ){
-         this.lead = JSON.parse(localStorage.getItem('leaddata'))
-         console.log(this.lead.Type);
-      }
-
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
@@ -184,6 +179,21 @@ export default{
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
     })
+    // localStorage.removeItem('leaddata');
+    navigator.geolocation.getCurrentPosition(function(position){})
+
+    if(localStorage.getItem('leaddata') != null ){
+         this.lead = JSON.parse(localStorage.getItem('leaddata'))
+         console.log(this.lead.Type);
+      }
+      if(this.$props.editlead != null){
+        
+        this.lead = this.$props.editlead;
+        this.lead.Type = this.$props.editlead.Type
+        console.log(this.lead.OwnerName);
+      }
+
+    
     
     
   },

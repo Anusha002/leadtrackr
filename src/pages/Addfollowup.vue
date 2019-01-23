@@ -206,7 +206,7 @@ export default{
           Token:localStorage.ki,
           Department:user.Department,
           UserID:this.followup.UserID,
-          ProjectID:Utils.getProjectid()
+          projectId:Utils.getProjectid()
 
          }
 
@@ -222,14 +222,7 @@ export default{
 
       this.tasks = this.tasks.concat(this.tasklist);
     }),
-    // Utils.getStage(payload).then(stage => {
-    //   this.stages = this.stages.concat(stage.Body);
-    //   // this.stages = stage.Body;
-      
-      
-    // }),
-    // Utils.getUser(payload).then(users => {
-      // this.scheduleBy = this.scheduleBy.concat(users.Body); 
+  
       Utils.getScheduleto(payload).then(users => {
         this.scheduleTo = this.scheduleTo.concat(users.Body);
       

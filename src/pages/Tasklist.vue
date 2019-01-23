@@ -39,7 +39,7 @@
 				<v-ons-list class="list">
 					<v-ons-list-item  v-for="(card, index) in value" v-bind:key="index">
 						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{card.LeadName}}</v-ons-col>
+							<v-ons-col id="ld-comp-name">{{card.LeadName}}</v-ons-col>		
 						</v-ons-row>
 						<v-ons-row>
 							<v-ons-col id="ld-stage" >{{card.Stage}}</v-ons-col>

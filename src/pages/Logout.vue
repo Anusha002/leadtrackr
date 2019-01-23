@@ -14,7 +14,7 @@ import LogoutApi from '../services/api/User.js';
 		},
 		created:function() {
 			var usr = {
-				"UserID" : JSON.parse(localStorage.getItem("usr")).UserID,
+				"UserID" : JSON.parse(localStorage.getItem("usr")).UserID.toString(),
  				 "Token" : localStorage.getItem("ki")
 				}
 				

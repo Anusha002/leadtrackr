@@ -29,12 +29,7 @@ export default {
 
 			})
 	},
-	// getFollowups(payload){
-	// 		return axios({ method: "GET", "url": Urls.url.followups+"?projectId="+payload.projectId+"&Token="+payload.Token, "headers": { "content-type": "application/json" } })
-	// 			.then(response => {
-	// 				return response.data
-	// 			})
-	// 	},
+	
 	getLeads(payload){
 			return axios({ method: "GET", "url": Urls.url.getleads+"?Token="+payload.Token+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {

@@ -50,10 +50,9 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true; StageHistoryID = value.StageHistoryID;">Mark Completed</v-ons-button>
-					<!-- 	<v-ons-button modifier="outline" class="gbtnclass" style="margin: 4px 4px" @click="changeMode(key, 'completedtask')">Mark Completed</v-ons-button> -->
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="updateVisible = true">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="reassignVisible = true">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="updateVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="reassignVisible = true;StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Reassign</v-ons-button>
 
 					</div>	
 
@@ -61,168 +60,201 @@
 	</v-ons-list>
  </v-ons-card>
  		
- <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
+    <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
 			No followups! 
- </div>
-        <v-ons-dialog cancelable :visible.sync="completeVisible">	
-			<v-ons-row class="rowdata">
-				<v-ons-col>
-					<b>Mark Completed</b>
-				</v-ons-col>
-			</v-ons-row>	
-			<v-ons-row class="rowdata">
-				 <div class="labels">Current Followup Remarks</div>
-			</v-ons-row>	 
-				<v-ons-row> 
-					{{input.Description}}
-			</v-ons-row>	
-			<v-ons-row class="rowdata">
-				 <div class="labels">Completion Remarks</div>
-				<v-ons-col> 
-					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required"></v-ons-input>
-					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-				</v-ons-col>
-			</v-ons-row>
+    </div>
+    <v-ons-dialog cancelable :visible.sync="completeVisible">	
+		<v-ons-row class="rowdata">
+			<v-ons-col>
+				<b>Mark Completed</b>
+			</v-ons-col>
+		</v-ons-row>	
+		<v-ons-row class="rowdata">
+			<div class="labels">Current Followup Remarks</div><br>
+		</v-ons-row>	 
+		<v-ons-row> 
+			{{Description}}
+		</v-ons-row>	
+		<v-ons-row class="rowdata">
+		  	<div class="labels">Completion Remarks</div>
+			<v-ons-col> 
+				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="CompletionRemark" v-validate="'required'"></v-ons-input>
+				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
 			
-			<v-ons-row class="rowdata">
-				<div class="labels">Time Taken</div><br>
-			</v-ons-row>
-			<v-ons-row>	
-				<v-ons-col width="130px" class="hour"> 
-					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
-					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
-				</v-ons-col>
-				<v-ons-col width="130px" class="minute"> 
-					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
-					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
-				</v-ons-col>
-			</v-ons-row>
-			<v-ons-row class="rowdata">
-				<div class="labels">Distance Travelled</div>
-				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
-				</v-ons-col>
-			</v-ons-row>
-			<v-ons-row class="rowdata">
-				<div class="labels">ClaimAmount</div>
-				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="completefollowup.ClaimAmount"></v-ons-input>
-				</v-ons-col>
-			</v-ons-row>
-			<v-ons-row class="rowdata">
-				<v-ons-col>
-					<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
+		<v-ons-row class="rowdata">
+			<div class="labels">Time Taken</div><br>
+		</v-ons-row>
+		<v-ons-row>	
+			<v-ons-col width="130px" class="hour"> 
+				<v-ons-input type="number" modifier="underbar" class="hourtime" name="hours" placeholder="hours" v-model="input.Hr" v-validate="'required'"></v-ons-input>
+				<p class="text-danger" >{{ errors.first('hours')}}</p> 
+			</v-ons-col>
+			<v-ons-col width="130px" class="minute"> 
+				<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutes" placeholder="minutes" v-model="input.Min" v-validate="'required|max_value:59'" ></v-ons-input>
+				<p class="text-danger" >{{ errors.first('minutes')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Distance Travelled</div>
+			<v-ons-col> 
+				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="distance" v-model="input.Distance" v-validate="'required'"></v-ons-input>
+				<p class="text-danger" >{{ errors.first('distance')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Claim Amount</div>
+			<v-ons-col> 
+				<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
+				<p class="text-danger" >{{ errors.first('amount')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<v-ons-col>
+				<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
 				
-					<v-ons-button class="green-button"  style="margin: 6px 4px"@click="completeFollowup()">Save</v-ons-button>
-				</v-ons-col>
-			</v-ons-row>
-		</v-ons-dialog>
+				<v-ons-button class="green-button"  style="margin: 6px 4px"@click="editFollowup()">Save</v-ons-button>
+			</v-ons-col>
+		</v-ons-row>
+	</v-ons-dialog>
 
-		<v-ons-dialog cancelable :visible.sync="updateVisible">
-			<v-ons-row class="rowdata">
-							<v-ons-col>
-								<b>Update Follow up</b>
-							</v-ons-col>
-						</v-ons-row>		
-						<v-ons-row class="rowdata">
-							<div class="labels">Substatus</div>
-						</v-ons-row>
-						<v-ons-row>	
-							<v-ons-col> 
-								<!-- <v-ons-input type="text" modifier="underbar" class="updatestatus" name="updatestatus" placeholder="Update Sub status" v-model="input.updatestatus" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('updatestatus')}}</p>  -->
-								<v-ons-select style="width: 100%" v-model="updatefollowup.Substatus" name="substatus" v-validate="'required'">
-                                   <option value="" selected data-default></option>
-                                 <option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
-                                   {{ value}}
-                                </option>
-                                </v-ons-select>
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<div class="labels">Time Taken</div>
-						</v-ons-row>
-						<v-ons-row>	
-							<v-ons-col width="150px" class="hour"> 
-								<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
-							</v-ons-col>
-							<v-ons-col width="150px" class="minute"> 
-								<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
-							</v-ons-col>
-						</v-ons-row>
+	<v-ons-dialog cancelable :visible.sync="updateVisible">
+		<v-ons-row class="rowdata">
+			<v-ons-col>
+				<b>Update Follow up</b>
+			</v-ons-col>
+		</v-ons-row>		
+		<v-ons-row class="rowdata">
+			<div class="labels">Substatus</div>
+		</v-ons-row>
+		<v-ons-row>	
+			<v-ons-col> 
+				<v-ons-select style="width: 100%" v-model="input.Substatus" name="substatus" v-validate="'required'">
+                   <option value="" selected data-default></option>
+                 <option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
+                   {{ value}}
+                </option>
+                </v-ons-select>
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Time Taken</div>
+		</v-ons-row>
+		<v-ons-row>	
+			<v-ons-col width="150px" class="hour"> 
+				<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="input.Hr" v-validate="required" ></v-ons-input>
+				<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
+			</v-ons-col>
+			<v-ons-col width="150px" class="minute"> 
+				<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="input.Min" v-validate="required" ></v-ons-input>
+				<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			 <div class="labels">Current Followup Remarks</div><br>
+		</v-ons-row>	 
+		<v-ons-row> 
+			{{Description}}
+		</v-ons-row>	
 						
-						<v-ons-row class="rowdata">
-							 <div class="labels">Update Remarks</div>
-							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<div class="labels">Distance Travelled</div>
-							<v-ons-col> 
-								<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<v-ons-col>
-								<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="updateVisible = false">Cancel</v-ons-button>
-							
-								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
-							</v-ons-col>
-						</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Update Remarks</div>
+			<v-ons-col> 
+				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="updatefollowup.remarks" v-validate="required" ></v-ons-input>
+				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Distance Travelled</div>
+			<v-ons-col> 
+				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.Distance"></v-ons-input>
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<div class="labels">Claim Amount</div>
+			<v-ons-col> 
+				<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
+				<p class="text-danger" >{{ errors.first('amount')}}</p> 
+			</v-ons-col>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
+			<v-ons-col>
+				<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="updateVisible = false">Cancel</v-ons-button>
+			
+				<v-ons-button class="green-button"  style="margin: 6px 4px" @click="editFollowup()">Save</v-ons-button>
+			</v-ons-col>
+		</v-ons-row>
 					
 		</v-ons-dialog>
 		<v-ons-dialog cancelable :visible.sync="reassignVisible">
 			<v-ons-row class="rowdata">
-							<v-ons-col>
-								<b>Reassign</b>
-							</v-ons-col>
-						</v-ons-row>	
-							<v-ons-row class="rowdata">
-								<div class="labels">Reassign To</div><br>
-							</v-ons-row>	
-						<v-ons-row class="rowdata">
-							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="user" name="user" placeholder="User" v-model="completefollowup.ScheduleTo" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('user')}}</p> 
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
+				<v-ons-col>
+					<b>Reassign</b>
+				</v-ons-col>
+			</v-ons-row>	
+			<v-ons-row class="rowdata">
+				<div class="labels">Reassign To</div>
+			</v-ons-row>	
+			<v-ons-row class="rowdata">
+
+				<v-ons-col> 
+					<v-ons-select style="width: 100%" v-model="reassign.ScheduleTo" name="scheduleto">
+		                <option value="" selected data-default></option>
+		                <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
+		                   {{ value.FullName }}
+		                </option>
+            	</v-ons-select>
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
+				<div class="labels">Current Followup Remarks</div><br>
+			</v-ons-row>	 
+			<v-ons-row> 
+				{{Description}}
+			</v-ons-row>	
+			<v-ons-row class="rowdata">
+				<div class="labels">Reassign Remarks</div>
+				<v-ons-col> 
+					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="reassign.remarks" v-validate="required" ></v-ons-input>
+					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
+				</v-ons-col>
+			</v-ons-row>
+			<v-ons-row class="rowdata">
 				<div class="labels">Time Taken</div><br>
 			</v-ons-row>
 			<v-ons-row>	
 				<v-ons-col width="150px" class="hour"> 
-					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="completefollowup.Hr" v-validate="required" ></v-ons-input>
+					<v-ons-input type="number" modifier="underbar" class="hourtime" name="hourtaken" placeholder="hours" v-model="input.Hr" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('hourtaken')}}</p> 
 				</v-ons-col>
 				<v-ons-col width="150px" class="minute"> 
-					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="completefollowup.Min" v-validate="required" ></v-ons-input>
+					<v-ons-input type="number" modifier="underbar" class="minutetime" name="minutetaken" placeholder="minutes" v-model="input.Min" v-validate="required" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
 				<div class="labels">Distance Travelled</div>
 				<v-ons-col> 
-					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="completefollowup.Distance"></v-ons-input>
+					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.Distance"></v-ons-input>
 				</v-ons-col>
 			</v-ons-row>
-						<v-ons-row class="rowdata">
-							 <div class="labels">Reassign Remarks</div>
-							<v-ons-col> 
-								<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="completefollowup.CompletionRemark" v-validate="required" ></v-ons-input>
-								<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-							</v-ons-col>
-						</v-ons-row>
-						<v-ons-row class="rowdata">
-							<v-ons-col>
-								<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
-							
-								<v-ons-button class="green-button"  style="margin: 6px 4px">Save</v-ons-button>
-							</v-ons-col>
-						</v-ons-row>
+			<v-ons-row class="rowdata">
+				<div class="labels">Claim Amount</div>
+				<v-ons-col> 
+					<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
+					<p class="text-danger" >{{ errors.first('amount')}}</p> 
+				</v-ons-col>
+			</v-ons-row>
+			
+
+			<v-ons-row class="rowdata">
+				<v-ons-col>
+					<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
+										
+					<v-ons-button class="green-button"  style="margin: 6px 4px" @click="editFollowup()">Save</v-ons-button>
+				</v-ons-col>
+			</v-ons-row>
 
 		</v-ons-dialog>
     
@@ -235,9 +267,9 @@
 
 <script>
 
-// import FollowupsAPI from '../services/api/Leads.js';
 import FollowupsAPI from '../services/api/Followup.js';
 import Utils from '../services/api/Utils.js';
+
 
 	export default {
 		name: "Followups",
@@ -249,6 +281,9 @@ import Utils from '../services/api/Utils.js';
 			updateVisible: false,
 			reassignVisible: false,
 			StageHistoryID: "",
+			FollowupDate:"",
+			Status:"",
+			scheduleTo:[],
 			items: {
 				LeadName: prj.LeadName,
 				Mobile: prj.Mobile,
@@ -258,35 +293,36 @@ import Utils from '../services/api/Utils.js';
 
 			},
 			 "pjctid" : prj.ProjectID,
-			 "ProjectName":"",
-        	 "Stage": "",
-        	 "ContactName": "",
         	 isLoading: true,
         	 prop:{},
         	 followups: [],
         	 substatus:[],
-        	 completefollowup:{
-        	 	CompletionRemark:"",
+       	 	CompletionRemark:"",
+       	 	Description:"",
+       
+        	 input:{	
         	 	Hr:"",
         	 	Min:"",
         	 	Distance:"",
         	 	ClaimAmount:"",
-        	 	Substatus:""
-        	 },
-        	 input:{
+        	 	Substatus:"",
         	 	LeadName:prj.LeadName,
         	 	ContactName:prj.ContactName,
         	 	ContactEmail:prj.ContactEmail,
         	 	ContactMobile:prj.ContactMobile,
         	 	ContactLandline:prj.ContactLandline,
         	 	ScheduleBy:prj.ScheduleBy,
-        	 	ScheduleTo:prj.ScheduleTo,
-        	 	Description:prj.Description,
+        	 	ScheduleTo:prj.ScheduleTo,	
         	 	Task:prj.Task,
         	 	projectId:prj.ProjectID
         	 },
         	 updatefollowup:{
-        	 	Substatus:""
+        	 	Substatus:"",
+        	 	remarks:""
+        	 },
+        	 reassign:{
+        	 	ScheduleTo:"",
+        	 	remarks:""
         	 },
         	 current_status : "callaction",
         	 projectID:"",
@@ -328,27 +364,55 @@ import Utils from '../services/api/Utils.js';
   			readableDate(date) {
   				return Utils.readableDate(date);
   			},
-  			completeFollowup(){
+  			// changeformatDate(date){
+  			// 	return (date.split("/").reverse().join("-"));
+  			// },
+  			editFollowup(){
+  				var date = new Date();
+  				var completedate = Utils.readableDate(date);
   				
-  				this.completefollowup.Token = localStorage.ki;
-  				this.completefollowup.StageHistoryID = this.StageHistoryID.toString();
-  				this.completefollowup.input = this.input;
-			    var data = this.completefollowup;
+  				this.input.Token = localStorage.ki;
+  				this.input.StageHistoryID = this.StageHistoryID.toString();
+  				this.input.CompletionRemark = this.CompletionRemark;
+  				this.input.FollowupCompletionDate = completedate.split("/").reverse().join("-");
+  				this.input.FollowupDate = this.FollowupDate.split("/").reverse().join("-");
+  				if (this.updatefollowup.remarks != null){
+  				  this.input.Description = this.updatefollowup.remarks;
+  				}
+  			  	if (this.reassign.remarks != null){
+  				 this.input.Description = this.reassign.remarks;
+  			    }
+  				this.input.UserID = Utils.getUserid(); 
+  				if (this.reassign.ScheduleTo != null){
+  					this.input.ScheduleTo = this.reassign.ScheduleTo;
+
+  				}
+
+  				
+			    var data = this.input;
 			     // this.$validator.validate().then(valid => {
-			     	console.log(data);
-        			// if (valid) {
+			     	// console.log(data);
+			     	// if (valid) {
         				
-            		FollowupsAPI.completeFollowup(data).then(followups => {
-             		 console.log('followup completed');
-           			 this.$router.push('/followups');
-
-           			// 	 // }, error => {
-              //  	// 			console.error(error);
+	            		 FollowupsAPI.editFollowup(data).then(followups => {
+	             		 // console.log(followups);
+	             		 this.CompletionRemark = " ";
+	             		 this.updatefollowup.remarks = " ";
+	             		 this.input.Hr="";
+	             		 this.input.Min = "";
+	             		 this.input.Distance = "";
+	             		 this.input.ClaimAmount = "",
+						 this.reassign.remarks = "",
+	             		 this.completeVisible = false;
+	             		 this.updateVisible = false;
+	             		 this.reassignVisible = false;
+   						// // // // // }, error => {
+         // // // // //      			console.error(error);
             			}); 
-          			}
+         //  			// }
        			 // })
-
-  			// }
+// 
+  			}
 		},
 
 		mounted:function() {
@@ -379,7 +443,11 @@ import Utils from '../services/api/Utils.js';
  	  	}),
  	  	Utils.getStatus(payload).then(substatus => {
           this.substatus = this.substatus.concat(substatus.Body);
-    		})
+    		}),
+ 	  	  Utils.getScheduleto(payload).then(users => {
+        this.scheduleTo = this.scheduleTo.concat(users.Body);
+      
+    })
 	  }
 	}	
 

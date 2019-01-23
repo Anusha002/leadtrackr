@@ -15,10 +15,14 @@
     		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" v-model="query" v-on:keyup="searchLead()">		
     		</v-ons-search-input>
 		<div>
+			<!-- @click="goToFollowup(value)" -->
 			<v-ons-card v-for="(value, key) in leads" v-bind:key="key" @click="goToFollowup(value)">
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
+							<v-ons-col>
+								<v-ons-icon icon="md-plus" @click="editLead(value)"></v-ons-icon>
+							</v-ons-col>
 						</v-ons-row>
 						<v-ons-row>
 							<v-ons-col id="ld-status" >{{value.Stage}}</v-ons-col>
@@ -87,7 +91,16 @@ export default {
 		},
 		toggleMenu()  {
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
-		}
+		},
+		editLead(lead){
+			console.log(lead);
+			this.$router.push({
+				'name': 'addlead',
+				'params':{
+   					'editlead': lead
+   				}
+		})
+		}	
 	 },
 	 mounted:function() {	
 	 	var payload = {
@@ -105,6 +118,7 @@ export default {
 			clearInterval(this.intervalID);   
  	  		this.leads = leads.Body;
   	  		this.completelist = leads.Body;
+  	  		console.log(leads);
 
  	  	})
  	  }

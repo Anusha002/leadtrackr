@@ -45,7 +45,7 @@ export default {
 
     },
     getScheduleto(payload){
-        return axios({ method: "GET", "url": Urls.url.scheduleto+"?ProjectID="+payload.ProjectID, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "GET", "url": Urls.url.scheduleto+"?ProjectID="+payload.projectId, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })
