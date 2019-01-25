@@ -56,8 +56,8 @@
 
 .dialog{
   width: 358px;
-  height: 490px;
-  margin-top:70px;
+  height: 500px;
+  margin-top:50px;
 }
 
 .dialog-container{

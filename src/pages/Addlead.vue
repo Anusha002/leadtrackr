@@ -35,10 +35,11 @@
             <p class="text-danger" >{{ errors.first('leadtype')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item modifier="nodivider">
-            <div class="labels">Stage</div>
+            <div class="labels">Stage {{lead.Stage}}</div>
+      
            <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
                 <option value="" selected></option>
-                <option v-for="(item,key) in stages" :value="item" v-bind:key="key">
+                <option v-for="item in stages" :value="item" >
                   {{ item }}
                 </option>
             </v-ons-select>
@@ -78,17 +79,17 @@
             <div class="labels">HandledBy</div>
              <v-ons-select style="width: 100%" v-model="lead.HandledBy" v-validate="'required'" name="handledby">
                 <option value="" selected></option>
-                <option v-for="(value,key) in handledBy" :value="value.UserID" v-bind:key="key">
+                <option v-for="(value,key) in handledBy" :value="value.UserID" >
                    {{ value.FullName }}
                 </option>
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('handledby')}}</p>
           </v-ons-list-item>  
         	<v-ons-list-item modifier="nodivider"> 
-            <div class="labels">OwnedBy</div>
+            <div class="labels">OwnedBy {{lead.OwnedBy}}</div>
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
                <option value="" selected></option>
-                <option v-for="(value,key) in ownedBy" :value="value.UserID" v-bind:key="key">
+                <option v-for="(value,key) in ownedBy" :value="value.UserID" >
                   {{ value.FullName }}
                 </option>
             </v-ons-select>
@@ -115,28 +116,29 @@ import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 
 export default{
-    props: ['items','editlead'],
+    props: ['items','editLead'],
     data() {
       
     return {
-      lead: {
-      LeadName: "",
-      ContactName: "", 
-      Type:"",
-      Stage:"",
-      Status:"",
-      Mobile: "",
-      landLine: "", 
-      Email: "",
-      Description:"",
-      CreatedBy:Utils.getUserid(),
-      CreatedByName:"",
-      HandledBy:"",
-      HandledByName:"",
-      OwnedBy: "",
-      OwnerName:"",
-      Token:localStorage.ki
       
+      lead: {
+        LeadName: "",
+        ContactName: "", 
+        Type:"",
+        Stage:"",
+        Status:"",
+        Mobile: "",
+        landLine: "", 
+        Email: "",
+        Description:"",
+        CreatedBy:Utils.getUserid(),
+        CreatedByName:"",
+        HandledBy:"",
+        HandledByName:"",
+        OwnedBy: "",
+        OwnerName:"",
+        Token:localStorage.ki
+        
       },
       // types: [{'TypeName':'Select Type'}],
       // stages:["Select Stage"],
@@ -161,7 +163,8 @@ export default{
           Token:localStorage.ki,
           Department:user.Department
          }
-
+      
+    
     
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
@@ -178,20 +181,20 @@ export default{
       this.createdBy = this.createdBy.concat(users.Body); 
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
+      var that = this;
+      setTimeout(function(){
+        if(that.$props.editLead != null) {
+          that.lead =  that.$props.editLead;
+          that.lead.OwnedBy = that.lead.OwnedBy.toString();
+          console.log(that.lead)
+        }
+      }, 200)
+      
     })
     // localStorage.removeItem('leaddata');
     navigator.geolocation.getCurrentPosition(function(position){})
 
-    if(localStorage.getItem('leaddata') != null ){
-         this.lead = JSON.parse(localStorage.getItem('leaddata'))
-         console.log(this.lead.Type);
-      }
-      if(this.$props.editlead != null){
-        
-        this.lead = this.$props.editlead;
-        this.lead.Type = this.$props.editlead.Type
-        console.log(this.lead.OwnerName);
-      }
+
 
     
     

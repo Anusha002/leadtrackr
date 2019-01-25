@@ -7,7 +7,7 @@
 	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
-    		<div class="center">{{items.LeadName}}</div>	
+    		<div class="center" @click="editLead()">{{items.LeadName}}</div>	
  		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
  		<v-ons-card>
@@ -50,9 +50,9 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="completeVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Mark Completed</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="updateVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="reassignVisible = true;StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); completeVisible = true;  StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); updateVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); reassignVisible = true;StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Reassign</v-ons-button>
 
 					</div>	
 
@@ -63,7 +63,8 @@
     <div class="no-tasks" v-show="followups.length == 0 && isLoading == false">
 			No followups! 
     </div>
-    <v-ons-dialog cancelable :visible.sync="completeVisible">	
+
+    <v-ons-dialog cancelable v-if="completeVisible" class="dialog">	
 		<v-ons-row class="rowdata">
 			<v-ons-col>
 				<b>Mark Completed</b>
@@ -119,7 +120,7 @@
 		</v-ons-row>
 	</v-ons-dialog>
 
-	<v-ons-dialog cancelable :visible.sync="updateVisible">
+	<v-ons-dialog cancelable v-if="updateVisible"  class="dialog">
 		<v-ons-row class="rowdata">
 			<v-ons-col>
 				<b>Update Follow up</b>
@@ -131,11 +132,11 @@
 		<v-ons-row>	
 			<v-ons-col> 
 				<v-ons-select style="width: 100%" v-model="input.Substatus" name="substatus" v-validate="'required'">
-                   <option value="" selected data-default></option>
-                 <option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
-                   {{ value}}
-                </option>
-                </v-ons-select>
+					<option value="" selected data-default></option>
+					<option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
+					   {{ value}}
+					</option>
+				</v-ons-select>
 			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
@@ -152,12 +153,12 @@
 			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			 <div class="labels">Current Followup Remarks</div><br>
+			<div class="labels">Current Followup Remarks</div><br>
 		</v-ons-row>	 
 		<v-ons-row> 
 			{{Description}}
 		</v-ons-row>	
-						
+				
 		<v-ons-row class="rowdata">
 			<div class="labels">Update Remarks</div>
 			<v-ons-col> 
@@ -168,7 +169,7 @@
 		<v-ons-row class="rowdata">
 			<div class="labels">Distance Travelled</div>
 			<v-ons-col> 
-				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.Distance"></v-ons-input>
+				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.distancece"></v-ons-input>
 			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
@@ -181,13 +182,14 @@
 		<v-ons-row class="rowdata">
 			<v-ons-col>
 				<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="updateVisible = false">Cancel</v-ons-button>
-			
+
 				<v-ons-button class="green-button"  style="margin: 6px 4px" @click="editFollowup()">Save</v-ons-button>
 			</v-ons-col>
 		</v-ons-row>
 					
-		</v-ons-dialog>
-		<v-ons-dialog cancelable :visible.sync="reassignVisible">
+	</v-ons-dialog>
+		
+		<v-ons-dialog cancelable v-if="reassignVisible"  class="dialog">
 			<v-ons-row class="rowdata">
 				<v-ons-col>
 					<b>Reassign</b>
@@ -331,27 +333,24 @@ import Utils from '../services/api/Utils.js';
 		},
 
 		methods: {
+			resetDialogs() {
+				this.completeVisible = false;
+				this.updateVisible= false;
+				this.reassignVisible = false;
+			},
+			editLead() {
+				this.$router.push({
+   				'name': 'addlead',
+    			'params': {
+        			'editLead': JSON.parse(localStorage.project)
+    				}
+   				})
+			},
 			goToHome() {
         		this.$router.push('/container')
       		},
 
 
-			changeMode(index, mode) {
-				console.log(mode, index,document.getElementById(mode+index) )
-				if(mode == 'callaction') {
-					this.resetModes(index);
-				} else {
-					this.resetModes(index);
-					document.getElementById(mode+index).classList.add("active");
-				}
-				
-				this.current_status = mode;
-			},
-			resetModes(index) {
-				document.getElementById('completedtask'+index).classList.remove("active");
-				document.getElementById('updatefollowup'+index).classList.remove("active");
-				document.getElementById('reassign'+index).classList.remove("active");
-			},
 			goTodetail() {
 
    			this.$router.push({
@@ -378,6 +377,7 @@ import Utils from '../services/api/Utils.js';
   				this.input.FollowupDate = this.FollowupDate.split("/").reverse().join("-");
   				if (this.updatefollowup.remarks != null){
   				  this.input.Description = this.updatefollowup.remarks;
+  				  // console.log(this.input.Description);
   				}
   			  	if (this.reassign.remarks != null){
   				 this.input.Description = this.reassign.remarks;
@@ -390,10 +390,10 @@ import Utils from '../services/api/Utils.js';
 
   				
 			    var data = this.input;
-			     // this.$validator.validate().then(valid => {
-			     	// console.log(data);
-			     	// if (valid) {
-        				
+			     this.$validator.validate().then(valid => {
+			     	
+			     	if (valid) {
+        				console.log(data);
 	            		 FollowupsAPI.editFollowup(data).then(followups => {
 	             		 // console.log(followups);
 	             		 this.CompletionRemark = " ";
@@ -406,11 +406,11 @@ import Utils from '../services/api/Utils.js';
 	             		 this.completeVisible = false;
 	             		 this.updateVisible = false;
 	             		 this.reassignVisible = false;
-   						// // // // // }, error => {
-         // // // // //      			console.error(error);
+   						}, error => {
+              			console.error(error);
             			}); 
-         //  			// }
-       			 // })
+         	}
+       			 })
 // 
   			}
 		},
@@ -497,6 +497,9 @@ import Utils from '../services/api/Utils.js';
  }
 .card.active #callaction{
 	display: none;
+}
+.dialog {
+	display: block !important;
 }
 
 .btnclass{
