@@ -10,6 +10,7 @@
           Add Followup
           </div>  
     </v-ons-toolbar>
+    <v-ons-progress-bar :value="progress"></v-ons-progress-bar> 
 		
   		<v-ons-list class="followup">
           <!-- <v-ons-list-item  modifier="nodivider">
@@ -24,7 +25,7 @@
           </v-ons-list-item> -->
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Task</div>
-            <v-ons-select style="width: 100%" v-model="followup.Task" name="stage" v-validate="'required'">
+            <v-ons-select style="width: 100%" v-model="followup.Task" name="task" v-validate="'required'">
                 <option value="" selected ></option>
                 <option v-for="(item, key) in tasks" :value="item" v-bind:key="key">
                   {{ item }}
@@ -48,10 +49,9 @@
           </v-ons-list-item> 
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Description</div>
-           <div class="leaddetails">
             <v-ons-input v-model="followup.Description" name="description" v-validate="'required'"></v-ons-input>
             <p class="text-danger">{{ errors.first('description')}}</p> 
-            </div>
+           
           </v-ons-list-item>          
           
           <v-ons-list-item modifier="nodivider"> 
@@ -75,7 +75,7 @@
 
           </v-ons-list-item>  
  -->
-                  <br/><br/><br><br>  
+                  <br/><br/><br><br><br><br> <br> 
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
@@ -90,9 +90,11 @@ import Vue from 'vue';
 export default{
 
     name: 'Addfollowup',
+    
     props: ['items'],
     data() {
     return {
+      progress: 0,
       followup: {
         ProjectID: "",
         Stage: "Enquiry", 
@@ -174,9 +176,18 @@ export default{
       this.$validator.validate().then(valid => {
 
         if (valid) {
+            var that  = this;
+            this.intervalID = setInterval(() => {
+              if (that.progress === 100) {
+                clearInterval(this.intervalID);
+                that.progress = 0;
+                return;
+              }
+              that.progress++;
+            }, 40);	 
             AddfollowupApi.addFollowup(data).then(followups => {
-              console.log('followup added');
-            this.$router.push('/followups');
+              this.progress = 100;
+              this.$router.push('/followups');
 
             }, error => {
                console.error(error);
@@ -232,11 +243,9 @@ export default{
 .followupdetails {
   width: 100%;
 }
-.labels{
-  color:#3d5afe;    
-  font-size: 14px;
-  font-weight: 400;
-  font-family: 'Roboto', 'Noto', sans-serif;
+.followdate {
+  height: 22px;
+  border-bottom: 1px solid #ccc;
 }
 
 </style>

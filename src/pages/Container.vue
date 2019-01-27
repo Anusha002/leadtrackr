@@ -42,7 +42,8 @@
 		methods: {
 			openPage(link){
 				this.openSide = false;
-				this.pageStack.push(link); 
+				this.$router.push('/'+link);
+				//this.pageStack.push(link); 
 				
 			}
 		},
@@ -51,14 +52,11 @@
 			return {
 				pageStack: [Dash],
 				menu:[{
-					name: "Home",
-					link: Dash
-				}, {
 					name: "Leads",
-					link: Leadlist
+					link: 'leadlist'
 				}, {
 					name: "Logout",
-					link: Logout
+					link: 'logout'
 				}],
 				openSide: false
 				};

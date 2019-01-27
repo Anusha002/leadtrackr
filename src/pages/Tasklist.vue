@@ -12,27 +12,30 @@
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
+		<v-ons-progress-bar :value="progress"></v-ons-progress-bar> 
  		<v-ons-button modifier="material--flat" class="filterclass" style="margin: 4px 4px" @click="toggleFilter()">Filter</v-ons-button>
- 		<v-ons-row v-show="flagfilter == 'true'">
- 			<v-ons-col width="100px" >
- 				<div @click="openCalender('from')">From Date</div>
- 				<div class="fromdate">{{dateformat(FromDate)}}</div>
-            <v-date-picker :popover-visibility="showfromcalender" mode='single' v-model="FromDate" name="fromdate" v-validate="'required'" @dayclick='dayClicked'>
-             </v-date-picker>
+ 		<v-ons-card v-show="flagfilter == 'true'">
+			<v-ons-row>
+				<v-ons-col width="100px" >
+					<div @click="openCalender('from')" class="small-text">From Date</div>
+					<div @click="openCalender('from')"  class="fromdate">{{dateformat(FromDate)}}</div>
+					<v-date-picker :popover-visibility="showfromcalender" mode='single' v-model="FromDate" name="fromdate" v-validate="'required'" @dayclick='dayClicked'>
+				</v-date-picker>
 
- 			</v-ons-col>
- 			<v-ons-col width="100px" >
- 				<div @click="openCalender('to')">To Date</div>
- 				<div class="fromdate">{{dateformat(ToDate)}}</div>
-            <v-date-picker :popover-visibility="showtocalender" :min-date='FromDate' mode='single' v-model="ToDate" name="todate" v-validate="'required'" @dayclick='dayClicked'>
-             </v-date-picker>
+				</v-ons-col>
+				<v-ons-col width="100px" >
+					<div @click="openCalender('to')" class="small-text">To Date</div>
+					<div @click="openCalender('to')" class="fromdate">{{dateformat(ToDate)}}</div>
+					<v-date-picker :popover-visibility="showtocalender" :min-date='FromDate' mode='single' v-model="ToDate" name="todate" v-validate="'required'" @dayclick='dayClicked' style="margin-left: -20px">
+				</v-date-picker>
 
- 			</v-ons-col>
- 			<v-ons-col>
- 				<v-ons-button class="gobutton" @click="listTasks()">Go</v-ons-button>
- 			</v-ons-col>		
+				</v-ons-col>
+				<v-ons-col>
+					<v-ons-button class="gobutton" @click="listTasks()">Go</v-ons-button>
+				</v-ons-col>
+			</v-ons-row>		
  			
- 		</v-ons-row>
+ 		</v-ons-card>
 		<div>
 			<v-ons-row v-for="(value, key) in leads" v-bind:key="key">	
 				<div class="date-header">{{convertDate(key)}}</div>	
@@ -49,7 +52,7 @@
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
 							<v-ons-col width="50px">
-								<a :href="'tel:' + card.ContactMobile"v-show="card.ContactMobile != ''">
+								<a :href="'tel:' + card.ContactMobile" v-show="card.ContactMobile != ''">
 									<v-ons-icon modifier="small" class="icon-phone"></v-ons-icon>
 								</a>
 							</v-ons-col>
@@ -63,6 +66,9 @@
 				</v-ons-list>
 			</v-ons-row>
 
+		</div>
+		<div class="no-tasks" v-show="Object.keys(leads).length == 0">
+			No Tasks Found! 
 		</div>
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
@@ -80,6 +86,7 @@ export default {
 	name: 'tasklist',
 	data() {
 		return {
+			progress: 0,
 			leads: {},
 			dtobj:{},
 			flagfilter:"false",
@@ -122,18 +129,26 @@ export default {
 
      listTasks(){
      	if(this.FromDate !="" && this.ToDate != "") {
+			this.intervalID = setInterval(() => {
+				if (this.progress === 100) {
+					clearInterval(this.intervalID);
+					this.progress = 0;
+					return;
+				}
+				this.progress++;
+			}, 40);	 
 
-     	var payload = {
-	 		fromDate: Utils.formatDate(this.FromDate),
-	 		toDate: Utils.formatDate(this.ToDate),
-	 		UserID:Utils.getUserid(),
-	 		Token:localStorage.ki
-		 }
-		 GetTasksAPI.getTasks(payload).then(leads => {
+			var payload = {
+				fromDate: Utils.formatDate(this.FromDate),
+				toDate: Utils.formatDate(this.ToDate),
+				UserID:Utils.getUserid(),
+				Token:localStorage.ki
+			}
+			GetTasksAPI.getTasks(payload).then(leads => {
+				this.progress = 100;	
+				this.leads = leads;
 				
-			this.leads = leads;
-			
-		})
+			})
        }
      },
 	 convertDate(date){
@@ -184,6 +199,7 @@ export default {
 	 mounted:function() {	
 	 
 		 this.leads = JSON.parse(localStorage.getItem('lds'));
+		console.log(this.leads)
 
  	  }
  	 }	
@@ -247,4 +263,18 @@ export default {
 	margin-left: 20px;
     margin-top: 0;
    } 
+   .small-text {
+	   color: #999;
+	   font-size: 12px;
+	   margin-bottom: 5px;
+   }
+   .fromdate, .todate {
+	   color: #333;
+	   border-bottom: 1px solid #999;
+	   height: 18px;
+	   font-size: 14px;
+   }
+	.fromdate {
+		margin-right: 5px;
+	}
 </style>
