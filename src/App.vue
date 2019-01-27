@@ -25,6 +25,10 @@
 .lead-input{
   width: 100%;
 }
+ons-input, ons-input .text-input {
+    width: 100% !important;
+    display: block;
+}
 .popover-container input {
   display: none !important;
 }
@@ -53,16 +57,12 @@
   color: #D91045;
   margin: 0 2px;
 }
-
-.dialog{
-  width: 358px;
-  height: 500px;
-  margin-top:50px;
-}
-
-.dialog-container{
+.dialog-container {
+  -webkit-mask-image: none;
+  mask-image: none;
   padding: 20px;
 }
+
 
 .button[data-v-426b3b1a] {
     line-height: none;

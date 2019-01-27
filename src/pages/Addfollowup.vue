@@ -49,8 +49,8 @@
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Description</div>
            <div class="leaddetails">
-            <v-ons-input v-model="followup.Description"></v-ons-input>
-
+            <v-ons-input v-model="followup.Description" name="description" v-validate="'required'"></v-ons-input>
+            <p class="text-danger">{{ errors.first('description')}}</p> 
             </div>
           </v-ons-list-item>          
           
@@ -65,25 +65,17 @@
             <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
           </v-ons-list-item>  
 
-          <v-ons-list-item modifier="nodivider"> 
-            <div class="labels">Status</div>
-             <v-ons-select style="width: 100%" v-model="followup.Status" name="status" v-validate="'required'">
-                <option value="" selected data-default></option>
-                <option v-for="(item,key) in status" :value="item" v-bind:key="key">
-                  {{ item }}
-                </option>
-            </v-ons-select>
-            <p class="text-danger" >{{ errors.first('status')}}</p>
-          </v-ons-list-item> 
-          <v-ons-list-item modifier="nodivider"  @click="addFile()">
+          
+
+          <!-- <v-ons-list-item modifier="nodivider"  @click="addFile()">
            <div class="followupdetails">
              <div class="labels"> Add File Attachment </div> 
             </div>
             <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
           </v-ons-list-item>  
-
-                  <br/><br/>
+ -->
+                  <br/><br/><br><br>  
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
@@ -111,7 +103,6 @@ export default{
         ScheduleBy: "", 
         ScheduleTo: "",
         Description:"",
-        Status:"",
         Attachment: "",
         Token:localStorage.ki 
       },
@@ -123,7 +114,6 @@ export default{
       // scheduleTo: [{'FullName': 'Schedule To'}]
       // stages:[""],
       tasks:[""],
-      status:[""],
       scheduleBy:[""],
       scheduleTo:[""],
       tasklist:[],
@@ -209,10 +199,6 @@ export default{
           projectId:Utils.getProjectid()
 
          }
-
-    Utils.getStatus(payload).then(status => {
-      this.status = this.status.concat(status.Body);
-    }),
 
     Utils.getTask(payload).then(task => {  
       

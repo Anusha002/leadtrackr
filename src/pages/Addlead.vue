@@ -88,7 +88,7 @@
         	<v-ons-list-item modifier="nodivider"> 
             <div class="labels">OwnedBy {{lead.OwnedBy}}</div>
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
-               <option value="" selected></option>
+                <option value="" selected></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" >
                   {{ value.FullName }}
                 </option>
@@ -96,11 +96,17 @@
             <p class="text-danger" >{{ errors.first('ownedby')}}</p>
           </v-ons-list-item>  
            <v-ons-list-item modifier="nodivider"  @click="addLocation()">
-           <div class="followupdetails">
+           
             <div class="labels">Add Location</div>
-            
+            <div v-if="typeof items != 'undefined'" style="width:100%">
+              <gmap-map
+                :center="center"
+                :zoom="16"
+                style="width:100%;  height: 120px;"
+              >
+                
+              </gmap-map>
             </div>
-
           </v-ons-list-item> 	
 
     
@@ -137,6 +143,8 @@ export default{
         HandledByName:"",
         OwnedBy: "",
         OwnerName:"",
+        Latitude:"",
+        Longitude:"",
         Token:localStorage.ki
         
       },
@@ -152,12 +160,17 @@ export default{
       createdBy:[""],
       handledBy: [""],
       ownedBy: [""],
+      center: {
+        lat: 0,
+        lng: 0
+      },
       submitted: false,
       response: {}
      	} 
 	 },
 
   mounted:function() {
+    // console.log(this.$props.items);
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
@@ -181,12 +194,23 @@ export default{
       this.createdBy = this.createdBy.concat(users.Body); 
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
+
       var that = this;
       setTimeout(function(){
         if(that.$props.editLead != null) {
           that.lead =  that.$props.editLead;
           that.lead.OwnedBy = that.lead.OwnedBy.toString();
-          console.log(that.lead)
+        }
+
+        if(that.$props.items != "") {
+          that.lead =  JSON.parse(localStorage.leaddata);
+          if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
+              that.lead.Latitude = that.$props.items.lat;
+              that.lead.Longitude = that.$props.items.lng;
+              that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
+              
+          }
+          
         }
       }, 200)
       
@@ -216,12 +240,11 @@ export default{
     },
     addLead(){
       this.submitted = true;
-      console.log(this.lead);
+
+      // console.log(this.lead);
       this.$validator.validate().then(valid => {
       if (valid) {
           AddleadApi.addLead(this.lead).then(projects => {
-
-            console.log("Lead added successfully");
             localStorage.removeItem('leaddata');
             this.$router.push('/container');
 
