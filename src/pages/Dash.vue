@@ -12,7 +12,7 @@
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
-			<v-calendar is-double-paned :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
+			<v-calendar :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
 				<span slot='header-title' slot-scope='{ month, yearLabel }'>
 					<span class="calendar-year">{{ yearLabel }}</span> <br/>
 					<span class="calendar-month">{{ myMonths[month] }} </span>
