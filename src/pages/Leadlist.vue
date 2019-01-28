@@ -46,7 +46,7 @@
 					</div>
 				</v-ons-card>
 		</div>
-		<div class="no-tasks" v-show="leads.length == 0">
+		<div class="no-tasks" v-show="leads.length == 0 && progress == 0">
 			No Leads Found! 
 		</div>
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goToaddlead()">
