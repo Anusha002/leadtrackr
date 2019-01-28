@@ -44,7 +44,7 @@ export default {
             })
     },
     editLead(payload){
-        return axios({ method: "PUT", "url": Urls.url.editlead, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "PUT", "url": Urls.url.editlead+"?UserID="+Utils.getUserid()+"&ProjectID="+Utils.getProjectid(), "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })

@@ -121,6 +121,8 @@
 
 import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
+import EditleadApi from '../services/api/Leads.js';
+
 
 export default{
     props: ['items','editLead'],
@@ -248,18 +250,28 @@ export default{
       // console.log(this.lead);
       this.$validator.validate().then(valid => {
       if (valid) {
-          AddleadApi.addLead(this.lead).then(projects => {
-            localStorage.removeItem('leaddata');
+        if (this.$props.editLead != null) {
+          this.lead.Token = localStorage.ki;
+          console.log(this.lead);
+          EditleadApi.editLead(this.lead).then(projects => {
+            console.log("lead edited");
             this.$router.push('/container');
 
-        }, error => {
+          },error => {
             console.error(error);
            });
+        } else {
+        //   AddleadApi.addLead(this.lead).then(projects => {
+        //     localStorage.removeItem('leaddata');
+        //     this.$router.push('/container');
+        // }, error => {
+        //     console.error(error);
+        //    });
         }
-       })     
-    }
+       }     
+    })
   }
-
+}
     
 }
 </script>

@@ -39,7 +39,7 @@
 					<div class="followupdetails" style="width: 100%">	
 						<v-ons-row>
 							<v-ons-col width="70%" class="task-text">{{value.Task}}</v-ons-col>
-							<v-ons-col class="status-text">{{value.Status}}</v-ons-col>	
+							<v-ons-col class="status-text">{{value.Substatus}}</v-ons-col>	
 						</v-ons-row>
 						<v-ons-row>
 							<v-ons-col class="desc-text">{{value.Description}}</v-ons-col>
