@@ -12,6 +12,7 @@
     			Add Lead
 	        </div>	
  		</v-ons-toolbar>
+     <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
 
   		<v-ons-list class="leaddata">
     		<v-ons-list-item modifier="nodivider">
@@ -35,7 +36,7 @@
             <p class="text-danger" >{{ errors.first('leadtype')}}</p>
         	</v-ons-list-item>	
           <v-ons-list-item modifier="nodivider">
-            <div class="labels">Stage {{lead.Stage}}</div>
+            <div class="labels">Stage</div>
       
            <v-ons-select style="width: 100%" v-model="lead.Stage" name="stage" v-validate="'required'">
                 <option value="" selected></option>
@@ -126,6 +127,7 @@ export default{
     data() {
       
     return {
+      progress: 0,
       
       lead: {
         LeadName: "",
@@ -172,7 +174,14 @@ export default{
           Department:user.Department
          }
       
-    
+    this.intervalID = setInterval(() => {
+			if (this.progress === 100) {
+        clearInterval(this.intervalID);
+        this.progress = 0;
+				return;
+			}
+			this.progress++;
+		}, 40);
     
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
@@ -192,12 +201,12 @@ export default{
 
       var that = this;
       setTimeout(function(){
+        that.progress = 100
         if(that.$props.editLead != null) {
           that.lead =  that.$props.editLead;
           that.lead.OwnedBy = that.lead.OwnedBy.toString();
         }
-
-        if(that.$props.items != "") {
+        if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
           that.lead =  JSON.parse(localStorage.leaddata);
           if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
               that.lead.Latitude = that.$props.items.lat;
@@ -309,15 +318,8 @@ h1{
   font-size: 1.4em !important;
 }
 
-.toolbar .center {
-  color: #fff;
-}
 
-.labels{
-  color:#3d5afe;    
-  font-size: 14px;
-  font-weight: 400;
-  font-family: 'Roboto', 'Noto', sans-serif;
-}
+
+
 
  </style>  

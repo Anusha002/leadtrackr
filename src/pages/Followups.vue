@@ -32,7 +32,7 @@
  		</v-ons-card>
 
  		<h4 class="heading">Follow-ups</h4>
- 		<v-ons-card >
+ 		<v-ons-card  v-if="followups.length > 0">
 			<v-ons-list modifier="noborder">
 				<v-ons-list-item v-for="(value, key) in followups" v-bind:key="key">
 				
@@ -77,19 +77,16 @@
 				<b>Mark Completed</b>
 			</v-ons-col>
 		</v-ons-row>	
-		<v-ons-row class="rowdata">
+		<!-- <v-ons-row class="rowdata">
 			<div class="labels">Current Followup Remarks</div><br>
 		</v-ons-row>	 
 		<v-ons-row> 
 			{{Description}}
-		</v-ons-row>	
+		</v-ons-row>	 -->
 		<v-ons-row class="rowdata">
-		  	
-			<v-ons-col> 
 				<div class="labels">Completion Remarks</div>
 				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="CompletionRemark" v-validate="'required'"></v-ons-input>
 				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-			</v-ons-col>
 		</v-ons-row>
 			
 		<v-ons-row class="rowdata">
@@ -106,48 +103,36 @@
 			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			
-			<v-ons-col> 
 				<div class="labels">Distance Travelled</div>
 				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="distance" v-model="input.Distance" v-validate="'required'"></v-ons-input>
 				<p class="text-danger" >{{ errors.first('distance')}}</p> 
-			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			
-			<v-ons-col> 
 				<div class="labels">Claim Amount</div>
 				<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
 				<p class="text-danger" >{{ errors.first('amount')}}</p> 
-			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			<v-ons-col>
-				<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>
-				
+				<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="completeVisible = false">Cancel</v-ons-button>	
 				<v-ons-button class="green-button"  style="margin: 6px 4px"@click="editFollowup()">Save</v-ons-button>
-			</v-ons-col>
 		</v-ons-row>
 	</v-ons-dialog>
 
+
+
+
 	<v-ons-dialog cancelable v-if="updateVisible"  :visible.sync="updateVisible">
 		<v-ons-row class="rowdata">
-			<v-ons-col>
-				<b>Update Follow up</b>
-			</v-ons-col>
+			<p><b>Update Follow up</b></p>
 		</v-ons-row>		
-		<v-ons-row class="rowdata">
-			<div class="labels">Substatus</div>
-		</v-ons-row>
 		<v-ons-row>	
-			<v-ons-col> 
-				<v-ons-select style="width: 100%" v-model="input.Substatus" name="substatus" v-validate="'required'">
-					<option value="" selected data-default></option>
-					<option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
-					   {{ value}}
-					</option>
-				</v-ons-select>
-			</v-ons-col>
+			<div class="labels">Substatus</div>
+			<v-ons-select style="width: 100%" v-model="input.Substatus" name="substatus" v-validate="'required'">
+				<option value="" selected data-default></option>
+				<option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
+					{{ value}}
+				</option>
+			</v-ons-select>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
 			<div class="labels">Time Taken{{input.Hr}}{{input.Min}}</div>
@@ -162,56 +147,48 @@
 				<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 			</v-ons-col>
 		</v-ons-row>
-		<v-ons-row class="rowdata">
+		<!-- <v-ons-row class="rowdata">
 			<div class="labels">Current Followup Remarks</div><br>
 		</v-ons-row>	 
 		<v-ons-row> 
 			{{Description}}
-		</v-ons-row>	
+		</v-ons-row>	 -->
 				
 		<v-ons-row class="rowdata">
-			
-			<v-ons-col> 
 				<div class="labels">Update Remarks</div>
 				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="updatefollowup.remarks" v-validate="'required'" ></v-ons-input>
 				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			
-			<v-ons-col> 
 				<div class="labels">Distance Travelled</div>
 				<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.Distance"></v-ons-input>
-			</v-ons-col>
+			
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			
-			<v-ons-col> 
 				<div class="labels">Claim Amount</div>
 				<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
 				<p class="text-danger" >{{ errors.first('amount')}}</p> 
-			</v-ons-col>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			<v-ons-col>
 				<v-ons-button modifier="outline"  class="gbtnclass"   style="margin: 6px 4px" @click="updateVisible = false">Cancel</v-ons-button>
 
 				<v-ons-button class="green-button"  style="margin: 6px 4px" @click="editFollowup()">Save</v-ons-button>
-			</v-ons-col>
 		</v-ons-row>
 					
 	</v-ons-dialog>
+
+
+
+
+	
 		
 		<v-ons-dialog cancelable v-if="reassignVisible"  :visible.sync="reassignVisible">
 			<v-ons-row class="rowdata">
-				<v-ons-col>
 					<b>Reassign</b>
-				</v-ons-col>
 			</v-ons-row>	
+				
 			<v-ons-row class="rowdata">
 				<div class="labels">Reassign To</div>
-			</v-ons-row>	
-			<v-ons-row class="rowdata">
 					<v-ons-select style="width: 100%" v-model="reassign.ScheduleTo" name="scheduleto">
 		                <option value="" selected data-default></option>
 		                <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
@@ -219,19 +196,11 @@
 		                </option>
             	</v-ons-select>
 			</v-ons-row>
-			<v-ons-row class="rowdata">
-				<div class="labels">Current Followup Remarks</div><br>
-			</v-ons-row>	 
-			<v-ons-row> 
-				{{Description}}
-			</v-ons-row>	
-			<v-ons-row class="rowdata">
 				
-				<v-ons-col> 
+			<v-ons-row class="rowdata">
 					<div class="labels">Reassign Remarks</div>
 					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="reassign.remarks" v-validate="'required'" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
-				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
 				<div class="labels">Time Taken</div><br>
@@ -247,28 +216,17 @@
 				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
-				
-				<v-ons-col> 
 					<div class="labels">Distance Travelled</div>
 					<v-ons-input type="number" modifier="underbar" class="traveldistance" name="traveldistance" v-model="input.Distance"></v-ons-input>
-				</v-ons-col>
 			</v-ons-row>
 			<v-ons-row class="rowdata">
-				
-				<v-ons-col> 
 					<div class="labels">Claim Amount</div>
 					<v-ons-input type="number" modifier="underbar" class="claimamount" name="amount" v-model="input.ClaimAmount" v-validate="'required'"></v-ons-input>
 					<p class="text-danger" >{{ errors.first('amount')}}</p> 
-				</v-ons-col>
 			</v-ons-row>
-			
-
 			<v-ons-row class="rowdata">
-				<v-ons-col>
 					<v-ons-button modifier="outline"  class="gbtnclass" style="margin: 6px 4px" @click="reassignVisible = false">Cancel</v-ons-button>
-										
 					<v-ons-button class="green-button"  style="margin: 6px 4px" @click="editFollowup()">Save</v-ons-button>
-				</v-ons-col>
 			</v-ons-row>
 
 		</v-ons-dialog>
@@ -359,12 +317,7 @@ import Utils from '../services/api/Utils.js';
    				})
 			},
 			goToHome() {
-				console.log(this.$props.mode);
-				if (this.$props.mode == 'leadlist') {
-        			this.$router.push('/leadlist');
-        		}else{
-        			this.$router.push('/container');
-        		}
+				this.$router.back(-1);
       		},
 
 			goTodetail() {
@@ -556,11 +509,8 @@ import Utils from '../services/api/Utils.js';
 	font-size: 1.4em;
 	color: #333;
 }
-.labels{
-  color:#3d5afe;    
-  font-size: 14px;
-  font-weight: 400;
-  font-family: 'Roboto', 'Noto', sans-serif;
+.labels {
+	margin-bottom: 10px;
 }
 
 .green-button{

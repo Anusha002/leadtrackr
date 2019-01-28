@@ -12,12 +12,12 @@
     </v-ons-toolbar>
     <gmap-autocomplete
           @place_changed="setPlace" class="autocomp">
-        </gmap-autocomplete>
-        <button @click="addMarker" class="gbtnclass outline-btn">Add Marker</button>
+    </gmap-autocomplete>
+    <button @click="addMarker" class="gbtnclass outline-btn">Add Marker</button>
 		<gmap-map
       :center="center"
       :zoom="16"
-      style="width:100%;  height: 400px;"
+      style="width:100%;  height: 360px;"
     >
       <gmap-marker
         :key="index"
@@ -142,11 +142,13 @@ export default{
   height: 480px !important;
 }
 .autocomp {
-  width: 280px;
+  width: 70.2%;
   height: 40px;
 }
 .gbtnclass{
-	font-size: 14px;
+  width: 28%;
+  font-size: 15px;
+  font-weight: bold;
 	border-color: #14BA88;
   color: #14BA88;
   height: 48px;

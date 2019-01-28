@@ -43,6 +43,9 @@ ons-input, ons-input .text-input {
   height: 30px;
   line-height: 24px; 
 }
+.toolbar .center {
+  color: #fff;
+}
 .list-item--material {
   border: none;
 }
@@ -71,5 +74,11 @@ ons-input, ons-input .text-input {
 }
 .search-input{
   border-radius: 8px;
+}
+.labels{
+  color:#999;    
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Roboto', 'Noto', sans-serif;
 }
 </style>

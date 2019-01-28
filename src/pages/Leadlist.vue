@@ -3,9 +3,9 @@
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
 		<v-ons-toolbar>
     		<div class="left">
-	      		<v-ons-toolbar-button @click="toggleMenu()">
-	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
-	      		</v-ons-toolbar-button>
+	      		<v-ons-toolbar-button>
+					<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>  
+				</v-ons-toolbar-button>
     		</div>
     		<div class="center">
     			Leads List
@@ -46,6 +46,9 @@
 					</div>
 				</v-ons-card>
 		</div>
+		<div class="no-tasks" v-show="leads.length == 0">
+			No Leads Found! 
+		</div>
 		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goToaddlead()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
     	</v-ons-fab>
@@ -80,7 +83,10 @@ export default {
 	 				this.leads.push(this.completelist[i])
 	 			}
 	 		}
-	 	},
+		 },
+		 goToHome(){
+			this.$router.back(-1);
+		 },
 
 	 	goToaddlead() {
    			this.$router.push('/addlead')
@@ -114,8 +120,8 @@ export default {
 		 }
 		 this.intervalID = setInterval(() => {
 			if (this.progress === 100) {
-			clearInterval(this.intervalID);
-			return;
+				clearInterval(this.intervalID);
+				return;
 			}
 			this.progress++;
 		}, 40);
@@ -124,8 +130,6 @@ export default {
 			clearInterval(this.intervalID);   
  	  		this.leads = leads.Body;
   	  		this.completelist = leads.Body;
-  	  		console.log(leads);
-
  	  	})
  	  }
  	 }				
