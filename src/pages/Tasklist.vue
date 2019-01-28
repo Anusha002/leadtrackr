@@ -37,7 +37,7 @@
 			<v-ons-row v-for="(value, key) in leads" v-bind:key="key">	
 				<div class="date-header">{{convertDate(key)}}</div>	
 				<v-ons-list class="list">
-					<v-ons-list-item  v-for="(card, index) in value" v-bind:key="index">
+					<v-ons-list-item  v-for="(card, index) in value" v-bind:key="index" @click="goToFollowup(card)">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{card.LeadName}}</v-ons-col>		
 						</v-ons-row>
@@ -94,6 +94,15 @@ export default {
 		Dash
 	},
 	 methods:{
+	 	goToFollowup(project){
+			localStorage.setItem("project", JSON.stringify(project));
+			this.$router.push({
+				'name': 'followups',
+				'params':{
+   					'items': project
+   				}
+			});
+		},
 		goTodetail() {
    			this.$router.push('/addlead')
   		},

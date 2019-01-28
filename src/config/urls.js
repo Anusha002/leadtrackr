@@ -20,6 +20,7 @@ export default {
         'scheduleto': baseUrl + 'api/Scheduleto',
         'getleads': baseUrl + 'api/Projects',
         'addlead': baseUrl + 'api/Projects',
+        'editlead': baseUrl + 'api/Projects',
         'followups': baseUrl + 'api/Schedule',
         'addfollowup': baseUrl + 'api/Schedule',
         'completefollowup': baseUrl + 'api/Schedule'

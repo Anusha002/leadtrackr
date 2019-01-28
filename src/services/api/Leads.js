@@ -42,6 +42,12 @@ export default {
             .then(response => {
                 return response.data
             })
+    },
+    editLead(payload){
+        return axios({ method: "PUT", "url": Urls.url.editlead, "data": payload, "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
     }
 
 	

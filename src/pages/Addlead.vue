@@ -148,12 +148,7 @@ export default{
         Token:localStorage.ki
         
       },
-      // types: [{'TypeName':'Select Type'}],
-      // stages:["Select Stage"],
-      // status:["Select Status"],
-      // createdBy:[{'FullName': 'Created By'}],
-      // handledBy: [{'FullName': 'Handled By'}],
-      // ownedBy: [{'FullName': 'Owned By'}],
+      
       types: [""], 
       stages: [""],
       status: [""],
@@ -170,7 +165,7 @@ export default{
 	 },
 
   mounted:function() {
-    // console.log(this.$props.items);
+    
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
