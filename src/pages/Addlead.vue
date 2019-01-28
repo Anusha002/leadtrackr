@@ -8,9 +8,13 @@
 	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
-    		<div class="center">
+    		<div class="center" v-if="typeof editLead == 'undefined'">
     			Add Lead
+	      </div>	
+        <div class="center" v-else>
+    			Edit Lead
 	        </div>	
+
  		</v-ons-toolbar>
      <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
 
