@@ -207,6 +207,7 @@ export default{
           Token:localStorage.ki,
           Department:user.Department,
           UserID:this.followup.UserID,
+          Stage: "Enquiry", 
           projectId:Utils.getProjectid()
 
          }

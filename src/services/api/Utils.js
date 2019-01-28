@@ -31,7 +31,7 @@ export default {
 
     },
     getTask(payload){
-        return axios({ method: "GET", "url": Urls.url.task+"?Token="+payload.Token+"&UserID="+payload.UserID, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "GET", "url": Urls.url.task+"?Stage="+payload.Stage+"&Token="+payload.Token+"&UserID="+payload.UserID, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })
