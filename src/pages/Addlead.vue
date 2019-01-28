@@ -254,11 +254,19 @@ export default{
       // console.log(this.lead);
       this.$validator.validate().then(valid => {
       if (valid) {
+        this.intervalID = setInterval(() => {
+          if (this.progress === 100) {
+            clearInterval(this.intervalID);
+            this.progress = 0;
+            return;
+          }
+          this.progress++;
+        }, 40);
         if (this.$props.editLead != null) {
           this.lead.Token = localStorage.ki;
           console.log(this.lead);
           EditleadApi.editLead(this.lead).then(projects => {
-            console.log("lead edited");
+            this.progress = 0;
             this.$router.push('/container');
 
           },error => {
@@ -266,6 +274,7 @@ export default{
            });
         } else {
         //   AddleadApi.addLead(this.lead).then(projects => {
+        //      this.progress = 0; 
         //     localStorage.removeItem('leaddata');
         //     this.$router.push('/container');
         // }, error => {
