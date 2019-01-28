@@ -32,7 +32,7 @@
  		</v-ons-card>
 
  		<h4 class="heading">Follow-ups</h4>
- 		<v-ons-card  v-if="followups.length > 0">
+ 		<v-ons-card  v-show="followups.length > 0">
 			<v-ons-list modifier="noborder">
 				<v-ons-list-item v-for="(value, key) in followups" v-bind:key="key">
 				
