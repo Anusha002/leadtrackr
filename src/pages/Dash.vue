@@ -8,7 +8,7 @@
     		</div>
     		<div class="right">
     			<v-ons-toolbar-button @click="toggleView()">
-	        		<v-ons-icon class="icon-list header-icon" id="leadicon"></v-ons-icon>
+	        		<v-ons-icon modifier="large" class="icon-list header-icon" id="leadicon"></v-ons-icon>
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
@@ -35,7 +35,7 @@
 							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
 						</v-ons-row>
 						<v-ons-row style="margin-top: 10px;">
-							<v-ons-col width="50px">
+							<v-ons-col width="40px">
 								<a :href="'tel:' + value.ContactMobile">
 									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 								</a>

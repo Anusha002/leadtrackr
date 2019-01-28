@@ -13,20 +13,23 @@
  		<v-ons-card>
  			<div class="content">	
 				<v-ons-row>
-					<v-ons-col width="75%" class="contact">{{items.ContactName}}</v-ons-col>
+					<v-ons-col width="78%" class="contact">{{items.ContactName}}</v-ons-col>
 					<v-ons-col width="35px">
-						<a :href="'tel:' + items.Mobile">
+						<a v-if="items.Mobile" :href="'tel:' + items.Mobile">
 							<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
 						</a>
 					</v-ons-col>
 					<v-ons-col width="30px">
-						<a :href="'mailto:' + items.Email">
+						<a v-if="items.Email" :href="'mailto:' + items.Email">
 							<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
 						</a>
 					</v-ons-col>
 			 	</v-ons-row>
 			 	<v-ons-row>
 				  <v-ons-col class="stage" id="ld-status">{{items.Stage}}</v-ons-col>
+				  <a v-if="items.Latitude" :href="'https://www.google.com/maps/search/?api=1&query=' + items.Latitude + ',' + items.Longitude" target="_blank" style="margin-right: 10px; margin-top: 10px;">
+				  	<v-ons-icon modifier="large" class="icon-send"></v-ons-icon>
+				  </a>
 			    </v-ons-row>
 	 		</div> 						
  		</v-ons-card>
@@ -261,8 +264,9 @@ import Utils from '../services/api/Utils.js';
 				Mobile: prj.Mobile,
 				Email: prj.Email,
 				ContactName: prj.ContactName,
-				Stage: prj.Stage
-
+				Stage: prj.Stage,
+				Latitude: prj.Latitude,
+				Longitude: prj.Longitude
 			},
 			 "pjctid" : prj.ProjectID,
         	 isLoading: true,
@@ -506,7 +510,7 @@ import Utils from '../services/api/Utils.js';
 }
 
 .ons-icon.fa {
-	font-size: 1.4em;
+	font-size: 1.7em;
 	color: #333;
 }
 .labels {
