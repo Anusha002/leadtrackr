@@ -14,6 +14,7 @@
         <div class="center" v-else>
     			Edit Lead
 	        </div>	
+          
 
  		</v-ons-toolbar>
      <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
@@ -173,7 +174,6 @@ export default{
 	 },
 
   mounted:function() {
-    
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
@@ -204,12 +204,17 @@ export default{
       this.createdBy = this.createdBy.concat(users.Body); 
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
-
+      
       var that = this;
       setTimeout(function(){
         that.progress = 100
         if(that.$props.editLead != null) {
           that.lead =  that.$props.editLead;
+          var typ = that.lead.Type
+          if(typeof typ == 'string' && typ.indexOf('/') > -1){
+            typ = typ.split('/')[0];
+          }
+          that.lead.Type = that.findTypeId(typ);
           that.lead.OwnedBy = that.lead.OwnedBy.toString();
         }
         if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
@@ -236,6 +241,13 @@ export default{
   },
 
   methods :{
+    findTypeId(type) {
+      for (var i=0; i < this.types.length; i++) {
+        if (this.types[i].TypeName === type) {
+            return this.types[i].TypeID;
+        }
+      }
+    },
     addLocation() {
       localStorage.setItem('leaddata', JSON.stringify(this.lead));
       this.$router.push('/addlocation');
@@ -250,8 +262,6 @@ export default{
     },
     addLead(){
       this.submitted = true;
-
-      // console.log(this.lead);
       this.$validator.validate().then(valid => {
       if (valid) {
         this.intervalID = setInterval(() => {
@@ -264,7 +274,6 @@ export default{
         }, 40);
         if (this.$props.editLead != null) {
           this.lead.Token = localStorage.ki;
-          console.log(this.lead);
           EditleadApi.editLead(this.lead).then(projects => {
             this.progress = 0;
             this.$router.push('/container');
