@@ -297,7 +297,7 @@ import Utils from '../services/api/Utils.js';
         	 	ContactName:prj.ContactName,
         	 	Email:prj.Email,
         	 	Mobile:prj.Mobile,
-        	 	ContactLandline:prj.landLine,
+        	 	Landline:prj.landline,
         	 	ScheduleBy:"",
         	 	ScheduleTo:"",
         	 	Task:"",
@@ -356,12 +356,7 @@ import Utils from '../services/api/Utils.js';
    				})
 			},
 			goToHome() {
-				console.log(this.$props.mode);
-				if(this.$props.mode == 'tasklist'){
-					this.$router.push('/tasklist');
-				} else {
 				this.$router.back(-1);
-			  }
       		},
 
 			goTodetail() {
