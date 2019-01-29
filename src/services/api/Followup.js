@@ -18,7 +18,7 @@ addFollowup(payload){
              })
      },
    editFollowup(payload){
-        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.projectId, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.ProjectId, "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })

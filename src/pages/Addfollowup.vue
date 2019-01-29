@@ -169,8 +169,8 @@ export default{
       this.submitted = true;
       var data = this.followup;
       this.followup.ProjectID = Utils.getProjectid();
-      this.followup.CreatedDate = Utils.formatDate(new Date())
-      this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate))
+      this.followup.CreatedDate = Utils.formatDate(new Date()).split("-").reverse().join("-");
+      this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate)).split("-").reverse().join("-");
       this.followup.ScheduleBy = Utils.getUsername()
 
       this.$validator.validate().then(valid => {

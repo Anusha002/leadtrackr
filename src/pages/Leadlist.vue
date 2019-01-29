@@ -89,7 +89,12 @@ export default {
 		 },
 
 	 	goToaddlead() {
-   			this.$router.push('/addlead')
+   			this.$router.push({
+   				'name' :'addlead',
+   				'params' : {
+   					'mode' : 'leadlist'
+   				}
+   			})
   		},
 	 	goToFollowup(project){
 			localStorage.setItem("project", JSON.stringify(project));

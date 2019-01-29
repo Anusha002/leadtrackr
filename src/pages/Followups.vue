@@ -58,9 +58,9 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); completeVisible = true;  StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Mark Completed</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); updateVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); reassignVisible = true;StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs();setFollowupvalues(value);completeVisible = true; ">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); setFollowupvalues(value); updateVisible = true;">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs();setFollowupvalues(value); reassignVisible = true;">Reassign</v-ons-button>
 
 					</div>	
 
@@ -295,13 +295,10 @@ import Utils from '../services/api/Utils.js';
         	 	Substatus:"",
         	 	LeadName:prj.LeadName,
         	 	ContactName:prj.ContactName,
-        	 	ContactEmail:prj.ContactEmail,
-        	 	ContactMobile:prj.ContactMobile,
-        	 	ContactLandline:prj.ContactLandline,
-        	 	ScheduleBy:prj.ScheduleBy,
-        	 	ScheduleTo:prj.ScheduleTo,	
-        	 	Task:prj.Task,
-        	 	projectId:prj.ProjectID
+        	 	ContactEmail:prj.Email,
+        	 	ContactMobile:prj.Mobile,
+        	 	ContactLandline:prj.landLine,
+        	 	ProjectId:prj.ProjectID
         	 },
         	 updatefollowup:{
         	 	Substatus:"",
@@ -312,12 +309,22 @@ import Utils from '../services/api/Utils.js';
         	 	remarks:""
         	 },
         	 current_status : "callaction",
-        	 projectID:"",
+        	 
         	 progress: 0
 			}
 		},
 
 		methods: {
+			setFollowupvalues(value){
+			    
+			    this.StageHistoryID = value.StageHistoryID; 
+				this.FollowupDate = Utils.readableDate(new Date(value.FollowupDate)); 
+				this.Description = value.Description;
+				this.input.ScheduleBy = value.ScheduleBy,
+        	 	this.input.ScheduleTo = value.ScheduleTo,	
+        	 	this.input.Task = value.Task
+
+			},
 			dateformat(date) {
        		if(date != "") {
          	return Utils.formatDate(new Date(date))
@@ -373,7 +380,8 @@ import Utils from '../services/api/Utils.js';
   				this.input.CompletionRemark = this.CompletionRemark;
   				this.input.FollowupCompletionDate = completedate.split("/").reverse().join("-");
   				if (this.FllwDate!= ""){
-  					this.input.FollowupDate = this.FllwDate;
+  					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
+  		
   				} else{	
   				this.input.FollowupDate = this.FollowupDate.split("/").reverse().join("-");
   			    }
@@ -385,18 +393,18 @@ import Utils from '../services/api/Utils.js';
   				 this.input.Description = this.reassign.remarks;
   			    }
   				this.input.UserID = Utils.getUserid(); 
-  				if (this.reassign.ScheduleTo != null){
+  				if (this.reassign.ScheduleTo != ""){
   					this.input.ScheduleTo = this.reassign.ScheduleTo;
 
   				}
   				
 			    var data = this.input;
+			    console.log(this.input);
 			     this.$validator.validate().then(valid => {
 			     	
 			     	if (valid) {
         				
 	            		 FollowupsAPI.editFollowup(data).then(followups => {
-	             		 // console.log(followups);
 	             		 this.CompletionRemark = "";
 	             		 this.updatefollowup.remarks = "";
 	             		 this.input.Hr="";

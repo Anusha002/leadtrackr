@@ -20,17 +20,17 @@
      <v-ons-progress-bar :value="progress"></v-ons-progress-bar>
 
   		<v-ons-list class="leaddata">
-    		<v-ons-list-item modifier="nodivider">
+    		<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">
             <div class="labels">LeadName</div>
      			 	<v-ons-input modifier="underbar" class="lead-input"  v-model="lead.LeadName" v-validate="'required'" name="leadname" type="text"></v-ons-input>
             <p class="text-danger" >{{ errors.first('leadname')}}</p> 
         	</v-ons-list-item>
-          <v-ons-list-item  modifier="nodivider"> 
+          <v-ons-list-item  modifier="nodivider" v-if="typeof editLead == 'undefined'"> 
             <div class="labels">ContactName</div>
             <v-ons-input v-model="lead.ContactName" modifier="underbar" class="lead-input" name="contactname" v-validate="'required'"></v-ons-input>
             <p class="text-danger" >{{ errors.first('contactname')}}</p> 
           </v-ons-list-item>
-        	<v-ons-list-item modifier="nodivider">	
+        	<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">	
             <div class="labels">Type</div>
         		<v-ons-select style="width: 100%" v-model="lead.Type"  name="leadtype" v-validate="'required'" >   
                <option value="" selected ></option>
@@ -63,16 +63,16 @@
             <p class="text-danger" >{{ errors.first('status')}}</p>
           </v-ons-list-item>  
         	
-        	<v-ons-list-item modifier="nodivider">	
+        	<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">	
           <div class="labels">Mobile</div>		
         			<v-ons-input v-model="lead.Mobile" type="number" modifier="underbar" class="lead-input" v-validate="'required|digits:10'" name="mobile" ></v-ons-input>
               <p class="text-danger" >{{ errors.first('mobile')}}</p>
     		</v-ons-list-item>
-    		<v-ons-list-item modifier="nodivider">
+    		<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">
              <div class="labels">Landline</div>
         			<v-ons-input v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>
-        	<v-ons-list-item modifier="nodivider">
+        	<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">
               <div class="labels">Email</div>	
         			<v-ons-input v-model="lead.Email"  type="email" modifier="underbar" class="lead-input" v-validate="'required|email'" name="email"></v-ons-input>
               <p class="text-danger" >{{ errors.first('email')}}</p>
@@ -92,7 +92,7 @@
             <p class="text-danger" >{{ errors.first('handledby')}}</p>
           </v-ons-list-item>  
         	<v-ons-list-item modifier="nodivider"> 
-            <div class="labels">OwnedBy {{lead.OwnedBy}}</div>
+            <div class="labels">OwnedBy</div>
              <v-ons-select style="width: 100%" v-model="lead.OwnedBy" v-validate="'required'" name="ownedby">
                 <option value="" selected></option>
                 <option v-for="(value,key) in ownedBy" :value="value.UserID" >
@@ -101,7 +101,7 @@
             </v-ons-select>
             <p class="text-danger" >{{ errors.first('ownedby')}}</p>
           </v-ons-list-item>  
-           <v-ons-list-item modifier="nodivider"  @click="addLocation()">
+           <v-ons-list-item modifier="nodivider"  @click="addLocation()" v-if="typeof editLead == 'undefined'">
            
             <div class="labels">Add Location</div>
             <div v-if="typeof items != 'undefined'" style="width:100%">
@@ -130,7 +130,7 @@ import EditleadApi from '../services/api/Leads.js';
 
 
 export default{
-    props: ['items','editLead'],
+    props: ['items','editLead', 'mode'],
     data() {
       
     return {
@@ -276,19 +276,24 @@ export default{
           this.lead.Token = localStorage.ki;
           EditleadApi.editLead(this.lead).then(projects => {
             this.progress = 0;
-            this.$router.push('/container');
+            this.$router.push('/followups');
 
           },error => {
             console.error(error);
            });
         } else {
-        //   AddleadApi.addLead(this.lead).then(projects => {
-        //      this.progress = 0; 
-        //     localStorage.removeItem('leaddata');
-        //     this.$router.push('/container');
-        // }, error => {
-        //     console.error(error);
-        //    });
+          AddleadApi.addLead(this.lead).then(projects => {
+             this.progress = 0; 
+            localStorage.removeItem('leaddata');
+            console.log(this.$props.mode);
+            if (this.$props.mode == 'leadlist'){
+                this.$router.push('/leadlist');
+              }else{  
+                 this.$router.push('/container');
+              }
+        }, error => {
+            console.error(error);
+           });
         }
        }     
     })
