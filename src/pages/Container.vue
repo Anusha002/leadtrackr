@@ -3,9 +3,34 @@
 
 	<v-ons-splitter>
 		
-		<v-ons-splitter-side swipeable width="150px" collapse="" side="left"
+		<v-ons-splitter-side swipeable width="230px" collapse="" side="left"
 		:open.sync="openSide" class="frame" id="menu">	
 			<v-ons-page>
+				<div class="hamheader">
+					<v-ons-row>
+						<v-ons-col width="30%">
+							<img src="../assets/user.png" width="60" />
+						</v-ons-col>
+						<v-ons-col class="username">
+							{{user.name}}
+							<span>{{user.designation}}</span>
+						</v-ons-col>	
+					</v-ons-row>
+					<v-ons-row class="numbers">
+						<v-ons-col class="hamnumbers">
+							{{user.leads}}
+							<span>Leads</span>
+						</v-ons-col>
+						<v-ons-col class="hamnumbers">
+							{{user.tasks}}
+							<span>Pending</span>
+						</v-ons-col>
+						<v-ons-col class="hamnumbers">
+							{{user.completed}}
+							<span>Completed</span>
+						</v-ons-col>
+					</v-ons-row>
+				</div>
 				<v-ons-list>
 					<v-ons-list-item v-for="(item,key) in menu"  v-bind:key=key
 					tappable modifier="chevron"
@@ -49,7 +74,15 @@
 		},
 		
 		data() {
+			var usr = JSON.parse(localStorage.usr);
 			return {
+				user: {
+					name: usr.FullName,
+					designation: usr.Designation,
+					leads: usr.no_of_leads,
+					tasks: usr.pending_tasks,
+					completed: usr.completed_tasks
+				},
 				pageStack: [Dash],
 				menu:[{
 					name: "Leads",
@@ -64,6 +97,45 @@
 	}
 </script>
 <style >
+.page__content {
+	margin-top: 0 !important;
+	padding: 0;
+}
+.hamheader {
+	background: #f7f7f7;
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+}
+.username {
+	font-weight: bold;
+	color: #3324f5;
+	font-size: 13px;
+	margin-top:10px;
+}
+.username span{
+	display: block;
+	font-weight: normal;
+	font-size: 12px;
+	color: #666;
+	font-style: italic;
+	margin-top: 2px;
+}
+.numbers {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid #eee;
+}
+.hamnumbers {
+	font-weight: 800;
+	font-size: 15px;
+	text-align: center;
+}
+.hamnumbers span{
+	display: block;
+	font-weight: normal;
+	font-size: 13px;
+	color: #666;
+}
 .bottom-bar{
   background: transparent;
   height: 60px;

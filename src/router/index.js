@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VeeValidate from 'vee-validate';
 import Login from '../pages/Login.vue'
+import Logout from '../pages/Logout.vue'
 // import Splash from '../pages/Splash.vue'
 import Dash from '../pages/Dash.vue'
 import Leadlist from '../pages/Leadlist.vue'
@@ -27,6 +28,11 @@ export default new Router({
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: Logout
   },
   {
     path: '/dash',
