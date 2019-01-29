@@ -4,10 +4,15 @@
 		<v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button>
-	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
+	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>
 	      		</v-ons-toolbar-button>
     		</div>
-    		<div class="center" @click="editLead()">{{items.LeadName}}</div>	
+    		<div class="center">{{items.LeadName}}</div>	
+    		<div class="right">
+    			<v-ons-toolbar-button @click="editLead()">
+	        		<v-ons-icon modifier="large" class="icon-edit header-icon"></v-ons-icon>
+	        	</v-ons-toolbar-button>	
+	        </div>	
  		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
  		<v-ons-card>
@@ -53,9 +58,9 @@
 					</div> 
 					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
 						
-						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); completeVisible = true;  StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Mark Completed</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); updateVisible = true; StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Update</v-ons-button>
-						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); reassignVisible = true;StageHistoryID = value.StageHistoryID; FollowupDate = readableDate(new Date(value.FollowupDate)); Description = value.Description;">Reassign</v-ons-button>
+						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs();setFollowupvalues(value);completeVisible = true; ">Mark Completed</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); setFollowupvalues(value); updateVisible = true;">Update</v-ons-button>
+						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs();setFollowupvalues(value); reassignVisible = true;">Reassign</v-ons-button>
 
 					</div>	
 
@@ -80,12 +85,7 @@
 				<b>Mark Completed</b>
 			</v-ons-col>
 		</v-ons-row>	
-		<!-- <v-ons-row class="rowdata">
-			<div class="labels">Current Followup Remarks</div><br>
-		</v-ons-row>	 
-		<v-ons-row> 
-			{{Description}}
-		</v-ons-row>	 -->
+		 
 		<v-ons-row class="rowdata">
 				<div class="labels">Completion Remarks</div>
 				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="CompletionRemark" v-validate="'required'"></v-ons-input>
@@ -138,6 +138,14 @@
 			</v-ons-select>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
+			<div @click="openCalender('')" class="small-text">Change Followup Date</div>
+			<div @click="openCalender('')"  class="fllwdate">{{dateformat(FllwDate)}}</div><br/>
+            <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked' style="margin-left: -240px;">
+             </v-date-picker>
+            
+             <p class="text-danger">{{ errors.first('followupdate')}}</p>
+		</v-ons-row>
+		<v-ons-row class="rowdata">
 			<div class="labels">Time Taken{{input.Hr}}{{input.Min}}</div>
 		</v-ons-row>
 		<v-ons-row>	
@@ -150,13 +158,7 @@
 				<p class="text-danger" >{{ errors.first('minutetaken')}}</p> 
 			</v-ons-col>
 		</v-ons-row>
-		<!-- <v-ons-row class="rowdata">
-			<div class="labels">Current Followup Remarks</div><br>
-		</v-ons-row>	 
-		<v-ons-row> 
-			{{Description}}
-		</v-ons-row>	 -->
-				
+		
 		<v-ons-row class="rowdata">
 				<div class="labels">Update Remarks</div>
 				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="updatefollowup.remarks" v-validate="'required'" ></v-ons-input>
@@ -205,6 +207,14 @@
 					<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="reassign.remarks" v-validate="'required'" ></v-ons-input>
 					<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 			</v-ons-row>
+			<v-ons-row class="rowdata">
+			<div @click="openCalender('')" class="small-text">Change Followup Date</div>
+			<div @click="openCalender('')"  class="fllwdate">{{dateformat(FllwDate)}}</div><br/>
+            <v-date-picker :popover-visibility="showcalender" :min-date='new Date()' mode='single' v-model="FllwDate" name="followupdate" v-validate="'required'" @dayclick='dayClicked' style="margin-left: -240px;">
+             </v-date-picker>
+            
+             <p class="text-danger">{{ errors.first('followupdate')}}</p>
+		</v-ons-row>
 			<v-ons-row class="rowdata">
 				<div class="labels">Time Taken</div><br>
 			</v-ons-row>
@@ -275,7 +285,8 @@ import Utils from '../services/api/Utils.js';
         	 substatus:[],
        	 	CompletionRemark:"",
        	 	Description:"",
-       
+       		FllwDate: "",
+       		showcalender: 'hidden',
         	 input:{	
         	 	Hr:"",
         	 	Min:"",
@@ -284,13 +295,10 @@ import Utils from '../services/api/Utils.js';
         	 	Substatus:"",
         	 	LeadName:prj.LeadName,
         	 	ContactName:prj.ContactName,
-        	 	ContactEmail:prj.ContactEmail,
-        	 	ContactMobile:prj.ContactMobile,
-        	 	ContactLandline:prj.ContactLandline,
-        	 	ScheduleBy:prj.ScheduleBy,
-        	 	ScheduleTo:prj.ScheduleTo,	
-        	 	Task:prj.Task,
-        	 	projectId:prj.ProjectID
+        	 	ContactEmail:prj.Email,
+        	 	ContactMobile:prj.Mobile,
+        	 	ContactLandline:prj.landLine,
+        	 	ProjectId:prj.ProjectID
         	 },
         	 updatefollowup:{
         	 	Substatus:"",
@@ -301,12 +309,35 @@ import Utils from '../services/api/Utils.js';
         	 	remarks:""
         	 },
         	 current_status : "callaction",
-        	 projectID:"",
+        	 
         	 progress: 0
 			}
 		},
 
 		methods: {
+			setFollowupvalues(value){
+			    
+			    this.StageHistoryID = value.StageHistoryID; 
+				this.FollowupDate = Utils.readableDate(new Date(value.FollowupDate)); 
+				this.Description = value.Description;
+				this.input.ScheduleBy = value.ScheduleBy,
+        	 	this.input.ScheduleTo = value.ScheduleTo,	
+        	 	this.input.Task = value.Task
+
+			},
+			dateformat(date) {
+       		if(date != "") {
+         	return Utils.formatDate(new Date(date))
+      		 }
+       
+     		},
+			openCalender() {
+      			 this.showcalender = this.showcalender == 'hidden' ? 'visible' : 'hidden';
+        
+     		},
+     		dayClicked(day) {
+       			 this.showcalender = 'hidden';
+    		 },
 			resetDialogs() {
 				this.completeVisible = false;
 				this.updateVisible= false;
@@ -348,29 +379,32 @@ import Utils from '../services/api/Utils.js';
   				this.input.StageHistoryID = this.StageHistoryID.toString();
   				this.input.CompletionRemark = this.CompletionRemark;
   				this.input.FollowupCompletionDate = completedate.split("/").reverse().join("-");
+  				if (this.FllwDate!= ""){
+  					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
+  		
+  				} else{	
   				this.input.FollowupDate = this.FollowupDate.split("/").reverse().join("-");
-  				console.log(this.updatefollowup.remarks, this.reassign.remarks)
+  			    }
+  				
   				if (this.updatefollowup.remarks != ""){
-  				  this.input.Description = this.updatefollowup.remarks;
-  				  console.log("updating followup", this.updatefollowup.remarks);
+  				  this.input.Description = this.updatefollowup.remarks;  
   				}
   			  	if (this.reassign.remarks != ""){
   				 this.input.Description = this.reassign.remarks;
-  				 console.log("reassigned",this.reassign.remarks );
   			    }
   				this.input.UserID = Utils.getUserid(); 
-  				if (this.reassign.ScheduleTo != null){
+  				if (this.reassign.ScheduleTo != ""){
   					this.input.ScheduleTo = this.reassign.ScheduleTo;
 
   				}
   				
 			    var data = this.input;
+			    console.log(this.input);
 			     this.$validator.validate().then(valid => {
 			     	
 			     	if (valid) {
         				
 	            		 FollowupsAPI.editFollowup(data).then(followups => {
-	             		 // console.log(followups);
 	             		 this.CompletionRemark = "";
 	             		 this.updatefollowup.remarks = "";
 	             		 this.input.Hr="";
@@ -378,6 +412,7 @@ import Utils from '../services/api/Utils.js';
 	             		 this.input.Distance = "";
 	             		 this.input.ClaimAmount = "",
 						 this.reassign.remarks = "",
+						 this.FllwDate = "",
 	             		 this.completeVisible = false;
 	             		 this.updateVisible = false;
 	             		 this.reassignVisible = false;
@@ -522,4 +557,21 @@ import Utils from '../services/api/Utils.js';
 	width: 83px;
     height: 37px;
 }
+.followdate {
+  height: 22px;
+  border-bottom: 1px solid #ccc;
+}
+.small-text {
+	   color: #999;
+	   font-size: 12px;
+	   margin-bottom: 5px;   
+}
+.fllwdate {
+	   color: #333;
+	   border-bottom: 1px solid #999;
+	   height: 18px;
+	   font-size: 14px;
+	   width:98%;
+   }
+
 </style>
