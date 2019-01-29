@@ -106,7 +106,8 @@ export default {
 			this.$router.push({
 				'name': 'followups',
 				'params':{
-   					'items': project
+   					'items': project,
+   					'mode' : 'tasklist'
    				}
 			});
 		},

@@ -275,8 +275,11 @@ export default{
         if (this.$props.editLead != null) {
           this.lead.Token = localStorage.ki;
           EditleadApi.editLead(this.lead).then(projects => {
+            var prj = JSON.parse(localStorage.project);
+            prj.Stage = this.lead.Stage
+            localStorage.setItem('project', JSON.stringify(prj));
             this.progress = 0;
-            this.$router.push('/followups');
+            this.$router.back(-1);
 
           },error => {
             console.error(error);

@@ -20,9 +20,7 @@
 					<div class="content">
 						<v-ons-row>
 							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
-							<v-ons-col>
-								<v-ons-icon icon="md-plus" @click="editLead(value)"></v-ons-icon>
-							</v-ons-col>
+					
 						</v-ons-row>
 						<v-ons-row>
 							<v-ons-col id="ld-status" >{{value.Stage}}</v-ons-col>

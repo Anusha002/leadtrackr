@@ -88,7 +88,7 @@
 		 
 		<v-ons-row class="rowdata">
 				<div class="labels">Completion Remarks</div>
-				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="CompletionRemark" v-validate="'required'"></v-ons-input>
+				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="input.CompletionRemark" v-validate="'required'"></v-ons-input>
 				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 		</v-ons-row>
 			
@@ -130,7 +130,7 @@
 		</v-ons-row>		
 		<v-ons-row>	
 			<div class="labels">Substatus</div>
-			<v-ons-select style="width: 100%" v-model="input.Substatus" name="substatus" v-validate="'required'">
+			<v-ons-select style="width: 100%" v-model="update.Substatus" name="substatus" v-validate="'required'">
 				<option value="" selected data-default></option>
 				<option v-for="(value,key) in substatus" :value="value" v-bind:key="key">
 					{{ value}}
@@ -161,7 +161,7 @@
 		
 		<v-ons-row class="rowdata">
 				<div class="labels">Update Remarks</div>
-				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="updatefollowup.remarks" v-validate="'required'" ></v-ons-input>
+				<v-ons-input type="text" modifier="underbar" class="remarks" name="remarks" v-model="update.remarks" v-validate="'required'" ></v-ons-input>
 				<p class="text-danger" >{{ errors.first('remarks')}}</p> 
 		</v-ons-row>
 		<v-ons-row class="rowdata">
@@ -283,7 +283,7 @@ import Utils from '../services/api/Utils.js';
         	 prop:{},
         	 followups: [],
         	 substatus:[],
-       	 	CompletionRemark:"",
+       	 	// CompletionRemark:"",
        	 	Description:"",
        		FllwDate: "",
        		showcalender: 'hidden',
@@ -295,12 +295,16 @@ import Utils from '../services/api/Utils.js';
         	 	Substatus:"",
         	 	LeadName:prj.LeadName,
         	 	ContactName:prj.ContactName,
-        	 	ContactEmail:prj.Email,
-        	 	ContactMobile:prj.Mobile,
+        	 	Email:prj.Email,
+        	 	Mobile:prj.Mobile,
         	 	ContactLandline:prj.landLine,
+        	 	ScheduleBy:"",
+        	 	ScheduleTo:"",
+        	 	Task:"",
+        	 	CompletionRemark:"",
         	 	ProjectId:prj.ProjectID
         	 },
-        	 updatefollowup:{
+        	 update:{
         	 	Substatus:"",
         	 	remarks:""
         	 },
@@ -308,7 +312,6 @@ import Utils from '../services/api/Utils.js';
         	 	ScheduleTo:"",
         	 	remarks:""
         	 },
-        	 current_status : "callaction",
         	 
         	 progress: 0
 			}
@@ -322,6 +325,7 @@ import Utils from '../services/api/Utils.js';
 				this.Description = value.Description;
 				this.input.ScheduleBy = value.ScheduleBy,
         	 	this.input.ScheduleTo = value.ScheduleTo,	
+        	 	this.input.Substatus = value.Substatus,
         	 	this.input.Task = value.Task
 
 			},
@@ -352,7 +356,12 @@ import Utils from '../services/api/Utils.js';
    				})
 			},
 			goToHome() {
+				console.log(this.$props.mode);
+				if(this.$props.mode == 'tasklist'){
+					this.$router.push('/tasklist');
+				} else {
 				this.$router.back(-1);
+			  }
       		},
 
 			goTodetail() {
@@ -367,36 +376,38 @@ import Utils from '../services/api/Utils.js';
   			readableDate(date) {
   				return Utils.readableDate(date);
   			},
-  			// changeformatDate(date){
-  			// 	return (date.split("/").reverse().join("-"));
-  			// },
+  			
   			editFollowup(){
 
   				var date = new Date();
-  				var completedate = Utils.readableDate(date);
+  				var completedate = Utils.formatDate(date);
   				
   				this.input.Token = localStorage.ki;
   				this.input.StageHistoryID = this.StageHistoryID.toString();
-  				this.input.CompletionRemark = this.CompletionRemark;
-  				this.input.FollowupCompletionDate = completedate.split("/").reverse().join("-");
+  				// this.input.CompletionRemark = this.CompletionRemark;
+  				this.input.FollowupCompletionDate = completedate.split("-").reverse().join("-");
+  				console.log(this.input.FollowupCompletionDate);
   				if (this.FllwDate!= ""){
   					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
   		
   				} else{	
   				this.input.FollowupDate = this.FollowupDate.split("/").reverse().join("-");
   			    }
-  				
-  				if (this.updatefollowup.remarks != ""){
-  				  this.input.Description = this.updatefollowup.remarks;  
+  				if (this.update.Substatus != ""){
+  				  this.input.Substatus = this.update.Substatus;  
+  				}
+  				if (this.update.remarks != ""){
+  				  this.input.Description = this.update.remarks;  
   				}
   			  	if (this.reassign.remarks != ""){
   				 this.input.Description = this.reassign.remarks;
   			    }
-  				this.input.UserID = Utils.getUserid(); 
+  				
   				if (this.reassign.ScheduleTo != ""){
   					this.input.ScheduleTo = this.reassign.ScheduleTo;
 
   				}
+  				this.input.UserID = Utils.getUserid(); 
   				
 			    var data = this.input;
 			    console.log(this.input);
@@ -405,17 +416,8 @@ import Utils from '../services/api/Utils.js';
 			     	if (valid) {
         				
 	            		 FollowupsAPI.editFollowup(data).then(followups => {
-	             		 this.CompletionRemark = "";
-	             		 this.updatefollowup.remarks = "";
-	             		 this.input.Hr="";
-	             		 this.input.Min = "";
-	             		 this.input.Distance = "";
-	             		 this.input.ClaimAmount = "",
-						 this.reassign.remarks = "",
-						 this.FllwDate = "",
-	             		 this.completeVisible = false;
-	             		 this.updateVisible = false;
-	             		 this.reassignVisible = false;
+	            		 	console.log(this.$router)
+	             		 	this.$router.go();
    						}, error => {
               			console.error(error);
             			}); 
