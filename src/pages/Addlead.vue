@@ -5,7 +5,7 @@
     <v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button>
-	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>	
+	        		<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goBack()"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
     		</div>
     		<div class="center" v-if="typeof editLead == 'undefined'">
@@ -252,7 +252,7 @@ export default{
       localStorage.setItem('leaddata', JSON.stringify(this.lead));
       this.$router.push('/addlocation');
     },
-    goToHome(){
+    goBack(){
       if(typeof this.$props.items == "undefined"){
         this.$router.back(-1);
       } else {
@@ -285,12 +285,7 @@ export default{
           AddleadApi.addLead(this.lead).then(projects => {
              this.progress = 0; 
             localStorage.removeItem('leaddata');
-            console.log(this.$props.mode);
-            if (this.$props.mode == 'leadlist'){
-                this.$router.push('/leadlist');
-              }else{  
-                 this.$router.push('/container');
-              }
+            this.goBack();
         }, error => {
             console.error(error);
            });
