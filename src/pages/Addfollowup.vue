@@ -67,14 +67,13 @@
 
           
 
-          <!-- <v-ons-list-item modifier="nodivider"  @click="addFile()">
+           <v-ons-list-item modifier="nodivider"  @click="addFile()">
            <div class="followupdetails">
              <div class="labels"> Add File Attachment </div> 
             </div>
             <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
           </v-ons-list-item>  
- -->
                   <br/><br/><br><br><br><br> <br> 
        </v-ons-list>
        
@@ -129,9 +128,30 @@ export default{
           Vue.cordova.camera.getPicture((imageURI) => {
             
               window.FilePath.resolveNativePath(imageURI, function success(fileEntry) {
-                  that.followup.Attachment = fileEntry;
-                  
-                  console.log(that.followup.Attachment)
+                that.followup.Attachment = fileEntry;
+                console.log(that.followup.Attachment)
+                var uri = encodeURI("http://ptsv2.com/t/x3din-1548409558/post");
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = fileEntry.substr(fileEntry.lastIndexOf('/')+1);
+                options.mimeType = "text/plain";
+                var headers = {'headerParam':'headerValue'};
+                options.headers = headers;
+                var ft = new FileTransfer();
+                ft.upload(fileEntry, uri, onSuccess, onError, options);
+
+                function onSuccess(r) {
+                    console.log("Code = " + r.responseCode);
+                    console.log("Response = " + r.response);
+                    console.log("Sent = " + r.bytesSent);
+                }
+
+                function onError(error) {
+                    alert("An error has occurred: Code = " + error.code);
+                    console.log("upload error source " + error.source);
+                    console.log("upload error target " + error.target);
+                }
+                
               }, function () {
                 
               });
