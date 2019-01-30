@@ -149,8 +149,8 @@ export default{
   width: 28%;
   font-size: 15px;
   font-weight: bold;
-	border-color: #14BA88;
-  color: #14BA88;
+	border-color: #1d0149;
+	color: #1d0149;
   height: 48px;
   background: #fff;
 }

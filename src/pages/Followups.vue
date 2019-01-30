@@ -494,14 +494,14 @@ import Utils from '../services/api/Utils.js';
 }
 .status-text {
 	text-align: right;
-	color: #FF6D15;
+	color: #08976C;
 }
 .contact{
 	font-size: 18px;
 	font-weight: bold;
 }
 .status{
-	color: green;
+	color: #08976C;
 	font-weight: bold;
 }
 .subtask{
@@ -525,8 +525,8 @@ import Utils from '../services/api/Utils.js';
 }
 .gbtnclass{
 	font-size: 14px;
-	border-color: #14BA88;
-	color: #14BA88;
+	border-color: #1d0149;
+	color: #1d0149;
 	width: 120px;
 }
 .heading {

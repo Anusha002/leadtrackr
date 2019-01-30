@@ -20,7 +20,7 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider">
-            <v-ons-button modifier="large" style="margin: 6px 0" @click="sendData()">Login</v-ons-button>
+            <v-ons-button modifier="large" style="margin: 6px 0" @click="sendData()" class="button-normal">Login</v-ons-button>
           </v-ons-list-item>
         </v-ons-list>
       </div>
