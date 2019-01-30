@@ -79,7 +79,8 @@
        </v-ons-fab>
 
 
-       <v-ons-dialog cancelable v-if="completeVisible"  :visible.sync="completeVisible">	
+       <v-ons-dialog cancelable v-if="completeVisible"  :visible.sync="completeVisible">
+       <v-ons-progress-bar :value="progress1"></v-ons-progress-bar>	
 		<v-ons-row class="rowdata">
 			<v-ons-col>
 				<b>Mark Completed</b>
@@ -125,6 +126,7 @@
 
 
 	<v-ons-dialog cancelable v-if="updateVisible"  :visible.sync="updateVisible">
+		<v-ons-progress-bar :value="progress1"></v-ons-progress-bar>
 		<v-ons-row class="rowdata">
 			<p><b>Update Follow up</b></p>
 		</v-ons-row>		
@@ -188,6 +190,7 @@
 	
 		
 		<v-ons-dialog cancelable v-if="reassignVisible"  :visible.sync="reassignVisible">
+			<v-ons-progress-bar :value="progress1"></v-ons-progress-bar>
 			<v-ons-row class="rowdata">
 					<b>Reassign</b>
 			</v-ons-row>	
@@ -261,7 +264,7 @@ import Utils from '../services/api/Utils.js';
 		data() {
 			var prj = JSON.parse(localStorage.project);
 			return {
-
+			progress1: 0,
 			completeVisible: false,
 			updateVisible: false,
 			reassignVisible: false,
@@ -409,9 +412,17 @@ import Utils from '../services/api/Utils.js';
 			     this.$validator.validate().then(valid => {
 			     	
 			     	if (valid) {
+			     		this.intervalID = setInterval(() => {
+          					if (this.progress1 === 100) {
+            				clearInterval(this.intervalID);
+           					 this.progress1 = 0;
+           				 return;
+         					 }
+         				 this.progress1++;
+       					 }, 40);
         				
 	            		 FollowupsAPI.editFollowup(data).then(followups => {
-	            		 	console.log(this.$router)
+	            		 	this.progress1 = 0; 
 	             		 	this.$router.go();
    						}, error => {
               			console.error(error);

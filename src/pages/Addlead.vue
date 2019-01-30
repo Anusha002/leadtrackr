@@ -217,7 +217,9 @@ export default{
           that.lead.Type = that.findTypeId(typ);
           that.lead.OwnedBy = that.lead.OwnedBy.toString();
         } else{
-          navigator.geolocation.getCurrentPosition(function(position){});
+          navigator.geolocation.getCurrentPosition(function(position){}); 
+
+            
         }
         if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
           that.lead =  JSON.parse(localStorage.leaddata);
