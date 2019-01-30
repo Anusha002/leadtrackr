@@ -207,7 +207,8 @@ export default{
             }, 40);	 
             AddfollowupApi.addFollowup(data).then(followups => {
               this.progress = 100;
-              this.$router.push('/followups');
+              // this.$router.push('/followups');
+              this.$router.back(-1);
 
             }, error => {
                console.error(error);
