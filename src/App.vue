@@ -19,7 +19,7 @@
 <style>
 @import 'assets/css/icons.css';
 .page__background { 
-  background: linear-gradient(135deg, rgba(8,179,222,1) 10%, rgba(8,179,222,1) 37%, rgba(8,179,222,1) 45%, rgba(5,37,199,1) 100%);
+  background: linear-gradient(135deg, #8f94fb 45%, #4e54c8 100%);
   top: 0 !important;
 }
 .lead-input, .lead-input input{
@@ -80,5 +80,14 @@ ons-input, ons-input .text-input {
   font-size: 12px;
   font-weight: 400;
   font-family: 'Roboto', 'Noto', sans-serif;
+}
+.fab {
+	background: #1d0149 !important;
+}
+.fab .ons-icon{
+	color: #fff;
+}
+.button-normal {
+  background: #1d0149
 }
 </style>

@@ -13,7 +13,7 @@
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
-			<v-calendar :formats='formats' :attributes='attributes' title-position='left'@dayclick='dayClicked'>
+			<v-calendar :formats='formats' :attributes='attributes' title-position='left' @dayclick='dayClicked'>
 				<span slot='header-title' slot-scope='{ month, yearLabel }'>
 					<span class="calendar-year">{{ yearLabel }}</span> <br/>
 					<span class="calendar-month">{{ myMonths[month] }} </span>
@@ -193,14 +193,14 @@ export default {
       		contentStyle: {
             	'background-color': 'white',
             	'border-radius': '4px',
-            	color: 'blue'
+            	color: '#8206c7'
             },
       		dates: new Date(),
       	},
       	{
       		dates: [],
       		dot: {
-            	backgroundColor: 'blue', 
+            	backgroundColor: '#4a0074', 
 
               },
       	}
@@ -266,12 +266,6 @@ export default {
 	margin-left:30px;
 }
 
-.fab {
-	background: #14BA88 !important;
-}
-.fab .ons-icon{
-	color: #fff;
-}
 .card {
 	border-radius: 10px;
 }

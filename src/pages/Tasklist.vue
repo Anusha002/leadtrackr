@@ -39,7 +39,7 @@
 
 				</v-ons-col>
 				<v-ons-col>
-					<v-ons-button class="gobutton" @click="listTasks()">Go</v-ons-button>
+					<v-ons-button class="button-normal gobutton" @click="listTasks()" >Go</v-ons-button>
 				</v-ons-col>
 			</v-ons-row>		
  			
@@ -232,12 +232,7 @@ export default {
 .toolbar {
 	background: transparent;
 }
-.fab {
-	background: #14BA88 !important;
-}
-.fab .ons-icon{
-	color: #fff;
-}
+
 .list {
 	border-radius: 10px;
 	width: 90%;
