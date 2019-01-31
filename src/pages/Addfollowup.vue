@@ -13,16 +13,7 @@
     <v-ons-progress-bar :value="progress"></v-ons-progress-bar> 
 		
   		<v-ons-list class="followup">
-          <!-- <v-ons-list-item  modifier="nodivider">
-            <div class="labels">Stage</div>
-            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
-                <option value="" selected ></option>
-                <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
-                  {{ item }}
-                </option>
-            </v-ons-select>
-             <p class="text-danger">{{ errors.first('stage')}}</p> 
-          </v-ons-list-item> -->
+          
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Task</div>
             <v-ons-select style="width: 100%" v-model="followup.Task" name="task" v-validate="'required'">
@@ -31,10 +22,7 @@
                   {{ item }}
                 </option>
             </v-ons-select>
-           <!-- <div class="followupdetails">
-            <v-ons-input v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
-            <p class="text-danger" >{{ errors.first('task')}}</p> 
-            </div> -->
+           
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider" >
            <div class="followupdetails">
@@ -56,25 +44,38 @@
           
           <v-ons-list-item modifier="nodivider"> 
             <div class="labels">ScheduleTo</div>
-             <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
+           </v-ons-list-item> 
+           <div class="userlist">
+              <v-ons-list-item v-for="(value, $index) in scheduleTo" :key="value" tappable>
+                
+                <label class="left">
+                  <v-ons-checkbox :input-id="$index +'checkbox-' " :value="value.FullName" v-model="followup.ScheduleToList" >
+                  </v-ons-checkbox>
+              </label>
+              <label class="center" :for="'checkbox-' + $index">
+                {{value.FullName}}
+              </label>
+               </v-ons-list-item>  
+           </div>
+            <!--  <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
-            </v-ons-select>
-            <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
-          </v-ons-list-item>  
+            </v-ons-select> -->
+            <!-- <p class="text-danger" >{{ errors.first('scheduleto')}}</p> -->
+
 
           
 
-           <v-ons-list-item modifier="nodivider"  @click="addFile()">
+           <!-- <v-ons-list-item modifier="nodivider"  @click="addFile()">
            <div class="followupdetails">
              <div class="labels"> Add File Attachment </div> 
             </div>
             <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
-          </v-ons-list-item>  
-                  <br/><br/><br><br><br><br> <br> 
+          </v-ons-list-item>   -->
+                  <!-- <br/><br/><br><br><br> -->
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
@@ -104,7 +105,8 @@ export default{
         ScheduleBy: "", 
         ScheduleTo: "",
         Description:"",
-        Attachment: "",
+        ScheduleToList:[],
+        // Attachment: "",
         Token:localStorage.ki 
       },
       FllwDate: "",
@@ -116,7 +118,7 @@ export default{
       // stages:[""],
       tasks:[""],
       scheduleBy:[""],
-      scheduleTo:[""],
+      scheduleTo:[],
       tasklist:[],
      }
    },
@@ -194,6 +196,7 @@ export default{
       this.followup.ScheduleBy = Utils.getUsername()
 
       this.$validator.validate().then(valid => {
+        // console.log(this.followup.ScheduleToList);
 
         if (valid) {
             var that  = this;
@@ -268,6 +271,13 @@ export default{
 .followdate {
   height: 22px;
   border-bottom: 1px solid #ccc;
+}
+.userlist{
+  height: 167px;
+  width:100%;
+  overflow: auto;
+  margin-bottom: 15px;
+
 }
 
 </style>

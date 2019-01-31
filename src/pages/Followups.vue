@@ -382,9 +382,9 @@ import Utils from '../services/api/Utils.js';
   				
   				this.input.Token = localStorage.ki;
   				this.input.StageHistoryID = this.StageHistoryID.toString();
-  				// this.input.CompletionRemark = this.CompletionRemark;
+  				
   				this.input.FollowupCompletionDate = completedate.split("-").reverse().join("-");
-  				console.log(this.input.FollowupCompletionDate);
+  				
   				if (this.FllwDate!= ""){
   					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
   		
@@ -408,7 +408,7 @@ import Utils from '../services/api/Utils.js';
   				this.input.UserID = Utils.getUserid(); 
   				
 			    var data = this.input;
-			    console.log(this.input);
+			    
 			     this.$validator.validate().then(valid => {
 			     	
 			     	if (valid) {

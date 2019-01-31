@@ -12,7 +12,7 @@
 	        </div>	
 	       
  		</v-ons-toolbar>
-    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0 && typeof localStorage.projectlist == 'undefined'" v-model="query" v-on:keyup="searchLead()">		
+    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0" v-model="query" v-on:keyup="searchLead()">		
     		</v-ons-search-input>
 		<div>
 			<!-- @click="goToFollowup(value)" -->
