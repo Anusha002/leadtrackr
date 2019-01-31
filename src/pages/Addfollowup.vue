@@ -105,6 +105,7 @@ export default{
         ScheduleTo: "",
         Description:"",
         Attachment: "",
+        Status: "Pending",
         Token:localStorage.ki 
       },
       FllwDate: "",
@@ -192,6 +193,7 @@ export default{
       this.followup.CreatedDate = Utils.formatDate(new Date()).split("-").reverse().join("-");
       this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate)).split("-").reverse().join("-");
       this.followup.ScheduleBy = Utils.getUsername()
+      this.followup.Status = "Pending";
 
       this.$validator.validate().then(valid => {
 
@@ -205,7 +207,7 @@ export default{
               }
               that.progress++;
             }, 40);	 
-            AddfollowupApi.addFollowup(data).then(followups => {
+            AddfollowupApi.addFollowup(this.followup).then(followups => {
               this.progress = 100;
               // this.$router.push('/followups');
               this.$router.back(-1);
