@@ -12,7 +12,7 @@
 	        </div>	
 	       
  		</v-ons-toolbar>
-    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0" v-model="query" v-on:keyup="searchLead()">		
+    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0 && typeof localStorage.projectlist == 'undefined'" v-model="query" v-on:keyup="searchLead()">		
     		</v-ons-search-input>
 		<div>
 			<!-- @click="goToFollowup(value)" -->
@@ -121,16 +121,22 @@ export default {
 	 	var payload = {
 	 		Token:localStorage.ki
 		 }
-		 this.intervalID = setInterval(() => {
+		 
+		if (typeof localStorage.projectlist != 'undefined'){
+			this.leads = JSON.parse(localStorage.projectlist);
+		} else {
+			this.intervalID = setInterval(() => {
 			if (this.progress === 100) {
 				clearInterval(this.intervalID);
 				return;
 			}
 			this.progress++;
 		}, 40);
+		}
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
 			this.progress = 0;
 			clearInterval(this.intervalID);   
+			localStorage.setItem("projectlist", JSON.stringify(leads.Body));
  	  		this.leads = leads.Body;
   	  		this.completelist = leads.Body;
  	  	})

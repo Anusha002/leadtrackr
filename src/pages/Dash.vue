@@ -7,7 +7,8 @@
 	      		</v-ons-toolbar-button>
     		</div>
     		<div class="right">
-    			<v-ons-toolbar-button @click="toggleView()">
+    			<!-- <v-ons-toolbar-button @click="toggleView()"> -->
+    			<v-ons-toolbar-button @click="goTotasklist()">
 	        		<v-ons-icon modifier="large" class="icon-list header-icon" id="leadicon"></v-ons-icon>
 	        	</v-ons-toolbar-button>	
 	        </div>	
@@ -99,18 +100,22 @@ export default {
 			console.log(this.$parent.$parent.$parent)
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
-		toggleView() {
+		// toggleView() {
 			
-			if (document.getElementById('leadicon').classList.contains("icon-list")){
-				this.$parent.$parent.$parent.$parent.pageStack.push(TaskList);
+		// 	if (document.getElementById('leadicon').classList.contains("icon-list")){
+		// 		this.$parent.$parent.$parent.$parent.pageStack.push(TaskList);
 
-				document.getElementById('leadicon').classList.remove("icon-list"); 
-				document.getElementById('leadicon').classList.add("icon-calender"); 
-			} else{
-				this.$parent.$parent.$parent.$parent.pageStack.push();
-				document.getElementById('leadicon').classList.remove("icon-calender"); 
-				document.getElementById('leadicon').classList.add("icon-list"); 
-			}
+		// 		document.getElementById('leadicon').classList.remove("icon-list"); 
+		// 		document.getElementById('leadicon').classList.add("icon-calender"); 
+		// 	} else{
+		// 		this.$parent.$parent.$parent.$parent.pageStack.push();
+		// 		document.getElementById('leadicon').classList.remove("icon-calender"); 
+		// 		document.getElementById('leadicon').classList.add("icon-list"); 
+		// 	}
+		// },
+		goTotasklist() {
+			this.$router.push('/tasklist')
+
 		},
 		
   		goTodetail() {
@@ -164,6 +169,9 @@ export default {
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
 			this.getCards(currentdate);
+		}),
+		GetLeadsAPI.getLeads(payload).then(leads => {
+			localStorage.setItem("projectlist", JSON.stringify(leads.Body));
 		})
  	 },
 

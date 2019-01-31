@@ -1,7 +1,15 @@
 <template>
 	<v-ons-page id="tasklistpage">
 		<v-ons-toolbar>
-    		<div class="left">
+			<div class="left">
+	      		<v-ons-toolbar-button>
+					<v-ons-icon icon="md-chevron-left" size="28px" style="color: #fff; margin-left: 10px;" @click="goToHome()"></v-ons-icon>  
+				</v-ons-toolbar-button>
+    		</div>
+    		<div class="center">
+    			Tasks List
+	        </div>
+    		<!-- <div class="left">
 	      		<v-ons-toolbar-button @click="toggleMenu()">
 	        		<v-ons-icon class="icon-hamburger header-icon"></v-ons-icon>	
 	      		</v-ons-toolbar-button>
@@ -10,7 +18,7 @@
     			<v-ons-toolbar-button @click="toggleView()">
 	        		<v-ons-icon class="icon-calender header-icon" id="leadicon"></v-ons-icon>
 	        	</v-ons-toolbar-button>	
-	        </div>	
+	        </div>	 -->
  		</v-ons-toolbar>
 		<v-ons-progress-bar :value="progress"></v-ons-progress-bar> 
  		<v-ons-button modifier="material--flat" class="filterclass" style="margin: 4px 4px" @click="toggleFilter()">Filter</v-ons-button>
@@ -148,11 +156,12 @@ export default {
 			}, 40);	 
 
 			var payload = {
-				fromDate: Utils.formatDate(this.FromDate),
-				toDate: Utils.formatDate(this.ToDate),
+				fromDate: Utils.formatDate(this.FromDate).split("-").reverse().join("-"),
+				toDate: Utils.formatDate(this.ToDate).split("-").reverse().join("-"),
 				UserID:Utils.getUserid(),
 				Token:localStorage.ki
 			}
+			console.log(payload);
 			GetTasksAPI.getTasks(payload).then(leads => {
 				this.progress = 100;	
 				this.leads = leads;
@@ -187,23 +196,26 @@ export default {
 		 	this.ToDate = "";
 
 		 },
-		 toggleMenu()  {
+		 goToHome() {
+		 	this.$router.back(-1);
+		 }
+		//  toggleMenu()  {
 
-			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
-		},
-		toggleView() {
+		// 	this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
+		// },
+		// toggleView() {
 			
-			if (document.getElementById('leadicon').classList.contains("icon-list")){
-				this.$parent.$parent.$parent.currentPage = 'Tasklist'
-				document.getElementById('leadicon').classList.remove("icon-list"); 
-				document.getElementById('leadicon').classList.add("icon-calender"); 
-			} else{
-				this.$parent.$parent.$parent.$parent.pageStack.push(Dash);
-				document.getElementById('leadicon').classList.remove("icon-calender"); 
-				document.getElementById('leadicon').classList.add("icon-list"); 
-			}
+		// 	if (document.getElementById('leadicon').classList.contains("icon-list")){
+		// 		this.$parent.$parent.$parent.currentPage = 'Tasklist'
+		// 		document.getElementById('leadicon').classList.remove("icon-list"); 
+		// 		document.getElementById('leadicon').classList.add("icon-calender"); 
+		// 	} else{
+		// 		this.$parent.$parent.$parent.$parent.pageStack.push(Dash);
+		// 		document.getElementById('leadicon').classList.remove("icon-calender"); 
+		// 		document.getElementById('leadicon').classList.add("icon-list"); 
+		// 	}
 			
-		},
+		// },
 	 },
 	 mounted:function() {	
 	 
