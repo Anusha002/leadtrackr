@@ -67,13 +67,13 @@
 
           
 
-           <v-ons-list-item modifier="nodivider"  @click="addFile()">
+           <!-- <v-ons-list-item modifier="nodivider"  @click="addFile()">
            <div class="followupdetails">
              <div class="labels"> Add File Attachment </div> 
             </div>
             <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
-          </v-ons-list-item>  
+          </v-ons-list-item>   -->
                   <br/><br/><br><br><br><br> <br> 
        </v-ons-list>
        

@@ -9,8 +9,40 @@
     components: {
 
        
+    },
+    mounted:function() {
+      var that = this;
+      this.$ons.ready(function(){
+        that.$ons.setDefaultDeviceBackButtonListener(function() {
+          if(location.hash ==  '#/container' ) {
+            navigator.notification.confirm("Are you sure you want to exit the application?",function(button){
+              if(button == 1) {
+                  navigator.app.exitApp();
+              } else {
+                  return;
+              }   
+            },"Warning","Ok,Cancel"); 
+          } else {
+            navigator.app.backHistory();
+          }
+        });
+      })
+      
     }
   }
+// document.addEventListener("deviceready", onDeviceReady, false);  
+// function onDeviceReady(){
+//         document.addEventListener("backbutton", function(e){
+//           e.preventDefault();
+//           if(location.hash ==  '#/container' ) {
+//             navigator.notification.confirm("Are you sure you want to exit the application?",fnLogout,"Warning","Ok,Cancel"); // u can change the button names in the place of ok,cancel.
+//           } else {
+//             navigator.app.backHistory();
+//           }
+        
+//     }, false); 
+//   }
+
 
 
 </script>
