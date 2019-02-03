@@ -174,6 +174,9 @@ export default{
 	 },
 
   mounted:function() {
+    try{
+			window.FirebasePlugin.setScreenName("Addlead");
+		} catch(e){}
     var user = JSON.parse(localStorage.usr)
     var payload = {
           Token:localStorage.ki,
@@ -278,6 +281,9 @@ export default{
         }, 40);
         if (this.$props.editLead != null) {
           this.lead.Token = localStorage.ki;
+          try{
+              window.FirebasePlugin.logEvent("page_action", {content_type: "edit_lead", item_id: this.lead.LeadName});
+            } catch(e){}
           EditleadApi.editLead(this.lead).then(projects => {
             var prj = JSON.parse(localStorage.project);
             prj.Stage = this.lead.Stage
@@ -289,6 +295,9 @@ export default{
             console.error(error);
            });
         } else {
+          try{
+              window.FirebasePlugin.logEvent("page_action", {content_type: "add_lead", item_id: this.lead.LeadName});
+            } catch(e){}
           AddleadApi.addLead(this.lead).then(projects => {
              this.progress = 0; 
             localStorage.removeItem('leaddata');

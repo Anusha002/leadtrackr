@@ -103,6 +103,9 @@ export default{
       }
     },
     setLocation() {
+      try{
+              window.FirebasePlugin.logEvent("page_action", {content_type: "location_added", item_id: ""});
+            } catch(e){}
       this.$router.push({
         'name': 'addlead',
         'params': {
@@ -114,6 +117,9 @@ export default{
     },
    mounted:function() {
      this.getPosition();
+     try{
+			window.FirebasePlugin.setScreenName("Addlocation");
+		} catch(e){}
     //  var that = this;
     //  this.$ons.ready(function(){
       

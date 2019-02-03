@@ -17,6 +17,9 @@ import LogoutApi from '../services/api/User.js';
 				"UserID" : JSON.parse(localStorage.getItem("usr")).UserID.toString(),
  				 "Token" : localStorage.getItem("ki")
 				}
+				try{
+					window.FirebasePlugin.setScreenName("Logout");
+				} catch(e){}
 				
 			LogoutApi.logout(usr).then(user => {
 				

@@ -441,6 +441,9 @@ import Utils from '../services/api/Utils.js';
 		},
 
 		mounted:function() {
+			try{
+				window.FirebasePlugin.setScreenName("Followups");
+			} catch(e){}
 		var date = new Date();
 
  		var payload = {

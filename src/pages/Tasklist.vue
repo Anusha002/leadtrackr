@@ -218,7 +218,9 @@ export default {
 		// },
 	 },
 	 mounted:function() {	
-	 
+		 try{
+			window.FirebasePlugin.setScreenName("Listview");
+		} catch(e){}
 		 this.leads = JSON.parse(localStorage.getItem('lds'));
 		console.log(this.leads)
 

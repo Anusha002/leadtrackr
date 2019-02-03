@@ -153,8 +153,11 @@ export default {
 	 		toDate: date.getFullYear() + '-' + n + '-' + '01',
 	 		Token:localStorage.ki,
 	 		UserID:Utils.getUserid() 
-	 	}
-	 	window.FirebasePlugin.setScreenName("Calendar");
+		 }
+		try{
+			window.FirebasePlugin.setScreenName("Calendar");
+		} catch(e){}
+	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
 			localStorage.setItem('lds', JSON.stringify(leads));
 			var dates =  Object.keys(leads);

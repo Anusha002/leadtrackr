@@ -214,8 +214,12 @@ export default{
               }
               that.progress++;
             }, 40);	 
+            try{
+              window.FirebasePlugin.logEvent("page_action", {content_type: "folloup_added", item_id: this.followup.ProjectID});
+            } catch(e){}
             AddfollowupApi.addFollowup(this.followup).then(followups => {
               this.progress = 100;
+              
               this.$router.back(-1);
 
             }, error => {
@@ -226,7 +230,9 @@ export default{
       }
     },
    mounted:function() {
-
+     try{
+			window.FirebasePlugin.setScreenName("Addfollowup");
+		} catch(e){}
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
     this.followup.ProjectID = Utils.getProjectid();

@@ -118,6 +118,9 @@ export default {
 		}	
 	 },
 	 mounted:function() {	
+		 try{
+			window.FirebasePlugin.setScreenName("Leadlist");
+		} catch(e){}
 	 	var payload = {
 	 		Token:localStorage.ki
 		 }
