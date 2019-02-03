@@ -13,16 +13,7 @@
     <v-ons-progress-bar :value="progress"></v-ons-progress-bar> 
 		
   		<v-ons-list class="followup">
-          <!-- <v-ons-list-item  modifier="nodivider">
-            <div class="labels">Stage</div>
-            <v-ons-select style="width: 100%" v-model="followup.Stage" name="stage" v-validate="'required'">
-                <option value="" selected ></option>
-                <option v-for="(item, key) in stages" :value="item" v-bind:key="key">
-                  {{ item }}
-                </option>
-            </v-ons-select>
-             <p class="text-danger">{{ errors.first('stage')}}</p> 
-          </v-ons-list-item> -->
+          
           <v-ons-list-item modifier="nodivider">
             <div class="labels">Task</div>
             <v-ons-select style="width: 100%" v-model="followup.Task" name="task" v-validate="'required'">
@@ -31,10 +22,7 @@
                   {{ item }}
                 </option>
             </v-ons-select>
-           <!-- <div class="followupdetails">
-            <v-ons-input v-model="followup.Task" name="task" type="text" v-validate="'required'"></v-ons-input>
-            <p class="text-danger" >{{ errors.first('task')}}</p> 
-            </div> -->
+           
           </v-ons-list-item>
           <v-ons-list-item modifier="nodivider" >
            <div class="followupdetails">
@@ -56,14 +44,27 @@
           
           <v-ons-list-item modifier="nodivider"> 
             <div class="labels">ScheduleTo</div>
-             <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
+           </v-ons-list-item> 
+           <div class="userlist">
+              <v-ons-list-item v-for="(value, $index) in scheduleTo" :key="value" tappable>
+                
+                <label class="left">
+                  <v-ons-checkbox :input-id="$index +'checkbox-' " :value="value.UserID + '|' + value.FullName" v-model="followup.ScheduleToList" >
+                  </v-ons-checkbox>
+              </label>
+              <label class="center" :for="'checkbox-' + $index">
+                {{value.FullName}}
+              </label>
+               </v-ons-list-item>  
+           </div>
+            <!--  <v-ons-select style="width: 100%" v-model="followup.ScheduleTo" name="scheduleto" v-validate="'required'">
                 <option value="" selected data-default></option>
                 <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
                    {{ value.FullName }}
                 </option>
-            </v-ons-select>
-            <p class="text-danger" >{{ errors.first('scheduleto')}}</p>
-          </v-ons-list-item>  
+            </v-ons-select> -->
+            <!-- <p class="text-danger" >{{ errors.first('scheduleto')}}</p> -->
+
 
           
 
@@ -74,7 +75,9 @@
             <img v-if="followup.Attachment != ''" :src="followup.Attachment " width="90" />
 
           </v-ons-list-item>   -->
-                  <br/><br/><br><br><br><br> <br> 
+
+                  <!-- <br/><br/><br><br><br> -->
+
        </v-ons-list>
        
       <v-ons-bottom-toolbar><v-ons-button modifier="large" class="green-button full-width"  @click="addFollowup()">Save</v-ons-button></v-ons-bottom-toolbar>
@@ -94,6 +97,7 @@ export default{
     data() {
     return {
       progress: 0,
+      progress1:0,
       followup: {
         ProjectID: "",
         Stage: "Enquiry", 
@@ -102,28 +106,26 @@ export default{
         CreatedDate: new Date(),
         FollowupDate: "",
         ScheduleBy: "", 
-        ScheduleTo: "",
+        // ScheduleTo: "",
         Description:"",
-        Attachment: "",
+
+        ScheduleToList:[],
+        // Attachment: "",
+
         Status: "Pending",
         Token:localStorage.ki 
       },
       FllwDate: "",
       showcalender: 'hidden',
-      // stages:["Select Stage"],
-      // status:["Select Status"],
-      // // scheduleBy:[{'FullName': 'Schedule By'}],
-      // scheduleTo: [{'FullName': 'Schedule To'}]
-      // stages:[""],
       tasks:[""],
       scheduleBy:[""],
-      scheduleTo:[""],
+      scheduleTo:[],
       tasklist:[],
      }
    },
    methods: {
      addFile() {
-       //console.log(JSON.stringify(window))
+       
        var that = this;
         if(Vue.cordova.camera) {
           Vue.cordova.camera.getPicture((imageURI) => {
@@ -188,13 +190,18 @@ export default{
     addFollowup(){
       
       this.submitted = true;
-      var data = this.followup;
+      // var data = this.followup;
       this.followup.ProjectID = Utils.getProjectid();
       this.followup.CreatedDate = Utils.formatDate(new Date()).split("-").reverse().join("-");
       this.followup.FollowupDate = Utils.formatDate(new Date(this.FllwDate)).split("-").reverse().join("-");
-      this.followup.ScheduleBy = Utils.getUsername()
-      this.followup.Status = "Pending";
+      this.followup.ScheduleBy = Utils.getUsername();
+      var arr = [];
+      for (var i=0; i<this.followup.ScheduleToList.length; i++) {
+        var user = this.followup.ScheduleToList[i].split('|');
+        arr.push({'UserID' : user[0], 'UserName' : user[1]})
 
+      }
+      this.followup.ScheduleToList = arr;
       this.$validator.validate().then(valid => {
 
         if (valid) {
@@ -209,7 +216,6 @@ export default{
             }, 40);	 
             AddfollowupApi.addFollowup(this.followup).then(followups => {
               this.progress = 100;
-              // this.$router.push('/followups');
               this.$router.back(-1);
 
             }, error => {
@@ -221,11 +227,18 @@ export default{
     },
    mounted:function() {
 
-
-
     var user =  JSON.parse(localStorage.usr);
     this.followup.UserID = Utils.getUserid(); 
     this.followup.ProjectID = Utils.getProjectid();
+    this.intervalID = setInterval(() => {
+        if (this.progress === 100) {
+          clearInterval(this.intervalID);
+          this.progress = 0;
+          return;
+        }
+        this.progress++;
+      }, 40); 
+    
     var payload = {
           Token:localStorage.ki,
           Department:user.Department,
@@ -240,11 +253,13 @@ export default{
       for (var i=0; i<task.Body.length; i++) {
         this.tasklist[i] = task.Body[i].Task;         
       }
-
+      // this.progress = 0;
       this.tasks = this.tasks.concat(this.tasklist);
-    }),
-  
+      }),
+       
       Utils.getScheduleto(payload).then(users => {
+        this.progress = 0;
+        clearInterval(this.intervalID); 
         this.scheduleTo = this.scheduleTo.concat(users.Body);
       
     })
@@ -270,6 +285,13 @@ export default{
 .followdate {
   height: 22px;
   border-bottom: 1px solid #ccc;
+}
+.userlist{
+  height: 167px;
+  width:100%;
+  overflow: auto;
+  margin-bottom: 15px;
+
 }
 
 </style>

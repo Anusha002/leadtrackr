@@ -1,11 +1,11 @@
 import axios from 'axios'
 import Urls from '../../config/urls.js'
-
+import Utils from './Utils.js'
 
 export default {
 
 addFollowup(payload){
-        return axios({ method: "POST", "url": Urls.url.addfollowup, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "POST", "url": Urls.url.addfollowup+"?UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })
@@ -18,7 +18,7 @@ addFollowup(payload){
              })
      },
    editFollowup(payload){
-        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.ProjectId, "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.ProjectId+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
                 return response.data
             })

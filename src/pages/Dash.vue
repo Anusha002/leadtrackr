@@ -169,10 +169,8 @@ export default {
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();
 			this.getCards(currentdate);
-		}),
-		GetLeadsAPI.getLeads(payload).then(leads => {
-			localStorage.setItem("projectlist", JSON.stringify(leads.Body));
 		})
+		
  	 },
 
   data() {

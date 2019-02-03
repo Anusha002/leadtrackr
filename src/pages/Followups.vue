@@ -329,7 +329,10 @@ import Utils from '../services/api/Utils.js';
 				this.input.ScheduleBy = value.ScheduleBy,
         	 	this.input.ScheduleTo = value.ScheduleTo,	
         	 	this.input.Substatus = value.Substatus,
-        	 	this.input.Task = value.Task
+        	 	this.input.Task = value.Task,
+        	 	this.input.Status = value.Status,
+        	 	this.input.Stage = value.Stage,
+        	 	this.input.ScheduleToList = value.ScheduleToList
 
 			},
 			dateformat(date) {
@@ -382,9 +385,9 @@ import Utils from '../services/api/Utils.js';
   				
   				this.input.Token = localStorage.ki;
   				this.input.StageHistoryID = this.StageHistoryID.toString();
-  				// this.input.CompletionRemark = this.CompletionRemark;
+  				
   				this.input.FollowupCompletionDate = completedate.split("-").reverse().join("-");
-  				console.log(this.input.FollowupCompletionDate);
+  				
   				if (this.FllwDate!= ""){
   					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
   		
@@ -406,9 +409,13 @@ import Utils from '../services/api/Utils.js';
 
   				}
   				this.input.UserID = Utils.getUserid(); 
+  				if(this.completeVisible == true){
+  					this.input.Status = 'Completed';
+  				}
   				
 			    var data = this.input;
 			    console.log(this.input);
+			    
 			     this.$validator.validate().then(valid => {
 			     	
 			     	if (valid) {

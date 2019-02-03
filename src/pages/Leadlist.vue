@@ -12,9 +12,9 @@
 	        </div>	
 	       
  		</v-ons-toolbar>
-    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0 && typeof localStorage.projectlist == 'undefined'" v-model="query" v-on:keyup="searchLead()">		
+    		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0" v-model="query" v-on:keyup="searchLead()">		
     		</v-ons-search-input>
-		<div>
+		<div class="leadlist">
 			<!-- @click="goToFollowup(value)" -->
 			<v-ons-card v-for="(value, key) in leads" v-bind:key="key" @click="goToFollowup(value)">
 					<div class="content">
@@ -72,13 +72,13 @@ export default {
 	 	searchLead(){
 	 			
 	 		this.leads = [];
-	 		for(var i=0;i<(this.completelist).length;i++)
+	 		for(var i=0;i<(this.searchresults).length;i++)
 	 		{
-	 			if((this.completelist[i].LeadName.toLowerCase().indexOf(this.query.toLowerCase()) > -1) || 
-	 					(this.completelist[i].ProjectID.toString().indexOf(this.query.toString	()) > -1) 
+	 			if((this.searchresults[i].LeadName.toLowerCase().indexOf(this.query.toLowerCase()) > -1) || 
+	 					(this.searchresults[i].ProjectID.toString().indexOf(this.query.toString	()) > -1) 
 	 				)
 	 			{
-	 				this.leads.push(this.completelist[i])
+	 				this.leads.push(this.searchresults[i])
 	 			}
 	 		}
 		 },
@@ -124,6 +124,7 @@ export default {
 		 
 		if (typeof localStorage.projectlist != 'undefined'){
 			this.leads = JSON.parse(localStorage.projectlist);
+			this.searchresults = this.leads;
 		} else {
 			this.intervalID = setInterval(() => {
 			if (this.progress === 100) {
@@ -138,7 +139,9 @@ export default {
 			clearInterval(this.intervalID);   
 			localStorage.setItem("projectlist", JSON.stringify(leads.Body));
  	  		this.leads = leads.Body;
-  	  		this.completelist = leads.Body;
+  	  		this.searchresults = leads.Body;
+  	  		console.log(leads.Body);
+
  	  	})
  	  }
  	 }				
@@ -159,8 +162,11 @@ export default {
 .searchlead{
 	width:94%;
 	margin-left:10px;
+	position:fixed;
 }
-
+.leadlist{
+	margin-top:55px;
+}
 
 
 </style>
