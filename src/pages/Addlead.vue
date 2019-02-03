@@ -127,6 +127,7 @@
 import Utils from '../services/api/Utils.js';
 import AddleadApi from '../services/api/Leads.js';
 import EditleadApi from '../services/api/Leads.js';
+import GetLeadDetailApi from '../services/api/Leaddetails.js';
 
 
 export default{
@@ -174,6 +175,7 @@ export default{
 	 },
 
   mounted:function() {
+   
     try{
 			window.FirebasePlugin.setScreenName("Addlead");
 		} catch(e){}
@@ -191,6 +193,51 @@ export default{
 			}
 			this.progress++;
 		}, 40);
+
+    var p = JSON.parse(localStorage.project);
+    if(typeof p.OwnedBy == 'undefined') {
+      var pl = {
+          Token:localStorage.ki,
+          ProjectID: Utils.getProjectid() 
+         }
+      GetLeadDetailApi.leadDetails(pl).then(project => {
+
+        var that = this;
+        setTimeout(function(){
+          that.progress = 100
+          if(that.$props.editLead != null) {
+            that.lead =  that.$props.editLead;
+            that.lead.OwnedBy = project.Body.OwnedBy.toString();
+            that.lead.Status = project.Body.Status;
+            that.lead.HandledBy = project.Body.HandledBy.toString();
+            var typ = that.lead.Type
+            if(typeof typ == 'string' && typ.indexOf('/') > -1){
+              typ = typ.split('/')[0];
+            }
+            that.lead.Type = that.findTypeId(typ);
+            
+          } else{
+            navigator.geolocation.getCurrentPosition(function(position){}); 
+
+              
+          }
+          if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
+            that.lead =  JSON.parse(localStorage.leaddata);
+            if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
+                that.lead.Latitude = that.$props.items.lat;
+                that.lead.Longitude = that.$props.items.lng;
+                that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
+                
+            }
+            
+          }
+        }, 200)
+        
+
+        
+      })
+    }
+
     
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
@@ -208,33 +255,7 @@ export default{
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
       
-      var that = this;
-      setTimeout(function(){
-        that.progress = 100
-        if(that.$props.editLead != null) {
-          that.lead =  that.$props.editLead;
-          var typ = that.lead.Type
-          if(typeof typ == 'string' && typ.indexOf('/') > -1){
-            typ = typ.split('/')[0];
-          }
-          that.lead.Type = that.findTypeId(typ);
-          that.lead.OwnedBy = that.lead.OwnedBy.toString();
-        } else{
-          navigator.geolocation.getCurrentPosition(function(position){}); 
-
-            
-        }
-        if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
-          that.lead =  JSON.parse(localStorage.leaddata);
-          if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
-              that.lead.Latitude = that.$props.items.lat;
-              that.lead.Longitude = that.$props.items.lng;
-              that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
-              
-          }
-          
-        }
-      }, 200)
+      
       
     })
     // localStorage.removeItem('leaddata');
