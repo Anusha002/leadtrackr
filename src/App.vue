@@ -13,6 +13,15 @@
     mounted:function() {
       var that = this;
       this.$ons.ready(function(){
+
+        document.addEventListener("offline", function(){
+          that.$ons.notification.toast('It seems you do not have an internet connection', { timeout: 8000, animation: 'fall' })
+        }, false);
+
+        document.addEventListener("online", function(){
+          that.$ons.notification.toast('Yay! you are back online', { timeout: 1000, animation: 'fall' })
+        }, false);
+
         that.$ons.setDefaultDeviceBackButtonListener(function() {
           if(location.hash ==  '#/container' ) {
             navigator.notification.confirm("Are you sure you want to exit the application?",function(button){
