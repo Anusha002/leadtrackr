@@ -70,7 +70,7 @@
     		</v-ons-list-item>
     		<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">
              <div class="labels">Landline</div>
-        			<v-ons-input v-model="lead.landLine"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
+        			<v-ons-input v-model="lead.landline"  type="number" modifier="underbar" class="lead-input"></v-ons-input>
         	</v-ons-list-item>
         	<v-ons-list-item modifier="nodivider" v-if="typeof editLead == 'undefined'">
               <div class="labels">Email</div>	
@@ -143,7 +143,7 @@ export default{
         Stage:"",
         Status:"",
         Mobile: "",
-        landLine: "", 
+        landline: "", 
         Email: "",
         Description:"",
         CreatedBy:Utils.getUserid(),
