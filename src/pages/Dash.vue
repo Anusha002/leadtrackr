@@ -154,7 +154,7 @@ export default {
 	 		Token:localStorage.ki,
 	 		UserID:Utils.getUserid() 
 	 	}
-	 	
+	 	window.FirebasePlugin.setScreenName("Calendar");
  	  	GetTasksAPI.getTasks(payload).then(leads => {
 			localStorage.setItem('lds', JSON.stringify(leads));
 			var dates =  Object.keys(leads);
@@ -164,7 +164,7 @@ export default {
 				var dtobj = new Date(parseInt(dates[i]));
 				dots[i] = dtobj;			
 			}
-			console.log(leads);
+			
 			this.leads = leads;
 			this.attributes[1].dates = dots;
 			var currentdate = new Date();

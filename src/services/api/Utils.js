@@ -73,6 +73,12 @@ export default {
     },
     getProjectid() {  
         return JSON.parse(localStorage.getItem('project')).ProjectID.toString();
+    },
+    getState(){
+        return axios({ method: "GET", "url": "https://jsonblob.com/api/jsonBlob/eda27b29-2756-11e9-ab14-6b93ea0474a8",  "headers": { "content-type": "application/json" } })
+            .then(response => {
+                return response.data
+            })
     }
    
 }

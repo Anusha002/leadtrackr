@@ -4,6 +4,8 @@
 
 <script>
 
+import Utils from './services/api/Utils.js';
+
   export default{
     name: 'app',
     components: {
@@ -13,7 +15,14 @@
     mounted:function() {
       var that = this;
       this.$ons.ready(function(){
-
+        try{
+         window.FirebasePlugin.logEvent("select_content", {content_type: "page_view", item_id: "home"});
+       } catch(e) {
+         
+       }
+        
+        
+        //handle internet
         document.addEventListener("offline", function(){
           that.$ons.notification.toast('It seems you do not have an internet connection', { timeout: 8000, animation: 'fall' })
         }, false);
@@ -22,6 +31,7 @@
           that.$ons.notification.toast('Yay! you are back online', { timeout: 1000, animation: 'fall' })
         }, false);
 
+        //handle back and warn on app exit
         that.$ons.setDefaultDeviceBackButtonListener(function() {
           if(location.hash ==  '#/container' ) {
             navigator.notification.confirm("Are you sure you want to exit the application?",function(button){
@@ -35,6 +45,13 @@
             navigator.app.backHistory();
           }
         });
+
+        Utils.getState().then(state => {
+          if(!state.state){
+            that.$router.push('/blank')
+          }
+        })
+
       })
       
     }

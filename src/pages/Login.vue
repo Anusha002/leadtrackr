@@ -43,7 +43,17 @@ export default {
       response: {}
     }
   },
- 
+   mounted:function () {
+     this.$ons.ready(function(){
+       try{
+         window.FirebasePlugin.setScreenName("Login");
+       } catch(e) {
+         
+       }
+       
+     })
+     
+   },
   methods: {
     sendData() {
       this.submitted = true;
@@ -56,6 +66,7 @@ export default {
           }
         this.progress++;
         }, 40);
+        window.FirebasePlugin.logEvent("select_content", {content_type: "login", item_id: this.input.username});
         LoginApi.login(this.input).then(user => {
             this.progress = 0;
             clearInterval(this.intervalID);
