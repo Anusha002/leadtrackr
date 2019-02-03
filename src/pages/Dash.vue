@@ -251,12 +251,8 @@ export default {
 #dash .c-title br{
 	display: none;
 }
-.task-card {
-	width: 310px !important;
-	margin-left: 5px;
-	margin-right:19px;
-	
-}
+
+
 .tasknumbers{
 	font-size:16px;
 	font-weight: bold;
