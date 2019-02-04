@@ -221,22 +221,14 @@ export default{
 
               
           }
-          if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
-            that.lead =  JSON.parse(localStorage.leaddata);
-            if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
-                that.lead.Latitude = that.$props.items.lat;
-                that.lead.Longitude = that.$props.items.lng;
-                that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
-                
-            }
-            
-          }
+          
         }, 200)
         
 
         
       })
     }
+
 
     
     Utils.getStatus(payload).then(status => {
@@ -254,8 +246,20 @@ export default{
       this.createdBy = this.createdBy.concat(users.Body); 
       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
+      var that =  this;
+      setTimeout(function(){
       
-      
+        if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
+          that.lead =  JSON.parse(localStorage.leaddata);
+          if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
+              that.lead.Latitude = that.$props.items.lat;
+              that.lead.Longitude = that.$props.items.lng;
+              that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
+              
+          }
+          
+        }
+      }, 200)  
       
     })
     // localStorage.removeItem('leaddata');
