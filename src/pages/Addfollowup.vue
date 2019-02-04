@@ -132,7 +132,6 @@ export default{
             
               window.FilePath.resolveNativePath(imageURI, function success(fileEntry) {
                 that.followup.Attachment = fileEntry;
-                console.log(that.followup.Attachment)
                 var uri = encodeURI("http://ptsv2.com/t/x3din-1548409558/post");
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
@@ -218,13 +217,15 @@ export default{
               window.FirebasePlugin.logEvent("page_action", {content_type: "folloup_added", item_id: this.followup.ProjectID});
             } catch(e){}
             AddfollowupApi.addFollowup(this.followup).then(followups => {
-              this.progress = 100;
-              
-              this.$router.back(-1);
+              if(typeof followups.response != 'undefined') {
+                      this.progress = 0;
+                      this.$ons.notification.alert(followups.response.statusText)
+                      } else {
+                       this.progress = 100;
+                      this.$router.back(-1);
 
-            }, error => {
-               console.error(error);
-            }); 
+                       }
+                  }); 
           }
         })
       }

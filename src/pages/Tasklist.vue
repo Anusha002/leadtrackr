@@ -161,11 +161,14 @@ export default {
 				UserID:Utils.getUserid(),
 				Token:localStorage.ki
 			}
-			console.log(payload);
 			GetTasksAPI.getTasks(payload).then(leads => {
+				if(typeof leads.response != 'undefined') {
+ 	  			this.progress = 100;				
+	            this.$ons.notification.alert(leads.response.statusText)
+	          } else {
 				this.progress = 100;	
 				this.leads = leads;
-				
+				}
 			})
        }
      },
@@ -222,8 +225,6 @@ export default {
 			window.FirebasePlugin.setScreenName("Listview");
 		} catch(e){}
 		 this.leads = JSON.parse(localStorage.getItem('lds'));
-		console.log(this.leads)
-
  	  }
  	 }	
 			

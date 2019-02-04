@@ -56,7 +56,7 @@
 							<v-ons-col class="date-text">{{readableDate(new Date(value.FollowupDate))}}</v-ons-col>
 						</v-ons-row>
 					</div> 
-					<div id="callaction" :class="(current_status=='callaction') ? 'active' : ''">
+					<div id="callaction">
 						
 						<v-ons-button modifier="outline" class="gbtnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs();setFollowupvalues(value);completeVisible = true; ">Mark Completed</v-ons-button>
 						<v-ons-button modifier="outline" class="btnclass outline-btn" style="margin: 4px 4px" @click="resetDialogs(); setFollowupvalues(value); updateVisible = true;">Update</v-ons-button>
@@ -414,7 +414,6 @@ import Utils from '../services/api/Utils.js';
   				}
   				
 			    var data = this.input;
-			    console.log(this.input);
 			    
 			     this.$validator.validate().then(valid => {
 			     	
@@ -428,12 +427,15 @@ import Utils from '../services/api/Utils.js';
          				 this.progress1++;
        					 }, 40);
         				
-	            		 FollowupsAPI.editFollowup(data).then(followups => {
-	            		 	this.progress1 = 0; 
-	             		 	this.$router.go();
-   						}, error => {
-              			console.error(error);
-            			}); 
+	            		FollowupsAPI.editFollowup(data).then(followups => {
+	            			if(typeof followups.response != 'undefined') {
+	            				this.progress1 = 0;
+	            				this.$ons.notification.alert(followups.response.statusText)
+	            			} else {
+	            				this.progress1 = 0; 
+	             		 		this.$router.go();
+	            			}
+   						}); 
          	}
        			 })
 // 
@@ -461,13 +463,16 @@ import Utils from '../services/api/Utils.js';
 		}, 40);
 		
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
- 	  		this.progress = 0;
- 	  		clearInterval(this.intervalID);  
- 	  		this.isLoading = false;
- 	  		this.followups = projects.Body;
- 	  		this.prop = projects.Body;
- 	  		console.log(projects.Body);
-
+ 	  		if(typeof projects.response != 'undefined') {
+ 	  			this.progress = 0;				
+	            this.$ons.notification.alert(projects.response.statusText)
+	          } else {
+	 	  		this.progress = 0;
+	 	  		clearInterval(this.intervalID);  
+	 	  		this.isLoading = false;
+	 	  		this.followups = projects.Body;
+	 	  		this.prop = projects.Body;
+	 	  	}
  	  	}),
  	  	Utils.getStatus(payload).then(substatus => {
           this.substatus = this.substatus.concat(substatus.Body);

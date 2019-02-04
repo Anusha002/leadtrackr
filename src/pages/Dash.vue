@@ -97,7 +97,6 @@ export default {
 			});
 		},
 		toggleMenu()  {
-			console.log(this.$parent.$parent.$parent)
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
 		// toggleView() {
@@ -159,20 +158,27 @@ export default {
 		} catch(e){}
 	 	
  	  	GetTasksAPI.getTasks(payload).then(leads => {
-			localStorage.setItem('lds', JSON.stringify(leads));
-			var dates =  Object.keys(leads);
-			var newLeads = {};
-			var dots = []
-			for (var i=0; i<dates.length; i++) {
-				var dtobj = new Date(parseInt(dates[i]));
-				dots[i] = dtobj;			
-			}
+
+ 	  		if(typeof leads.response != 'undefined') {				
+	            this.$ons.notification.alert(leads.response.statusText)
+	          } else {
+	            				
+	            localStorage.setItem('lds', JSON.stringify(leads));
+				var dates =  Object.keys(leads);
+				var newLeads = {};
+				var dots = []
+				for (var i=0; i<dates.length; i++) {
+					var dtobj = new Date(parseInt(dates[i]));
+					dots[i] = dtobj;			
+				}
 			
-			this.leads = leads;
-			this.attributes[1].dates = dots;
-			var currentdate = new Date();
-			this.getCards(currentdate);
-		})
+				this.leads = leads;
+				this.attributes[1].dates = dots;
+				var currentdate = new Date();
+				this.getCards(currentdate);			
+
+		       }
+   			});
 		
  	 },
 

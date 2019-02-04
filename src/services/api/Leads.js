@@ -27,14 +27,20 @@ export default {
 				return cards
 
 
-			})
+			},
+			error => {
+                return error;
+            }) 
 	},
 	
 	getLeads(payload){
 			return axios({ method: "GET", "url": Urls.url.getleads+"?Token="+payload.Token+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
 				.then(response => {
 					return response.data
-				})
+				},
+				error => {
+                return error;
+            }) 
 		},	
 	
 	addLead(payload){

@@ -71,24 +71,27 @@ export default {
         } catch(e){}
         
         LoginApi.login(this.input).then(user => {
-            this.progress = 0;
-            clearInterval(this.intervalID);
-            if(user.status == "True")
-              {
-                localStorage.setItem("ki", user.Body.Token);
-                localStorage.setItem("usr", JSON.stringify(user.Body));
-                this.$router.push('/container');
-              } else {
-                this.$ons.notification.alert(user.Message)
-              }                   
-            }, error => {
-            console.error(error);
-            });
-        }
-      })               
-    }            
+          if(typeof user.response != 'undefined') {  
+              this.progress = 0;      
+              this.$ons.notification.alert(user.response.statusText)
+            } else {
+              this.progress = 0;
+              clearInterval(this.intervalID);
+              if(user.status == "True")
+                {
+                  localStorage.setItem("ki", user.Body.Token);
+                  localStorage.setItem("usr", JSON.stringify(user.Body));
+                  this.$router.push('/container');
+                } else {
+                  this.$ons.notification.alert(user.Message)
+                }                   
+              }  
+           });               
+        }            
+     })
    }
  }
+}
 </script>  
 
 <style scoped>

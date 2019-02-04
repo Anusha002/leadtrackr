@@ -107,8 +107,7 @@ export default {
 		toggleMenu()  {
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
-		editLead(lead){
-			console.log(lead);
+		editLead(lead){	
 			this.$router.push({
 				'name': 'addlead',
 				'params':{
@@ -138,13 +137,16 @@ export default {
 		}, 40);
 		}
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
+ 	  		if(typeof leads.response != 'undefined') {
+ 	  			this.progress = 0;				
+	            this.$ons.notification.alert(leads.response.statusText)
+	          } else {
 			this.progress = 0;
 			clearInterval(this.intervalID);   
 			localStorage.setItem("projectlist", JSON.stringify(leads.Body));
  	  		this.leads = leads.Body;
   	  		this.searchresults = leads.Body;
-  	  		console.log(leads.Body);
-
+  	  		}
  	  	})
  	  }
  	 }				

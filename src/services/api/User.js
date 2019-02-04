@@ -13,7 +13,10 @@ export default {
 		return axios({ method: "POST", "url": Urls.url.login, "data": payload, "headers": { "content-type": "application/json" } })
 			.then(response => {
 				return response.data
-			})
+			},
+			error => {
+                return error;
+            }) 	
 	},
 	logout(payload){
 		return axios({ method: "POST", "url": Urls.url.logout, "data": payload, "headers": { "content-type": "application/json" } })
