@@ -290,19 +290,20 @@ import Utils from '../services/api/Utils.js';
        	 	Description:"",
        		FllwDate: "",
        		showcalender: 'hidden',
+       		// ProjectId:prj.ProjectID,
         	 input:{	
         	 	Hr:"",
         	 	Min:"",
         	 	Distance:"",
         	 	ClaimAmount:"",
         	 	Substatus:"",
-        	 	LeadName:prj.LeadName,
-        	 	ContactName:prj.ContactName,
-        	 	Email:prj.Email,
-        	 	Mobile:prj.Mobile,
-        	 	Landline:prj.landline,
+        	 	// LeadName:prj.LeadName,
+        	 	// ContactName:prj.ContactName,
+        	 	// Email:prj.Email,
+        	 	// Mobile:prj.Mobile,
+        	 	// Landline:prj.landline,
         	 	ScheduleBy:"",
-        	 	ScheduleTo:"",
+        	 	// ScheduleTo:"",
         	 	Task:"",
         	 	CompletionRemark:"",
         	 	ProjectId:prj.ProjectID
@@ -327,7 +328,7 @@ import Utils from '../services/api/Utils.js';
 				this.FollowupDate = Utils.readableDate(new Date(value.FollowupDate)); 
 				this.Description = value.Description;
 				this.input.ScheduleBy = value.ScheduleBy,
-        	 	this.input.ScheduleTo = value.ScheduleTo,	
+        	 	// this.input.ScheduleTo = value.ScheduleTo,	
         	 	this.input.Substatus = value.Substatus,
         	 	this.input.Task = value.Task,
         	 	this.input.Status = value.Status,
@@ -386,7 +387,7 @@ import Utils from '../services/api/Utils.js';
   				this.input.Token = localStorage.ki;
   				this.input.StageHistoryID = this.StageHistoryID.toString();
   				
-  				this.input.FollowupCompletionDate = completedate.split("-").reverse().join("-");
+  				// this.input.FollowupCompletionDate = completedate.split("-").reverse().join("-");
   				
   				if (this.FllwDate!= ""){
   					this.input.FollowupDate = Utils.formatDate(this.FllwDate).split("-").reverse().join("-");
@@ -404,11 +405,11 @@ import Utils from '../services/api/Utils.js';
   				 this.input.Description = this.reassign.remarks;
   			    }
   				
-  				if (this.reassign.ScheduleTo != ""){
-  					this.input.ScheduleTo = this.reassign.ScheduleTo;
+  				// if (this.reassign.ScheduleTo != ""){
+  				// 	this.input.ScheduleTo = this.reassign.ScheduleTo;
 
-  				}
-  				this.input.UserID = Utils.getUserid(); 
+  				// }
+  				// this.input.UserID = Utils.getUserid(); 
   				if(this.completeVisible == true){
   					this.input.Status = 'Completed';
   				}
@@ -426,12 +427,13 @@ import Utils from '../services/api/Utils.js';
          					 }
          				 this.progress1++;
        					 }, 40);
-        				
+        				console.log(data);
 	            		FollowupsAPI.editFollowup(data).then(followups => {
 	            			if(typeof followups.response != 'undefined') {
 	            				this.progress1 = 0;
 	            				this.$ons.notification.alert(followups.response.statusText)
 	            			} else {
+	            				console.log(followups);
 	            				this.progress1 = 0; 
 	             		 		this.$router.go();
 	            			}
@@ -474,7 +476,7 @@ import Utils from '../services/api/Utils.js';
 	 	  		this.prop = projects.Body;
 	 	  	}
  	  	}),
- 	  	Utils.getStatus(payload).then(substatus => {
+ 	  	Utils.getSubstatus(payload).then(substatus => {
           this.substatus = this.substatus.concat(substatus.Body);
     		}),
  	  	  Utils.getScheduleto(payload).then(users => {

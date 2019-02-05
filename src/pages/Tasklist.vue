@@ -225,6 +225,7 @@ export default {
 			window.FirebasePlugin.setScreenName("Listview");
 		} catch(e){}
 		 this.leads = JSON.parse(localStorage.getItem('lds'));
+		
  	  }
  	 }	
 			
