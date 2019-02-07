@@ -25,9 +25,11 @@ addFollowup(payload){
      },
    editFollowup(payload){
         var that =  this;
-        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+payload.ProjectId+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
+        return axios({ method: "PUT", "url": Urls.url.completefollowup+"?ProjectID="+Utils.getProjectid()+"&UserID="+Utils.getUserid(), "data": payload, "headers": { "content-type": "application/json" } })
             .then(response => {
+                console.log(response.data); 
                 return response.data
+
             },
             error => {
                 return error;

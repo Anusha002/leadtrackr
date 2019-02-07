@@ -197,12 +197,24 @@
 				
 			<v-ons-row class="rowdata">
 				<div class="labels">Reassign To</div>
-					<v-ons-select style="width: 100%" v-model="reassign.ScheduleTo" name="scheduleto">
+				<div class="userlist">
+              <v-ons-list-item v-for="(value, $index) in scheduleTo" :key="value" tappable>
+                
+                <label class="left">
+                  <v-ons-checkbox :input-id="$index +'checkbox-' " :value="value.UserID + '|' + value.FullName" v-model="reassign.ScheduleToList" >
+                  </v-ons-checkbox>
+              </label>
+              <label class="center" :for="'checkbox-' + $index">
+                {{value.FullName}}
+              </label>
+               </v-ons-list-item>  
+           </div>
+					<!-- <v-ons-select style="width: 100%" v-model="reassign.ScheduleTo" name="scheduleto">
 		                <option value="" selected data-default></option>
 		                <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
 		                   {{ value.FullName }}
 		                </option>
-            	</v-ons-select>
+            	</v-ons-select> -->
 			</v-ons-row>
 				
 			<v-ons-row class="rowdata">
@@ -305,15 +317,15 @@ import Utils from '../services/api/Utils.js';
         	 	ScheduleBy:"",
         	 	// ScheduleTo:"",
         	 	Task:"",
-        	 	CompletionRemark:"",
-        	 	ProjectId:prj.ProjectID
+        	 	CompletionRemark:""
+        	 	// ProjectId:prj.ProjectID
         	 },
         	 update:{
         	 	Substatus:"",
         	 	remarks:""
         	 },
         	 reassign:{
-        	 	ScheduleTo:"",
+        	 	ScheduleToList:[],
         	 	remarks:""
         	 },
         	 
@@ -327,13 +339,14 @@ import Utils from '../services/api/Utils.js';
 			    this.StageHistoryID = value.StageHistoryID; 
 				this.FollowupDate = Utils.readableDate(new Date(value.FollowupDate)); 
 				this.Description = value.Description;
-				this.input.ScheduleBy = value.ScheduleBy,
-        	 	// this.input.ScheduleTo = value.ScheduleTo,	
-        	 	this.input.Substatus = value.Substatus,
-        	 	this.input.Task = value.Task,
-        	 	this.input.Status = value.Status,
-        	 	this.input.Stage = value.Stage,
-        	 	this.input.ScheduleToList = value.ScheduleToList
+				this.input.ScheduleBy = value.ScheduleBy;
+        	 	// this.input.ScheduleTo = value.ScheduleTo;	
+        	 	this.input.Substatus = value.Substatus;
+        	 	this.input.Task = value.Task;
+        	 	this.input.Status = value.Status;
+        	 	this.input.Stage = value.Stage;
+        	 	this.input.ScheduleToList = value.ScheduleToList;
+        	 	this.input.ScheduleToList[0].UserID = Utils.getUserid();
 
 			},
 			dateformat(date) {
@@ -404,16 +417,25 @@ import Utils from '../services/api/Utils.js';
   			  	if (this.reassign.remarks != ""){
   				 this.input.Description = this.reassign.remarks;
   			    }
-  				
-  				// if (this.reassign.ScheduleTo != ""){
-  				// 	this.input.ScheduleTo = this.reassign.ScheduleTo;
 
-  				// }
+  			    var arr = [];
+			    for (var i=0; i<this.reassign.ScheduleToList.length; i++) {
+			        var user = this.reassign.ScheduleToList[i].split('|');
+			        arr.push({'UserID' : user[0], 'UserName' : user[1]})
+
+			      }
+			     this.reassign.ScheduleToList = arr;
+
+  				
+  				if (this.reassign.ScheduleToList != ""){
+  				  this.input.ScheduleToList = this.reassign.ScheduleToList;
+
+  				}
   				// this.input.UserID = Utils.getUserid(); 
   				if(this.completeVisible == true){
   					this.input.Status = 'Completed';
   				}
-  				
+  				// console.log(this.input.Status);
 			    var data = this.input;
 			    
 			     this.$validator.validate().then(valid => {
@@ -427,15 +449,15 @@ import Utils from '../services/api/Utils.js';
          					 }
          				 this.progress1++;
        					 }, 40);
-        				console.log(data);
+        				console.log('>>>>>>>>>>>>>>>>>>>>>>',this.input.ScheduleToList);
 	            		FollowupsAPI.editFollowup(data).then(followups => {
 	            			if(typeof followups.response != 'undefined') {
 	            				this.progress1 = 0;
 	            				this.$ons.notification.alert(followups.response.statusText)
 	            			} else {
-	            				console.log(followups);
+	            				
 	            				this.progress1 = 0; 
-	             		 		this.$router.go();
+	             		 		// this.$router.go();
 	            			}
    						}); 
          	}
@@ -598,5 +620,12 @@ import Utils from '../services/api/Utils.js';
 	   font-size: 14px;
 	   width:98%;
    }
+.userlist{
+  height: 100px;
+  width:100%;
+  overflow: auto;
+  margin-bottom: 15px;
+
+}
 
 </style>
