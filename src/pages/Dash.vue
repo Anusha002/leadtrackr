@@ -1,5 +1,6 @@
 <template >	
 	<v-ons-page id="dash">	
+		
 		<v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button @click="toggleMenu()">
@@ -7,53 +8,28 @@
 	      		</v-ons-toolbar-button>
     		</div>
     		<div class="right">
-    			<!-- <v-ons-toolbar-button @click="toggleView()"> -->
     			<v-ons-toolbar-button @click="goTotasklist()">
 	        		<v-ons-icon modifier="large" class="icon-list header-icon" id="leadicon"></v-ons-icon>
 	        	</v-ons-toolbar-button>	
 	        </div>	
  		</v-ons-toolbar>
-			<v-calendar :formats='formats' :attributes='attributes' title-position='left' @dayclick='dayClicked'>
-				<span slot='header-title' slot-scope='{ month, yearLabel }'>
-					<span class="calendar-year">{{ yearLabel }}</span> <br/>
-					<span class="calendar-month">{{ myMonths[month] }} </span>
-				</span>
-			</v-calendar>
+
+
+		<v-calendar :formats='formats' :attributes='attributes' title-position='left' @dayclick='dayClicked'>
+			<span slot='header-title' slot-scope='{ month, yearLabel }'>
+				<span class="calendar-year">{{ yearLabel }}</span> <br/>
+				<span class="calendar-month">{{ myMonths[month] }} </span>
+			</span>
+		</v-calendar>
 		
+
 		<v-ons-carousel swipeable auto-scroll overscrollable :index.sync="carouselIndex"  >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
-				
 				<div class="tasknumbers">{{carouselIndex+1}} of {{items.length}} Task<span v-show="(items.length > 1)">s</span></div>
-				<v-ons-card @click="goToFollowup(value)">
-					<div class="content">
-						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
-						</v-ons-row>
-						<v-ons-row>
-							<v-ons-col id="ld-status" >{{value.Task}}</v-ons-col>
-						</v-ons-row>
-						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
-						</v-ons-row>
-						<v-ons-row style="margin-top: 10px;">
-							<v-ons-col width="40px">
-								<a :href="'tel:' + value.ContactMobile">
-									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
-								</a>
-							</v-ons-col>
-							<v-ons-col>
-								<a :href="'mailto:' + value.ContactEmail">
-									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
-								</a>
-							</v-ons-col>
-
-						</v-ons-row>
-					</div>
-				</v-ons-card>
-				
+				<card :cardData="value"></card>
 			</v-ons-carousel-item>
-
 		</v-ons-carousel>
+
 		<div class="no-tasks" v-show="items.length == 0">
 			No tasks for today! 
 		</div>
@@ -68,7 +44,7 @@
 
 
 <script>
-
+import card from '../components/Card.vue';
 import Addlead from '../pages/Addlead.vue';
 import GetTasksAPI from '../services/api/Leads.js';
 import Followups from '../pages/Followups.vue';
@@ -82,39 +58,18 @@ export default {
 	components: {
 		Addlead,
 		Followups,
-		TaskList
+		TaskList,
+		card
 	},
 
 	methods:{
 
-		goToFollowup(project){
-			localStorage.setItem("project", JSON.stringify(project));
-			this.$router.push({
-				'name': 'followups',
-				'params':{
-   					'items': project
-   				}
-			});
-		},
+		
 		toggleMenu()  {
 			this.$parent.$parent.$parent.$parent.openSide = ((this.$parent.$parent.$parent.$parent.openSide) ? false : true);
 		},
-		// toggleView() {
-			
-		// 	if (document.getElementById('leadicon').classList.contains("icon-list")){
-		// 		this.$parent.$parent.$parent.$parent.pageStack.push(TaskList);
-
-		// 		document.getElementById('leadicon').classList.remove("icon-list"); 
-		// 		document.getElementById('leadicon').classList.add("icon-calender"); 
-		// 	} else{
-		// 		this.$parent.$parent.$parent.$parent.pageStack.push();
-		// 		document.getElementById('leadicon').classList.remove("icon-calender"); 
-		// 		document.getElementById('leadicon').classList.add("icon-list"); 
-		// 	}
-		// },
 		goTotasklist() {
-			this.$router.push('/tasklist')
-
+			this.$router.push('/tasklist');
 		},
 		
   		goTodetail() {
