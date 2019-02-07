@@ -5,7 +5,9 @@
                 <v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>
-                <v-ons-col id="ld-status" >{{value.Task}}</v-ons-col>
+                
+                <v-ons-col id="ld-status" v-if="mode=='Task'">{{value.Task}}</v-ons-col>
+                <v-ons-col id="ld-status" v-else>{{value.Stage}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>	
                 <v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
@@ -29,7 +31,7 @@
 <script>
 export default {
     name: "Card",
-    props: ['cardData'],
+    props: ['cardData', 'mode'],
     data(){
         return {
             value: this.$props.cardData

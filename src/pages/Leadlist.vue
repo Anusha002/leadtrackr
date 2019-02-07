@@ -15,34 +15,9 @@
     		<v-ons-search-input class="searchlead" placeholder="Search for lead/LeadID" :disabled="progress > 0" v-model="query" v-on:keyup="searchLead()">		
     		</v-ons-search-input>
 		<div class="leadlist">
-			<!-- @click="goToFollowup(value)" -->
-			<v-ons-card v-for="(value, key) in leads" v-bind:key="key" @click="goToFollowup(value)">
-					<div class="content">
-						<v-ons-row>
-							<v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
-					
-						</v-ons-row>
-						<v-ons-row>
-							<v-ons-col id="ld-status" >{{value.Stage}}</v-ons-col>
-						</v-ons-row>
-						<v-ons-row>	
-							<v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
-						</v-ons-row>
-						<v-ons-row style="margin-top: 10px;">
-							<v-ons-col width="50px">
-								<a :href="'tel:' + value.Mobile">
-									<v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
-								</a>
-							</v-ons-col>
-							<v-ons-col>
-								<a :href="'mailto:' + value.Email">
-									<v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
-								</a>
-							</v-ons-col>
-							
-						</v-ons-row>
-					</div>
-				</v-ons-card>
+			
+			<card v-for="(value, key) in leads" :cardData="value" mode="Stage" v-bind:key="key"></card>
+			
 		</div>
 		<div class="no-tasks" v-show="leads.length == 0 && progress == 0">
 			No Leads Found! 
@@ -56,9 +31,13 @@
 <script>
 
 import GetLeadsAPI from '../services/api/Leads.js';
+import card from '../components/Card.vue';
 
 export default {
 	name: 'leadlist',
+	components: {
+		card
+	},
 	data() {
 		return {
 			leads: [],
