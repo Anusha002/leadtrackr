@@ -1,6 +1,6 @@
 <template >	
 	<v-ons-page id="dash">	
-		
+
 		<v-ons-toolbar>
     		<div class="left">
 	      		<v-ons-toolbar-button @click="toggleMenu()">
@@ -26,7 +26,7 @@
 		<v-ons-carousel swipeable auto-scroll overscrollable :index.sync="carouselIndex"  >
 			<v-ons-carousel-item class="task-card" v-for="(value, key) in items" v-bind:key="key">
 				<div class="tasknumbers">{{carouselIndex+1}} of {{items.length}} Task<span v-show="(items.length > 1)">s</span></div>
-				<card :cardData="value"></card>
+				<card :cardData="value" mode="Task"></card>
 			</v-ons-carousel-item>
 		</v-ons-carousel>
 
