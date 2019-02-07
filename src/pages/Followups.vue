@@ -197,7 +197,7 @@
 				
 			<v-ons-row class="rowdata">
 				<div class="labels">Reassign To</div>
-				<div class="userlist">
+				<!-- <div class="userlist">
               <v-ons-list-item v-for="(value, $index) in scheduleTo" :key="value" tappable>
                 
                 <label class="left">
@@ -208,13 +208,13 @@
                 {{value.FullName}}
               </label>
                </v-ons-list-item>  
-           </div>
-					<!-- <v-ons-select style="width: 100%" v-model="reassign.ScheduleTo" name="scheduleto">
+           </div> -->
+					<v-ons-select style="width: 100%" v-model="reassign.ScheduleToList" name="scheduleto">
 		                <option value="" selected data-default></option>
-		                <option v-for="(value,key) in scheduleTo" :value="value.FullName" v-bind:key="key">
+		                <option v-for="(value,key) in scheduleTo" :value="value.UserID + '|' + value.FullName" v-bind:key="key">
 		                   {{ value.FullName }}
 		                </option>
-            	</v-ons-select> -->
+            	</v-ons-select>
 			</v-ons-row>
 				
 			<v-ons-row class="rowdata">
@@ -309,13 +309,7 @@ import Utils from '../services/api/Utils.js';
         	 	Distance:"",
         	 	ClaimAmount:"",
         	 	Substatus:"",
-        	 	// LeadName:prj.LeadName,
-        	 	// ContactName:prj.ContactName,
-        	 	// Email:prj.Email,
-        	 	// Mobile:prj.Mobile,
-        	 	// Landline:prj.landline,
         	 	ScheduleBy:"",
-        	 	// ScheduleTo:"",
         	 	Task:"",
         	 	CompletionRemark:""
         	 	// ProjectId:prj.ProjectID
@@ -325,7 +319,7 @@ import Utils from '../services/api/Utils.js';
         	 	remarks:""
         	 },
         	 reassign:{
-        	 	ScheduleToList:[],
+        	 	ScheduleToList:"",
         	 	remarks:""
         	 },
         	 
@@ -347,6 +341,7 @@ import Utils from '../services/api/Utils.js';
         	 	this.input.Stage = value.Stage;
         	 	this.input.ScheduleToList = value.ScheduleToList;
         	 	this.input.ScheduleToList[0].UserID = Utils.getUserid();
+
 
 			},
 			dateformat(date) {
@@ -418,24 +413,33 @@ import Utils from '../services/api/Utils.js';
   				 this.input.Description = this.reassign.remarks;
   			    }
 
-  			    var arr = [];
-			    for (var i=0; i<this.reassign.ScheduleToList.length; i++) {
-			        var user = this.reassign.ScheduleToList[i].split('|');
-			        arr.push({'UserID' : user[0], 'UserName' : user[1]})
+  			  //   var arr = [];
+			    // for (var i=0; i<this.reassign.ScheduleToList.length; i++) {
+			    //     var user = this.reassign.ScheduleToList[i].split('|');
+			    //     arr.push({'UserID' : user[0], 'UserName' : user[1]})
 
-			      }
-			     this.reassign.ScheduleToList = arr;
+			    //   }
+			    //  this.reassign.ScheduleToList = arr;
 
   				
   				if (this.reassign.ScheduleToList != ""){
-  				  this.input.ScheduleToList = this.reassign.ScheduleToList;
+  				  this.input.ScheduleToList.UserID = this.reassign.ScheduleToList.UserID;
+  				  this.input.ScheduleToList.FullName = this.reassign.ScheduleToList.FullName;
 
   				}
   				// this.input.UserID = Utils.getUserid(); 
+  				if(this.reassignVisible == true){
+  					this.input.Status = 'Re assign';
+  					var user = this.reassign.ScheduleToList.split('|');
+  					// console.log(user[0],user[1]);
+  					this.input.ScheduleToList[0].UserID = user[0];
+  					this.input.ScheduleToList[0].UserName = user[1];
+  					// console.log(this.input.ScheduleToList[0]);
+  				}	
   				if(this.completeVisible == true){
   					this.input.Status = 'Completed';
   				}
-  				// console.log(this.input.Status);
+  				
 			    var data = this.input;
 			    
 			     this.$validator.validate().then(valid => {
@@ -457,7 +461,7 @@ import Utils from '../services/api/Utils.js';
 	            			} else {
 	            				
 	            				this.progress1 = 0; 
-	             		 		// this.$router.go();
+	             		 		this.$router.go();
 	            			}
    						}); 
          	}
@@ -503,6 +507,7 @@ import Utils from '../services/api/Utils.js';
     		}),
  	  	  Utils.getScheduleto(payload).then(users => {
         this.scheduleTo = this.scheduleTo.concat(users.Body);
+        // console.log(users);
       
     })
 	  }
