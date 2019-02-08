@@ -185,23 +185,24 @@ export default{
           Department:user.Department
          }
       
-    this.intervalID = setInterval(() => {
-			if (this.progress === 100) {
-        clearInterval(this.intervalID);
-        this.progress = 0;
-				return;
-			}
-			this.progress++;
-		}, 40);
+
 
     var p = JSON.parse(localStorage.project);
     
     if(typeof p.OwnedBy == 'undefined') {
+      this.intervalID = setInterval(() => {
+        if (this.progress === 100) {
+          clearInterval(this.intervalID);
+          this.progress = 0;
+          return;
+        }
+        this.progress++;
+      }, 40);
       var pl = {
           Token:localStorage.ki,
           ProjectID: Utils.getProjectid() 
          }
-         console.log(localStorage.project);
+          
       GetLeadDetailApi.leadDetails(pl).then(project => {
 
         var that = this;
@@ -246,14 +247,15 @@ export default{
       
     }),
     Utils.getUser(payload).then(users => {
+      
       this.createdBy = this.createdBy.concat(users.Body); 
-      this.ownedBy = this.ownedBy.concat(users.Body); 
+       this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
       var that =  this;
       setTimeout(function(){
-        console.log(that.$props.items)
+        
         if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
-          that.lead =  JSON.parse(localStorage.leaddata);
+          this.lead =  JSON.parse(localStorage.leaddata);
           if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
               that.lead.Latitude = that.$props.items.lat;
               that.lead.Longitude = that.$props.items.lng;
@@ -262,7 +264,7 @@ export default{
           }
           
         } else {
-          that.lead = that.$props.editLead;
+          that.lead = JSON.parse(localStorage.project)
         }
       }, 200)  
       
