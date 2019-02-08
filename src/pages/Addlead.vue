@@ -195,14 +195,17 @@ export default{
 		}, 40);
 
     var p = JSON.parse(localStorage.project);
-    if(typeof p.OwnedBy == 'undefined') {
+    
+    if(typeof p.OwnedBy != 'undefined') {
       var pl = {
           Token:localStorage.ki,
           ProjectID: Utils.getProjectid() 
          }
+         console.log(localStorage.project);
       GetLeadDetailApi.leadDetails(pl).then(project => {
 
         var that = this;
+
         setTimeout(function(){
           that.progress = 100
           if(that.$props.editLead != null) {
