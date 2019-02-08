@@ -117,8 +117,7 @@ export default {
 		}
  	  	GetLeadsAPI.getLeads(payload).then(leads => {
  	  		if(typeof leads.response != 'undefined') {
-				this.progress = 0;				
-				localStorage.clear('projectlist');
+				this.progress = 0;
 	            this.$ons.notification.alert(leads.response.statusText);
 	        } else {
 				this.progress = 0;

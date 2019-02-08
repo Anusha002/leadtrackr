@@ -196,7 +196,7 @@ export default{
 
     var p = JSON.parse(localStorage.project);
     
-    if(typeof p.OwnedBy != 'undefined') {
+    if(typeof p.OwnedBy == 'undefined') {
       var pl = {
           Token:localStorage.ki,
           ProjectID: Utils.getProjectid() 
@@ -230,7 +230,7 @@ export default{
 
         
       })
-    }
+    } 
 
 
     
@@ -251,7 +251,7 @@ export default{
       this.handledBy = this.handledBy.concat(users.Body);
       var that =  this;
       setTimeout(function(){
-      
+        console.log(that.$props.items)
         if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
           that.lead =  JSON.parse(localStorage.leaddata);
           if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
@@ -261,6 +261,8 @@ export default{
               
           }
           
+        } else {
+          that.lead = that.$props.editLead;
         }
       }, 200)  
       
