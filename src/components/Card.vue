@@ -1,25 +1,25 @@
 <template>
-    <v-ons-card @click="goToFollowup(value)">
+    <v-ons-card @click="goToFollowup(cardData)">
         <div class="content">
             <v-ons-row>
-                <v-ons-col id="ld-comp-name">{{value.LeadName}}</v-ons-col>
+                <v-ons-col id="ld-comp-name">{{cardData.LeadName}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>
                 
-                <v-ons-col id="ld-status" v-if="mode=='Task'">{{value.Task}}</v-ons-col>
-                <v-ons-col id="ld-status" v-else>{{value.Stage}}</v-ons-col>
+                <v-ons-col id="ld-status" v-if="mode=='Task'">{{cardData.Task}}</v-ons-col>
+                <v-ons-col id="ld-status" v-else>{{cardData.Stage}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>	
-                <v-ons-col id="ld-name" >{{value.ContactName}}</v-ons-col>
+                <v-ons-col id="ld-name" >{{cardData.ContactName}}</v-ons-col>
             </v-ons-row>
             <v-ons-row style="margin-top: 10px;">
                 <v-ons-col width="40px">
-                    <a :href="'tel:' + value.ContactMobile">
+                    <a :href="'tel:' + cardData.ContactMobile">
                         <v-ons-icon modifier="large" class="icon-phone"></v-ons-icon>
                     </a>
                 </v-ons-col>
                 <v-ons-col>
-                    <a :href="'mailto:' + value.ContactEmail">
+                    <a :href="'mailto:' + cardData.ContactEmail">
                         <v-ons-icon modifier="large" class="icon-email"></v-ons-icon>
                     </a>
                 </v-ons-col>
@@ -34,7 +34,7 @@ export default {
     props: ['cardData', 'mode'],
     data(){
         return {
-            value: this.$props.cardData
+            
         }
     },
     methods: {
