@@ -34,7 +34,7 @@
 			No tasks for today! 
 		</div>
 
-		<v-ons-fab position="bottom right" ripple id="add-fab" @click="goTodetail()">
+		<v-ons-fab position="bottom right" ripple id="add-fab" @click="addLead()">
      		 <v-ons-icon icon="md-plus" ></v-ons-icon> 	 
     	</v-ons-fab>
  
@@ -72,8 +72,13 @@ export default {
 			this.$router.push('/tasklist');
 		},
 		
-  		goTodetail() {
-   			this.$router.push('/addlead')
+  		addLead() {
+			this.$router.push({
+				'name': 'addlead',
+				'params': {
+					'mode': 'add'
+				}
+        	});
   		},
   	 	getCards(date){
   	 		var ndate  =  new Date(date.getFullYear(),date.getMonth(),date.getDate());

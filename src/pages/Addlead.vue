@@ -172,7 +172,8 @@ export default{
       submitted: false,
       response: {}
      	} 
-	 },
+   },
+
 
   mounted:function() {
    
@@ -181,60 +182,10 @@ export default{
 		} catch(e){}
     var user = JSON.parse(localStorage.usr)
     var payload = {
-          Token:localStorage.ki,
-          Department:user.Department
-         }
-      
+      Token:localStorage.ki,
+      Department:user.Department
+    }
 
-
-    var p = JSON.parse(localStorage.project);
-    
-    if(typeof p.OwnedBy == 'undefined') {
-      this.intervalID = setInterval(() => {
-        if (this.progress === 100) {
-          clearInterval(this.intervalID);
-          this.progress = 0;
-          return;
-        }
-        this.progress++;
-      }, 40);
-      var pl = {
-          Token:localStorage.ki,
-          ProjectID: Utils.getProjectid() 
-         }
-          
-      GetLeadDetailApi.leadDetails(pl).then(project => {
-
-        var that = this;
-
-        setTimeout(function(){
-          that.progress = 100
-          if(that.$props.editLead != null) {
-            that.lead =  that.$props.editLead;
-            that.lead.OwnedBy = project.Body.OwnedBy.toString();
-            that.lead.Status = project.Body.Status;
-            that.lead.HandledBy = project.Body.HandledBy.toString();
-            var typ = that.lead.Type
-            if(typeof typ == 'string' && typ.indexOf('/') > -1){
-              typ = typ.split('/')[0];
-            }
-            that.lead.Type = that.findTypeId(typ);
-            
-          } else{
-            navigator.geolocation.getCurrentPosition(function(position){}); 
-
-              
-          }
-          
-        }, 200)
-        
-
-        
-      })
-    } 
-
-
-    
     Utils.getStatus(payload).then(status => {
       this.status = this.status.concat(status.Body);
     }),
@@ -249,37 +200,83 @@ export default{
     Utils.getUser(payload).then(users => {
       
       this.createdBy = this.createdBy.concat(users.Body); 
-       this.ownedBy = this.ownedBy.concat(users.Body); 
+      this.ownedBy = this.ownedBy.concat(users.Body); 
       this.handledBy = this.handledBy.concat(users.Body);
       var that =  this;
       setTimeout(function(){
+        console.log(that.$props)
+        let mode = that.$props.mode;
         
-        if(typeof that.$props.items != 'undefined' && that.$props.items != "") {
-          this.lead =  JSON.parse(localStorage.leaddata);
+
+        if(mode == 'editl') {
+          //edit lead from lead list
+          that.lead = JSON.parse(localStorage.project);
+        } else if(mode == 'editt') {
+          //edit lead from task 
+          that.getLead()
+
+        } else if (mode == 'location') {
+          //coming back from add location
+          that.lead =  JSON.parse(localStorage.leaddata);
           if(that.$props.items.lat != "" && that.$props.items.lng != "" ) {
               that.lead.Latitude = that.$props.items.lat;
               that.lead.Longitude = that.$props.items.lng;
               that.center = {lat: that.lead.Latitude, lng: that.lead.Longitude}
-              
           }
-          
         } else {
-          that.lead = JSON.parse(localStorage.project)
+          //add lead
+          navigator.geolocation.getCurrentPosition(function(position){}); 
         }
+        
       }, 200)  
       
     })
-    // localStorage.removeItem('leaddata');
-    // navigator.geolocation.getCurrentPosition(function(position){})
 
 
-
-    
-    
     
   },
 
   methods :{
+    getLead () {
+      this.intervalID = setInterval(() => {
+        if (this.progress === 100) {
+          clearInterval(this.intervalID);
+          this.progress = 0;
+          return;
+        }
+        this.progress++;
+      }, 40);
+
+      var pl = {
+        Token:localStorage.ki,
+        ProjectID: Utils.getProjectid() 
+      }
+          
+      GetLeadDetailApi.leadDetails(pl).then(project => {
+
+        var that = this;
+
+        setTimeout(function(){
+          that.progress = 100
+          
+            that.lead =  that.$props.editLead;
+            that.lead.OwnedBy = project.Body.OwnedBy.toString();
+            that.lead.Status = project.Body.Status;
+            that.lead.HandledBy = project.Body.HandledBy.toString();
+            var typ = that.lead.Type
+            if(typeof typ == 'string' && typ.indexOf('/') > -1){
+              typ = typ.split('/')[0];
+            }
+            that.lead.Type = that.findTypeId(typ);
+            
+          
+          
+        }, 200)
+        
+
+        
+      })
+    },
     findTypeId(type) {
       for (var i=0; i < this.types.length; i++) {
         if (this.types[i].TypeName === type) {

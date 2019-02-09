@@ -268,6 +268,7 @@
 
 import FollowupsAPI from '../services/api/Followup.js';
 import Utils from '../services/api/Utils.js';
+import GetLeadDetailApi from '../services/api/Leaddetails.js';
 
 
 	export default {
@@ -363,10 +364,17 @@ import Utils from '../services/api/Utils.js';
 				this.reassignVisible = false;
 			},
 			editLead() {
+				var mode;
+				if(typeof JSON.parse(localStorage.project).OwnedBy == 'undefined') {
+					mode = 'editt'
+				} else {
+					mode = 'editl'
+				}
 				this.$router.push({
    				'name': 'addlead',
     			'params': {
-        			'editLead': JSON.parse(localStorage.project)
+					'editLead': JSON.parse(localStorage.project),
+					'mode': mode
     				}
    				})
 			},
@@ -489,6 +497,22 @@ import Utils from '../services/api/Utils.js';
 			}
 			this.progress++;
 		}, 40);
+
+		
+        if(JSON.parse(localStorage.project).ContactName == "") {
+			var pl = {
+				Token:localStorage.ki,
+				ProjectID: Utils.getProjectid() 
+			}
+            GetLeadDetailApi.leadDetails(pl).then(project => {
+                this.items.ContactName = project.Body.ContactName;
+				this.items.Email = project.Body.Email;
+				this.items.Mobile = project.Body.Mobile;
+				this.items.Latitude = project.Body.Latitude;
+				this.items.Longitude = project.Body.Longitude;
+            })
+        }
+ 
 		
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
  	  		if(typeof projects.response != 'undefined') {
@@ -505,7 +529,7 @@ import Utils from '../services/api/Utils.js';
  	  	Utils.getSubstatus(payload).then(substatus => {
           this.substatus = this.substatus.concat(substatus.Body);
     		}),
- 	  	  Utils.getScheduleto(payload).then(users => {
+ 	  	Utils.getScheduleto(payload).then(users => {
         this.scheduleTo = this.scheduleTo.concat(users.Body);
         // console.log(users);
       

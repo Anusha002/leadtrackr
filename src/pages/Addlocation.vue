@@ -109,7 +109,8 @@ export default{
       this.$router.push({
         'name': 'addlead',
         'params': {
-            'items': this.center
+            'items': this.center,
+            'mode': 'location'
           }
         });
     }

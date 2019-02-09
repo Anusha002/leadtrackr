@@ -37,7 +37,8 @@ export default new Router({
   {
     path: '/dash',
     name: 'dash',
-    component: Dash
+    component: Dash,
+    props: true
   },
   {
     path: '/leadlist',
