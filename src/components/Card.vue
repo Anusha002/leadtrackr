@@ -5,9 +5,7 @@
                 <v-ons-col id="ld-comp-name">{{cardData.LeadName}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>
-                
-                <v-ons-col id="ld-status" v-if="mode=='Task'">{{cardData.Task}}</v-ons-col>
-                <v-ons-col id="ld-status" v-else>{{cardData.Stage}}</v-ons-col>
+                <v-ons-col id="ld-status" >{{cardData.Stage}}</v-ons-col>
             </v-ons-row>
             <v-ons-row>	
                 <v-ons-col id="ld-name" >{{cardData.ContactName}}</v-ons-col>

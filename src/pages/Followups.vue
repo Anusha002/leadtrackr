@@ -499,7 +499,7 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
 		}, 40);
 
 		
-        if(JSON.parse(localStorage.project).ContactName == "") {
+        // if(JSON.parse(localStorage.project).ContactName == "") {
 			var pl = {
 				Token:localStorage.ki,
 				ProjectID: Utils.getProjectid() 
@@ -508,10 +508,14 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
                 this.items.ContactName = project.Body.ContactName;
 				this.items.Email = project.Body.Email;
 				this.items.Mobile = project.Body.Mobile;
+				this.items.Stage = project.Body.Stage;
 				this.items.Latitude = project.Body.Latitude;
 				this.items.Longitude = project.Body.Longitude;
+				var strg = JSON.parse(localStorage.project);
+				strg.Stage = project.Body.Stage;
+				localStorage.setItem('project', JSON.stringify(strg));
             })
-        }
+        // }
  
 		
  	  	FollowupsAPI.getFollowups(payload).then(projects => {
