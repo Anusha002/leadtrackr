@@ -210,7 +210,8 @@ export default{
 
         if(mode == 'editl') {
           //edit lead from lead list
-          that.lead = JSON.parse(localStorage.project);
+          //that.lead = JSON.parse(localStorage.project);
+          that.getLead()
         } else if(mode == 'editt') {
           //edit lead from task 
           that.getLead()
@@ -313,7 +314,9 @@ export default{
           try{
               window.FirebasePlugin.logEvent("page_action", {content_type: "edit_lead", item_id: this.lead.LeadName});
             } catch(e){}
+            console.log(this.lead);
           EditleadApi.editLead(this.lead).then(projects => {
+          console.log(projects);
             var prj = JSON.parse(localStorage.project);
             prj.Stage = this.lead.Stage
             localStorage.setItem('project', JSON.stringify(prj));
