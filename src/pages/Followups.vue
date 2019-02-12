@@ -365,11 +365,12 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
 			},
 			editLead() {
 				var mode;
-				if(typeof JSON.parse(localStorage.project).OwnedBy == 'undefined') {
-					mode = 'editt'
-				} else {
-					mode = 'editl'
-				}
+				mode = 'editt'
+				// if(typeof JSON.parse(localStorage.project).OwnedBy == 'undefined') {
+				// 	mode = 'editt'
+				// } else {
+				// 	mode = 'editl'
+				// }
 				this.$router.push({
    				'name': 'addlead',
     			'params': {
