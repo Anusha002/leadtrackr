@@ -206,12 +206,11 @@ export default{
       setTimeout(function(){
         console.log(that.$props)
         let mode = that.$props.mode;
-        
 
-        if(mode == 'editl') {
+        if(typeof mode == 'undefined' || mode == 'editl') {
           //edit lead from lead list
-          //that.lead = JSON.parse(localStorage.project);
-          that.getLead()
+          that.lead = JSON.parse(localStorage.leaddata);
+          //that.getLead()
         } else if(mode == 'editt') {
           //edit lead from task 
           that.getLead()
