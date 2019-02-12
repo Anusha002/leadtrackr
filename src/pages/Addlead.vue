@@ -318,6 +318,10 @@ export default{
           console.log(projects);
             var prj = JSON.parse(localStorage.project);
             prj.Stage = this.lead.Stage
+            prj.Status = this.lead.Status;
+            prj.Description = this.lead.Description;
+            prj.OwnedBy = this.lead.OwnedBy;
+            prj.HandledBy = this.lead.HandledBy;
             localStorage.setItem('project', JSON.stringify(prj));
             this.progress = 0;
             this.$router.back(-1);
