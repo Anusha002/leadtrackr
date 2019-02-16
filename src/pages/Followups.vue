@@ -148,7 +148,7 @@
              <p class="text-danger">{{ errors.first('followupdate')}}</p>
 		</v-ons-row>
 		<v-ons-row class="rowdata">
-			<div class="labels">Time Taken{{input.Hr}}{{input.Min}}</div>
+			<div class="labels">Time Taken</div>
 		</v-ons-row>
 		<v-ons-row>	
 			<v-ons-col width="48%" style="margin-right: 10px"> 
@@ -286,13 +286,13 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
 			Status:"",
 			scheduleTo:[],
 			items: {
-				LeadName: prj.LeadName,
-				Mobile: prj.Mobile,
-				Email: prj.Email,
-				ContactName: prj.ContactName,
-				Stage: prj.Stage,
-				Latitude: prj.Latitude,
-				Longitude: prj.Longitude
+				LeadName: "",
+				Mobile: "",
+				Email: "",
+				ContactName: "",
+				Stage: "",
+				Latitude: "",
+				Longitude: ""
 			},
 			 "pjctid" : prj.ProjectID,
         	 isLoading: true,
@@ -462,7 +462,7 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
          					 }
          				 this.progress1++;
        					 }, 40);
-        				console.log('>>>>>>>>>>>>>>>>>>>>>>',this.input.ScheduleToList);
+        				console.log('>>>>>>>>>>>>>>>>>>>>>>',data);
 	            		FollowupsAPI.editFollowup(data).then(followups => {
 	            			if(typeof followups.response != 'undefined') {
 	            				this.progress1 = 0;
@@ -506,9 +506,15 @@ import GetLeadDetailApi from '../services/api/Leaddetails.js';
 				ProjectID: Utils.getProjectid() 
 			}
             GetLeadDetailApi.leadDetails(pl).then(project => {
+            	this.items.LeadName = project.Body.LeadName;
+            	this.input.LeadName = project.Body.LeadName;
                 this.items.ContactName = project.Body.ContactName;
+                this.input.ContactName = project.Body.ContactName;
 				this.items.Email = project.Body.Email;
+				this.input.Email = project.Body.Email;
 				this.items.Mobile = project.Body.Mobile;
+				this.input.Mobile = project.Body.Mobile;
+				this.input.Landline = project.Body.landline
 				this.items.Stage = project.Body.Stage;
 				this.items.Latitude = project.Body.Latitude;
 				this.items.Longitude = project.Body.Longitude;
