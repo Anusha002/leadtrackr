@@ -121,8 +121,10 @@ export default {
 	            this.$ons.notification.alert(leads.response.statusText);
 	        } else {
 				this.progress = 0;
-				clearInterval(this.intervalID);   
-				localStorage.setItem("projectlist", JSON.stringify(leads.Body));
+				clearInterval(this.intervalID); 
+				if(typeof leads.Body != 'undefined') {
+					localStorage.setItem("projectlist", JSON.stringify(leads.Body));
+				}
 				this.leads = leads.Body;
 				this.searchresults = leads.Body;
   	  		}
